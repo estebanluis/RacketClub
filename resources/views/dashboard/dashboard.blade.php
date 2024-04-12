@@ -38,6 +38,26 @@
                             <a href="/barang" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <p>Registrar Alumno</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="/registrarAlumno" class="small-box-footer">Mas informacion <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <p>Asistencia de alumno</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="/dashboard/tomarAsistencia" class="small-box-footer">Mas informacion <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
                     </div>
                     <!-- ./col -->
                     {{-- <div class="col-lg-3 col-6">
