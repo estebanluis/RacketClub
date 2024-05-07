@@ -36,7 +36,7 @@
                                 </a>
                             </div>
                         </div>
-                        <form class="needs-validation" novalidate action="/barang/{{ $barang->id_barang }}" method="POST">
+                        <form class="needs-validation" novalidate action="/barang/{{ $barang->codigo }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
