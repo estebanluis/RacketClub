@@ -1,21 +1,21 @@
- @extends('template.main')
-@section('title', 'Registrar Usuarios')
+ 
+<?php $__env->startSection('title', 'Registrar Usuarios'); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
 
-    @include('sweetalert::alert')
+    <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <div class="content-header">
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">@yield('title')</h1>
+            <h1 class="m-0"><?php echo $__env->yieldContent('title'); ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">@yield('title')</li>
+                <li class="breadcrumb-item active"><?php echo $__env->yieldContent('title'); ?></li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -36,21 +36,14 @@
     <div class="card-container">
         <div class="card">
             <h1>CODIGO DE ALUMNO</h1>
-            <form name="asistencia" action="{{ route('registrarAlumn.update') }}" method="POST" id="form">
-                @csrf
+            <form name="asistencia" action="<?php echo e(route('registrarAlumn.update')); ?>" method="POST" id="form">
+                <?php echo csrf_field(); ?>
                 <div class="form-group">
                     <label for="nombre">Codigo:</label>
                     <input type="text" name="codigo" value="" id="codigo">
                 </div>
                 <div class="row">
-                        {{-- <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="agreeTerms" name="terms" required>
-                                <label for="agreeTerms">
-                                    I agree to the <a href="#">terms</a>
-                                </label>
-                            </div>
-                        </div> --}}
+                        
 
                         <div class="col-4">
                             <button type="submit" style= "margin-left: 20px; margin-bottom: 20px;" class="btn btn-primary btn-block">enviar</button>
@@ -63,12 +56,12 @@
             <h1>INFORMACION DE ALUMNO</h1>
             <div></div>
             <p>
-                @if(session('message')) 
+                <?php if(session('message')): ?> 
                     <div class="alert alert-primary" role="alert">
-                        <p>{{ session('message') }}</p>
-                        <p>{{ session('message') }}</p>
+                        <p><?php echo e(session('message')); ?></p>
+                        <p><?php echo e(session('message')); ?></p>
                     </div>
-                @endif 
+                <?php endif; ?> 
             </p>
         </div>
     </div>
@@ -96,7 +89,7 @@
 
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-{{-- <script src="/assets/dist/js/adminlte.min.js"></script> --}}
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -117,4 +110,5 @@
         }, false);
     })();
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/registrarAlumn/controlAlumn.blade.php ENDPATH**/ ?>

@@ -33,7 +33,7 @@
                                 <p>Barang</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-bag"></i>
+                                <i class="fa fa-address-card" ></i>
                             </div>
                             <a href="/barang" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>

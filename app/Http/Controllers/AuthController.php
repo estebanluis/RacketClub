@@ -52,11 +52,12 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required',
-            'passwordConfirm' => 'required|same:password'
+            'passwordConfirm' => 'required|same:password',
+            'TipoUsuario' => 'required'
         ]);
 
         $validated['password'] = Hash::make($request['password']);
-
+        $validated['TipoUsuario'] = $request->input('TipoUsuario');
         $user = User::create($validated);
 
         Alert::success('Success', 'Register user has been successfully !');

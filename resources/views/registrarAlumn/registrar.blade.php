@@ -156,7 +156,7 @@
                             placeholder="Telefono" value="{{ old('telefono') }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-user"></span>
+                                <span class="fa fa-ban" aria-hidden="true"></span>
                             </div>
                         </div>
                         @error('telefono')

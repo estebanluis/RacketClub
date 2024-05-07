@@ -90,7 +90,7 @@
                         data-accordion="false">
                         <li class="nav-item">
                             <a href="/" class="nav-link">
-                                <i class="nav-icon fa-solid fa-gauge-high"></i>
+                                <i class="nav-icon fa fa-car "></i>
                                 <p>
                                     Dashboard
                                 </p>
@@ -105,13 +105,16 @@
                             </a>
                         </li> 
                         <li class="nav-item">
-                            <a href="/registerUser" class="nav-link">
-                                <i class="nav-icon fa-solid fa-box"></i>
-                                <p>
-                                    Registrar Usuarios
-                                </p>
-                            </a>
+                            @if(Auth::user() && Auth::user()->TipoUsuario === 'admin')
+                                <a href="/registerUser" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                        <p>
+                                            Registrar Usuarios
+                                        </p>
+                                </a>
+                            @endif
                         </li>
+
                         <li class="nav-item">
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa-solid fa-box"></i>

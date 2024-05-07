@@ -42,6 +42,7 @@ class ControlAlumnController extends Controller
             if ($registro->nrsesiones < 1) {
                 $registro->nrsesiones = 0;
                 $message = 'Tiene '.$registro->nrsesiones.' sesiones restantes. Vence en fecha: '.$fechaVencimiento->format('d-m-y').'. Nombre: '.$registro->nombre.' '.$registro->apellido.' '.$registro->apellidoMat;
+           
             } else {
                 $registro->nrsesiones -= 1;
                 $registro->save();
