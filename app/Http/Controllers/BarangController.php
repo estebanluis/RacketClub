@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\RegistroAlumno;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Exception;
@@ -14,10 +15,10 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barang = Barang::orderBy('name', 'asc')->get();
+        $listaAlumnos = RegistroAlumno::orderBy('codigo', 'asc')->get();
 
         return view('barang.barang', [
-            'barang' => $barang
+            'barang' => $listaAlumnos
         ]);
     }
 
@@ -60,30 +61,31 @@ class BarangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id_barang)
+    public function edit($codigo)
     {
-        $barang = barang::findOrFail($id_barang);
+        $barang = RegistroAlumno::findOrFail($codigo);
 
         return view('barang.barang-edit', [
             'barang' => $barang,
         ]);
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id_barang)
+    public function update(Request $request, $codigo)
     {
         $validated = $request->validate([
-            'name' => 'required|max:100|unique:barangs,name,' . $id_barang . ',id_barang',
-            'category' => 'required',
+            'codigo' => 'required|max:100|unique:barangs,name,' . $codigo . ',id_barang',
+            'apellido' => 'required',
             'supplier' => 'required',
             'stock' => 'required',
             'price' => 'required',
             'note' => 'max:1000',
         ]);
 
-        $barang = Barang::findOrFail($id_barang);
+        $barang = RegistroAlumno::findOrFail($codigo);
         $barang->update($validated);
 
         Alert::info('Success', 'Barang has been updated !');

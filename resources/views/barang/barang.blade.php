@@ -40,28 +40,28 @@
                                     style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Nama</th>
-                                            <th>Category</th>
-                                            <th>Supplier</th>
-                                            <th>Stock</th>
-                                            <th>Price</th>
-                                            <th>Note</th>
-                                            <th>Action</th>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Apellidos</th>
+                                            <th>Fecha inscripcion</th>
+                                            <th>Nro de seciones</th>
+                                            <th>Telefono</th>
+                                            <th>Observaciones</th>
+                                            <th>Trajeta</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($barang as $data)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $data->name }}</td>
-                                                <td>{{ $data->category }}</td>
-                                                <td> {{ $data->supplier }}</td>
-                                                <td>{{ $data->stock }}</td>
-                                                <td>Rp. {{ number_format($data->price, 0) }}</td>
-                                                <td>{{ $data->note }}</td>
+                                                <td>{{ $data->codigo}}</td>
+                                                <td>{{ $data->nombre }}</td>
+                                                <td>{{ $data->apellido }}</td>
+                                                <td>{{ $data->apellidoMat }}</td>
+                                                <td>{{ $data->nrsesiones}}</td>
+                                                <td>{{ $data->telefono}}</td>
+                                                <td>{{ $data->observciones}}</td>
                                                 <td>
-                                                    <form class="d-inline" action="/barang/{{ $data->id_barang }}/edit"
+                                                    <form class="d-inline" action="/barang/{{ $data->codigo }}/edit"
                                                         method="GET">
                                                         <button type="submit" class="btn btn-success btn-sm mr-1">
                                                             <i class="fa-solid fa-pen"></i> Edit

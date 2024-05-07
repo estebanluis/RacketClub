@@ -32,11 +32,12 @@
                 <a href="/" class="h1"><b>REGISTRAR</b> ALUMNOS</a>
             </div>
             <div class="card-body">
-                
-                <form class="needs-validation" novalidate action="<?php echo e(route('registrarAlumn.store')); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <div class="input-group mb-3">
-                        <input type="text" name="nombre" class="form-control <?php $__errorArgs = ['nombre'];
+    <form class="needs-validation" novalidate action="<?php echo e(route('registrarAlumn.store')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" name="nombre" class="form-control <?php $__errorArgs = ['nombre'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -44,25 +45,28 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                            placeholder="Nombre completo" value="<?php echo e(old('nombre')); ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
+                        placeholder="Nombre completo" value="<?php echo e(old('nombre')); ?>" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
                         </div>
-                        <?php $__errorArgs = ['nombre'];
+                    </div>
+                    <?php $__errorArgs = ['nombre'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                        <?php unset($message);
+                        <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="apellido" class="form-control <?php $__errorArgs = ['apellido'];
+                </div>
+                <!-- Repite esta estructura para los siguientes 4 campos -->
+            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" name="apellido" class="form-control <?php $__errorArgs = ['apellido'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -70,25 +74,30 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                            placeholder="Apellido Paterno" value="<?php echo e(old('apellido')); ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
+                        placeholder="Apellido Paterno" value="<?php echo e(old('apellido')); ?>" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
                         </div>
-                        <?php $__errorArgs = ['apellido'];
+                    </div>
+                    <?php $__errorArgs = ['apellido'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                        <?php unset($message);
+                        <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="apellidoMat" class="form-control <?php $__errorArgs = ['apellidoMat'];
+                </div>
+                <!-- Repite esta estructura para los siguientes 4 campos -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" name="apellidoMat" class="form-control <?php $__errorArgs = ['apellidoMat'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -96,52 +105,26 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                            placeholder="Apelldido Materno" value="<?php echo e(old('apellidoMat')); ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
+                        placeholder="Apellido Materno" value="<?php echo e(old('apellidoMat')); ?>" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-eye" ></span>
                         </div>
-                        <?php $__errorArgs = ['apellidoMat'];
+                    </div>
+                    <?php $__errorArgs = ['apellidoMat'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                        <?php unset($message);
+                        <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="edad" class="form-control <?php $__errorArgs = ['edad'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                            placeholder="Edad" value="<?php echo e(old('edad')); ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                        <?php $__errorArgs = ['edad'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-                    <div class="input-group mb-3">
+                </div>
+                <div class="input-group mb-3">
                         
-                            <select name="horario" id="horario" class="form-control <?php $__errorArgs = ['horario'];
+                        <select name="horario" id="horario" class="form-control <?php $__errorArgs = ['horario'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -149,27 +132,53 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>">
-                        <option value="7:00-8:00">7:00-8:00</option>
-                        <option value="8:00-9:00">8:00-9:00</option>
-                        <option value="9:00-10:00">9:00-10:00</option>
-                        <option value="10:00-11:00">10:00-11:00</option>
-                        <option value="11:00-12:00">11:00-12:00</option>
-                        <option value="12:00-13:00">12:00-13:00</option>
-                        <option value="13:00-14:00">13:00-14:00</option>
-                        <option value="14:00-15:00">14:00-15:00</option>
-                        <option value="15:00-16:00">15:00-16:00</option>
-                        <option value="16:00-17:00">16:00-17:00</option>
-                        <option value="17:00-18:00">17:00-18:00</option>
-                        <option value="18:00-19:00">18:00-19:00</option>
-                        <option value="19:00-20:00">19:00-20:00</option>
-                        <option value="20:00-21:00">20:00-21:00</option>
-                        </select> 
+                    <option value="7:00-8:00">7:00-8:00</option>
+                    <option value="8:00-9:00">8:00-9:00</option>
+                    <option value="9:00-10:00">9:00-10:00</option>
+                    <option value="10:00-11:00">10:00-11:00</option>
+                    <option value="11:00-12:00">11:00-12:00</option>
+                    <option value="12:00-13:00">12:00-13:00</option>
+                    <option value="13:00-14:00">13:00-14:00</option>
+                    <option value="14:00-15:00">14:00-15:00</option>
+                    <option value="15:00-16:00">15:00-16:00</option>
+                    <option value="16:00-17:00">16:00-17:00</option>
+                    <option value="17:00-18:00">17:00-18:00</option>
+                    <option value="18:00-19:00">18:00-19:00</option>
+                    <option value="19:00-20:00">19:00-20:00</option>
+                    <option value="20:00-21:00">20:00-21:00</option>
+                    </select> 
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    <?php $__errorArgs = ['horario'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                        <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                </div>
+                <div class="input-group mb-3">
+                        <input type="text" name="direccion" class="form-control <?php $__errorArgs = ['direccion'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                            placeholder="Direccion" value="<?php echo e(old('direccion')); ?>" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
-                        <?php $__errorArgs = ['horario'];
+                        <?php $__errorArgs = ['direccion'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -181,8 +190,64 @@ endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="input-group mb-3">
+                        <input type="text" name="telefono" class="form-control <?php $__errorArgs = ['telefono'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                            placeholder="Telefono" value="<?php echo e(old('telefono')); ?>" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <?php $__errorArgs = ['telefono'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                <!-- Repite esta estructura para los siguientes 4 campos -->
+            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" name="edad" class="form-control <?php $__errorArgs = ['edad'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                        placeholder="Edad" value="<?php echo e(old('edad')); ?>" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    <?php $__errorArgs = ['edad'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                        <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                </div>
+                <!-- Repite esta estructura para los siguientes 4 campos -->
+                <div class="input-group mb-3">
                         
-                            <select name="modalidad" id="modalidad" class="form-control <?php $__errorArgs = ['nombre'];
+                            <select name="modalidad" id="modalidad" class="form-control <?php $__errorArgs = ['modalidad'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -200,33 +265,7 @@ unset($__errorArgs, $__bag); ?>">
                                 <span class="fas fa-user"></span>
                             </div>
                     </div>
-                        <?php $__errorArgs = ['nombre'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="direccion" class="form-control <?php $__errorArgs = ['direccion'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                            placeholder="Direccion" value="<?php echo e(old('direccion')); ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                        <?php $__errorArgs = ['direccion'];
+                        <?php $__errorArgs = ['modalidad'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -264,32 +303,6 @@ endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="telefono" class="form-control <?php $__errorArgs = ['telefono'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                            placeholder="Telefono" value="<?php echo e(old('telefono')); ?>" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                        <?php $__errorArgs = ['telefono'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-                    <div class="input-group mb-3">
                         <input type="text" name="descuento" class="form-control <?php $__errorArgs = ['descuento'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -315,18 +328,24 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
-                    <div class="row">
-                        
-
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
-                        </div>
-
-                    </div>
-                </form>
             </div>
-
+            
+            
         </div>
+        <div class="row">
+                <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>
+        </div>
+        <!-- Repite las filas anteriores para los siguientes campos -->
+        <!-- Asegúrate de cerrar el formulario al final -->
+    </form>
+</div>
+            
+                
+              
+
+        
 
         </div>
 

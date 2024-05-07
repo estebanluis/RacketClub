@@ -33,7 +33,7 @@
                                 <p>Barang</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-bag"></i>
+                                <i class="fa fa-car"></i>
                             </div>
                             <a href="/barang" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
@@ -43,7 +43,7 @@
                                 <p>Registrar Alumno</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-bag"></i>
+                                <i class="fa fa-address-book" aria-hidden="true"></i>
                             </div>
                             <a href="/registrarAlumno" class="small-box-footer">Mas informacion <i
                                     class="fas fa-arrow-circle-right"></i></a>

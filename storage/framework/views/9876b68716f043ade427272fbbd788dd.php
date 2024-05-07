@@ -40,28 +40,28 @@
                                     style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Nama</th>
-                                            <th>Category</th>
-                                            <th>Supplier</th>
-                                            <th>Stock</th>
-                                            <th>Price</th>
-                                            <th>Note</th>
-                                            <th>Action</th>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Apellidos</th>
+                                            <th>Fecha inscripcion</th>
+                                            <th>Nro de seciones</th>
+                                            <th>Telefono</th>
+                                            <th>Observaciones</th>
+                                            <th>Trajeta</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $__currentLoopData = $barang; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e($loop->iteration); ?></td>
-                                                <td><?php echo e($data->name); ?></td>
-                                                <td><?php echo e($data->category); ?></td>
-                                                <td> <?php echo e($data->supplier); ?></td>
-                                                <td><?php echo e($data->stock); ?></td>
-                                                <td>Rp. <?php echo e(number_format($data->price, 0)); ?></td>
-                                                <td><?php echo e($data->note); ?></td>
+                                                <td><?php echo e($data->codigo); ?></td>
+                                                <td><?php echo e($data->nombre); ?></td>
+                                                <td><?php echo e($data->apellido); ?></td>
+                                                <td><?php echo e($data->apellidoMat); ?></td>
+                                                <td><?php echo e($data->nrsesiones); ?></td>
+                                                <td><?php echo e($data->telefono); ?></td>
+                                                <td><?php echo e($data->observciones); ?></td>
                                                 <td>
-                                                    <form class="d-inline" action="/barang/<?php echo e($data->id_barang); ?>/edit"
+                                                    <form class="d-inline" action="/barang/<?php echo e($data->codigo); ?>/edit"
                                                         method="GET">
                                                         <button type="submit" class="btn btn-success btn-sm mr-1">
                                                             <i class="fa-solid fa-pen"></i> Edit
