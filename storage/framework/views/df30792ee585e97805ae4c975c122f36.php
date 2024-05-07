@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', 'Barang'); ?>
 <?php $__env->startSection('content'); ?>
 
