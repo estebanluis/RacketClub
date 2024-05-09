@@ -42,6 +42,18 @@
                         @enderror
                     </div>
                     <div class="input-group mb-3">
+                        
+                            <select name="TipoUsuario" id="TipoUsuario" class="form-control @error('nombre') is-invalid @enderror">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Secretaria Natacion">Secretaria Piscina</option>
+                            <option value="Secretaria Racket">Secretaria Racket</option>
+                            <option value="Profesor">Profesor</option>
+                            </select>
+                        @error('nombre')
+                                <span class="invalid-feedback text-danger">{{ $message }}</span>
+                            @enderror
+                    </div>
+                    <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                             placeholder="Email" value="{{ old('email') }}" required>
                         <div class="input-group-append">

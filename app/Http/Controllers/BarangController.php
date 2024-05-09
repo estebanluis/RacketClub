@@ -61,9 +61,9 @@ class BarangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($codigo)
+    public function edit($id)
     {
-        $barang = RegistroAlumno::findOrFail($codigo);
+        $barang = RegistroAlumno::findOrFail($id);
 
         return view('barang.barang-edit', [
             'barang' => $barang,
@@ -84,7 +84,6 @@ class BarangController extends Controller
             'price' => 'required',
             'note' => 'max:1000',
         ]);
-
         $barang = RegistroAlumno::findOrFail($codigo);
         $barang->update($validated);
 

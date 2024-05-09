@@ -44,7 +44,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Name Barang" value="{{old('name', $barang->name)}}" required>
+                                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" disabled placeholder="Name Barang" value="{{old('name', $barang->codigo)}}" required>
                                             @error('name')
                                             <span class="invalid-feedback text-danger">{{ $message }}</span>
                                             @enderror
