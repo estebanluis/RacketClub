@@ -29,10 +29,9 @@
 
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="/" class="h1"><b>Andis</b> Dev</a>
+                <a href="/" class="h1"><b>Registrar</b> Usuarios</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Register a new membership</p>
                 <form class="needs-validation" novalidate action="/register" method="POST">
                     @csrf
                     <div class="input-group mb-3">
@@ -58,6 +57,18 @@
                         @error('email')
                             <span class="invalid-feedback text-danger">{{ $message }}</span>
                         @enderror
+                    </div>
+                    <div class="input-group mb-3">
+                        
+                            <select name="TipoUsuario" id="TipoUsuario" class="form-control @error('nombre') is-invalid @enderror">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Secretaria Natacion">Secretaria Piscina</option>
+                            <option value="Secretaria Racket">Secretaria Racket</option>
+                            <option value="Profesor">Profesor</option>
+                            </select>
+                        @error('nombre')
+                                <span class="invalid-feedback text-danger">{{ $message }}</span>
+                            @enderror
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" name="password" id="password"
@@ -86,15 +97,6 @@
                         @enderror
                     </div>
                     <div class="row">
-                        {{-- <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="agreeTerms" name="terms" required>
-                                <label for="agreeTerms">
-                                    I agree to the <a href="#">terms</a>
-                                </label>
-                            </div>
-                        </div> --}}
-
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>

@@ -1,5 +1,5 @@
 @extends('template.main')
-@section('title', 'Barang')
+@section('title', 'Lista Alumnos')
 @section('content')
 
     <div class="content-wrapper">
@@ -28,12 +28,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="text-right">
-                                    <a href="/barang/create" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add
-                                        Barang</a>
-                                </div>
-                            </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="example1" class="table table-striped table-bordered table-hover text-center"
@@ -61,7 +55,7 @@
                                                 <td>{{ $data->telefono}}</td>
                                                 <td>{{ $data->observciones}}</td>
                                                 <td>
-                                                    <form class="d-inline" action="/barang/{{ $data->codigo }}/edit"
+                                                    <form class="d-inline" action="/barang/{{ $data->id }}/edit"
                                                         method="GET">
                                                         <button type="submit" class="btn btn-success btn-sm mr-1">
                                                             <i class="fa-solid fa-pen"></i> Edit

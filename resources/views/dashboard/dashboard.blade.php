@@ -26,18 +26,25 @@
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
-                    <div class="col-lg-3 col-6">
+                    @if(Auth::user()->TipoUsuario === 'Administrador')
+                    <div class="col-lg-3 col-md-6">
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <p>Barang</p>
+                                <p>Registrar Usuarios</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-car"></i>
                             </div>
-                            <a href="/barang" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/registerUser" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
+                        
+                    </div>
+                    <!-- ./col -->
+                    @endif
+
+                    <div class="col-lg-3 col-md-6">
+                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
                         <div class="small-box bg-info">
                             <div class="inner">
                                 <p>Registrar Alumno</p>
@@ -45,9 +52,14 @@
                             <div class="icon">
                                 <i class="fa fa-address-book" aria-hidden="true"></i>
                             </div>
-                            <a href="/registrarAlumno" class="small-box-footer">Mas informacion <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/registrarAlumno" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
+                        @endif
+                    </div>
+                    <!-- ./col -->
+
+                    <div class="col-lg-3 col-md-6">
+                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
                         <div class="small-box bg-info">
                             <div class="inner">
                                 <p>Asistencia de alumno</p>
@@ -55,63 +67,56 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="/dashboard/tomarAsistencia" class="small-box-footer">Mas informacion <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/dashboard/tomarAsistencia" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
+                        @endif
                     </div>
-                    <!-- ./col -->
-                    {{-- <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                                <p>Bounce Rate</p>
+                    <div class="col-lg-3 col-md-6">
+                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <p>Lista Alumnos</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
+                                <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/barang" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div> --}}
-                    <!-- ./col -->
-                    {{-- <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-warning">
+                        @endif
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                        <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>44</h3>
-
-                                <p>User Registrations</p>
+                                <p>Registrar Horarios</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-person-add"></i>
+                                <i class="fa fa-address-book" aria-hidden="true"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/horarios" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div> --}}
-                    <!-- ./col -->
-                    {{-- <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
+                        @endif
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                        <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>65</h3>
-
-                                <p>Unique Visitors</p>
+                                <p>Turnos Trabajados</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
+                                <i class="fa fa-address-book" aria-hidden="true"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/turnos" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div> --}}
+                        @endif
+                    </div>
                     <!-- ./col -->
                 </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
+
         <!-- /.content -->
     </div>
 

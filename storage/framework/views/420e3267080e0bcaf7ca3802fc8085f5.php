@@ -40,10 +40,22 @@
                     <a href="/" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/" class="nav-link">Registrar Usuarios</a>
+                    <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
+
+                        <a href="/" class="nav-link">Registrar Usuarios</a>
+                    <?php endif; ?>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/" class="nav-link">Registrar Clientes</a>
+                    <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+
+                        <a href="/registrarAlumno" class="nav-link">Registrar Alumnos</a>
+                    <?php endif; ?>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+
+                        <a href="/horarios" class="nav-link">Registrar Horarios</a>
+                    <?php endif; ?>
                 </li>
             </ul>
 
@@ -92,33 +104,79 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/barang" class="nav-link">
-                                <i class="nav-icon fa-solid fa-box"></i>
-                                <p>
-                                    Barang
-                                </p>
-                            </a>
-                        </li> 
-                        <li class="nav-item">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
                             <a href="/registerUser" class="nav-link">
                                 <i class="nav-icon fa-solid fa-box"></i>
                                 <p>
                                     Registrar Usuarios
                                 </p>
                             </a>
+                            <?php endif; ?>
                         </li>
                         <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa-solid fa-box"></i>
                                 <p>
-                                    Registrar Clientes
+                                    Lista Alumnos
                                 </p>
                             </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+
+                            <a href="/registrarAlumno" class="nav-link">
+                                <i class="nav-icon fa-solid fa-box"></i>
+                                <p>
+                                    Registrar Alumnos
+                                </p>
+                            </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                                <a href="/dashboard/tomarAsistencia" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <p>
+                                        Asistencia de alumnos
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                                <a href="/horarios" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <p>
+                                        Registrar Horario
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Profesor'): ?>
+                                <a href="/hprof" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <p>
+                                        Horas Trabajadas
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                <a href="/turnos" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <p>
+                                        Turnos Trabajados
+                                    </p>
+                                </a>
+                            <?php endif; ?>
                         </li>
                         <li class="nav-item">
                             <a class="log-out ml-3" href="#" class="nav-link">
                                 <i class="nav-icon fa-solid fa-power-off" style="color: red;"></i>
-                                session
                                 <form action="/logout" method="POST" id="logging-out">
                                     <?php echo csrf_field(); ?>
                                 </form>
@@ -254,7 +312,6 @@
             })
         });
     </script>
-
 </body>
 
 </html>

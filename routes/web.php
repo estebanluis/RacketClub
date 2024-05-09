@@ -3,9 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
+use App\Http\Controllers\HorasTProfController;
+use App\Http\Controllers\verTurnosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +21,7 @@ use App\Http\Controllers\ControlAlumnController;
 |
 */
 //route login
-Route::get('/barang/{codigo}/edit', [BarangController::class, 'edit']);
+//Route::get('/barang/{codigo}/edit', [BarangController::class, 'edit']);
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::get('/register', [AuthController::class, 'register']);
@@ -34,6 +37,16 @@ Route::post('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'updat
 // route dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
+
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 
+//route registrar horario
+Route::resource('/horarios', HorarioController::class);
+
+//route ver Turnos
+Route::resource('/turnos', verTurnosController::class);
+Route::get('/turnos/{id_user}/{fecha}', [verTurnosController::class, 'showWithDate'])->name('turnos.showWithDate');
+
+//route ver pago 
+Route::resource('/hprof', HorasTProfController::class);
