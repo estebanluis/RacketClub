@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AtencionRacketController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasTProfController;
+use App\Http\Controllers\ReservaCanchaController;
 use App\Http\Controllers\verTurnosController;
 
 /*
@@ -50,3 +52,10 @@ Route::get('/turnos/{id_user}/{fecha}', [verTurnosController::class, 'showWithDa
 
 //route ver pago 
 Route::resource('/hprof', HorasTProfController::class);
+
+//reservar Cancha
+Route::resource('/rcancha', ReservaCanchaController::class);
+//atencion racket
+Route::resource('/atenracket', AtencionRacketController::class);
+// Pasar a atención
+Route::post('/rcancha/{id}/atencion', [ReservaCanchaController::class, 'transferToAtencion'])->name('rcancha.transferToAtencion');
