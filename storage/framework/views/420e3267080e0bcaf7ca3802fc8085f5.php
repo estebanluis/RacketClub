@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/assets/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/assets/dist/css/adminlte.css">
     
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse">
 
     <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -62,13 +62,19 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
 
-            
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a  class="nav-link"><?php echo e(auth()->user()->name); ?></a>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                    </a>
+                            <a class="nav-link log-out ml-3" href="#" class="nav-link">
+                                <i class="nav-icon fa-solid fa-power-off" style="color: red;"></i>
+                                <form action="/logout" method="POST" id="logging-out">
+                                    <?php echo csrf_field(); ?>
+                                </form>
+                            </a>
                 </li>
                 
+
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -84,13 +90,7 @@
 
             <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="info">
-                        <a href="#" class="d-block"><?php echo e(auth()->user()->name); ?></a>
-                    </div>
-                </div>
-
+                
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -175,12 +175,24 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <a class="log-out ml-3" href="#" class="nav-link">
-                                <i class="nav-icon fa-solid fa-power-off" style="color: red;"></i>
-                                <form action="/logout" method="POST" id="logging-out">
-                                    <?php echo csrf_field(); ?>
-                                </form>
-                            </a>
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <a href="/rcancha" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <p>
+                                        Reservar Canchas
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <a href="/atenracket" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <p>
+                                        Atencion Racket
+                                    </p>
+                                </a>
+                            <?php endif; ?>
                         </li>
                     </ul>
                 </nav>
@@ -228,22 +240,25 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(function() {
+         $(function() {
             var url = window.location;
-            // for single sidebar menu
+            // para el menú de la barra lateral
             $('ul.nav-sidebar a').filter(function() {
                 return this.href == url;
             }).addClass('active');
 
-            // for sidebar menu and treeview
+            // para el menú y treeview de la barra lateral
             $('ul.nav-treeview a').filter(function() {
-                    return this.href == url;
-                }).parentsUntil(".nav-sidebar > .nav-treeview")
-                .css({
-                    'display': 'block'
-                })
+                return this.href == url;
+            }).parentsUntil(".nav-sidebar > .nav-treeview")
+                .css({'display': 'block'})
                 .addClass('menu-open').prev('a')
                 .addClass('active');
+        });
+
+        // Script para asegurar que la barra lateral esté cerrada al cargar la página
+        $(document).ready(function() {
+            $('.sidebar').addClass('sidebar-collapse');
         });
     </script>
 

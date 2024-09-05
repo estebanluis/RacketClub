@@ -29,7 +29,7 @@
 
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="/" class="h1"><b>Registrar</b> Usuarios</a>
+                <a href="" class="h1"><b>Registrar</b> Usuarios</a>
             </div>
             <div class="card-body">
                 <form class="needs-validation" novalidate action="/register" method="POST">
