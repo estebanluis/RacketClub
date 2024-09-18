@@ -271,8 +271,10 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: button;
+  -webkit-appearance: button;  /* Para navegadores basados en WebKit (Chrome, Safari) */
+  appearance: button;          /* Propiedad estándar para navegadores modernos */
 }
+
 
 button:not(:disabled),
 [type="button"]:not(:disabled),
@@ -330,8 +332,10 @@ progress {
 
 [type="search"] {
   outline-offset: -2px;
-  -webkit-appearance: none;
+  -webkit-appearance: none; /* Para navegadores WebKit (Chrome, Safari) */
+  appearance: none;         /* Propiedad estándar para otros navegadores */
 }
+
 
 [type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -3817,9 +3821,11 @@ input[type="button"].btn-block {
   display: block;
   min-height: 1.5rem;
   padding-left: 1.5rem;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  -webkit-print-color-adjust: exact; /* Para navegadores WebKit (Chrome, Safari) */
+  print-color-adjust: exact;          /* Propiedad estándar para otros navegadores */
+  -webkit-print-color-adjust: exact;  /* Para navegadores WebKit (Chrome, Safari) */
 }
+
 
 .custom-control-inline {
   display: -ms-inline-flexbox;
@@ -6167,6 +6173,20 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 1rem;
+  max-height: 70vh; /* Ajusta la altura máxima al 70% de la ventana */
+  overflow-y: auto; /* Habilita el desplazamiento */
+
+
+}
+
+.modal-full-height {
+  height: 90vh; /* Ajusta el porcentaje de altura según necesites */
+  max-height: 90vh;
+}
+
+.modal-body-full {
+  overflow-y: auto; /* Habilitar el desplazamiento vertical si el contenido excede la altura */
+  height: 100%;
 }
 
 .modal-footer {

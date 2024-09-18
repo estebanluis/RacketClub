@@ -46,13 +46,22 @@ Route::resource('/barang', BarangController::class)->middleware('auth');
 //route registrar horario
 Route::resource('/horarios', HorarioController::class);
 
-//route ver Turnos
-Route::resource('/turnos', verTurnosController::class);
-Route::get('/turnos/{id_user}/{fecha}', [verTurnosController::class, 'showWithDate'])->name('turnos.showWithDate');
+
+
+// Ruta para mostrar la tabla de "Turnos Trabajados"
+Route::get('/turnos', [verTurnosController::class, 'index'])->name('turnos.index');
+
+// Ruta para ver los detalles de un turno específico
+Route::get('/turnos/detalles/{id_user}/{fecha}', [verTurnosController::class, 'showWithDate'])->name('turnos.showWithDate');
+
+// Ruta para mostrar el formulario de agregar/editar salario
+Route::get('/turnos/salario/{idHorario}', [verTurnosController::class, 'showSalarioForm'])->name('turnos.salario.formulario');
+
+// Ruta para actualizar el salario
+Route::put('/turnos/salario/{idHorario}', [verTurnosController::class, 'updateSalario'])->name('turnos.salario.actualizar');
 
 //route ver pago 
 Route::resource('/hprof', HorasTProfController::class);
-
 //reservar Cancha
 Route::resource('/rcancha', ReservaCanchaController::class);
 //atencion racket

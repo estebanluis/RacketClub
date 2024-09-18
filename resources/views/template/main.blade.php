@@ -19,7 +19,16 @@
     <link rel="stylesheet" href="/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/assets/dist/css/adminlte.css">
-    
+
+
+    <!-- CSS de FullCalendar -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+    <!-- JS de FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+
+
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -36,27 +45,10 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
+                <!-- <li class="nav-item d-none d-sm-inline-block">
                     <a href="/" class="nav-link">Dashboard</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    @if(Auth::user()->TipoUsuario === 'Administrador' )
-
-                        <a href="/" class="nav-link">Registrar Usuarios</a>
-                    @endif
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-
-                        <a href="/registrarAlumno" class="nav-link">Registrar Alumnos</a>
-                    @endif
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-
-                        <a href="/horarios" class="nav-link">Registrar Horarios</a>
-                    @endif
-                </li>
+                 -->
             </ul>
 
             <!-- Right navbar links -->
@@ -106,7 +98,7 @@
                         <li class="nav-item">
                         @if(Auth::user()->TipoUsuario === 'Administrador' )
                             <a href="/registerUser" class="nav-link">
-                                <i class="nav-icon fa-solid fa-box"></i>
+                                <i class="nav-icon fa fa-user-plus"></i>
                                 <p>
                                     Registrar Usuarios
                                 </p>
@@ -116,7 +108,7 @@
                         <li class="nav-item">
                             @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
                             <a href="/barang" class="nav-link">
-                                <i class="nav-icon fa-solid fa-box"></i>
+                                <i class="nav-icon fa fa-users"></i>
                                 <p>
                                     Lista Alumnos
                                 </p>
@@ -127,7 +119,7 @@
                             @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
 
                             <a href="/registrarAlumno" class="nav-link">
-                                <i class="nav-icon fa-solid fa-box"></i>
+                                <i class="nav-icon fa fa-user-plus"></i>
                                 <p>
                                     Registrar Alumnos
                                 </p>
@@ -137,7 +129,7 @@
                         <li class="nav-item">
                             @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
                                 <a href="/dashboard/tomarAsistencia" class="nav-link">
-                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <i class="nav-icon fa fa-address-card"></i>
                                     <p>
                                         Asistencia de alumnos
                                     </p>
@@ -147,7 +139,7 @@
                         <li class="nav-item">
                             @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
                                 <a href="/horarios" class="nav-link">
-                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <i class="nav-icon fa fa-calendar-plus" aria-hidden="true"></i>
                                     <p>
                                         Registrar Horario
                                     </p>
@@ -167,7 +159,7 @@
                         <li class="nav-item">
                             @if(Auth::user()->TipoUsuario === 'Administrador')
                                 <a href="/turnos" class="nav-link">
-                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
                                         Turnos Trabajados
                                     </p>
@@ -177,7 +169,7 @@
                         <li class="nav-item">
                         @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket')
                         <a href="/rcancha" class="nav-link">
-                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <i class="nav-icon fa fa-clipboard"></i>
                                     <p>
                                         Reservar Canchas
                                     </p>
@@ -187,7 +179,7 @@
                         <li class="nav-item">
                         @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket')
                         <a href="/atenracket" class="nav-link">
-                                    <i class="nav-icon fa-solid fa-box"></i>
+                                    <i class="nav-icon fa fa-shopping-cart"></i>
                                     <p>
                                         Atencion Racket
                                     </p>
@@ -327,6 +319,10 @@
             })
         });
     </script>
+@yield('scripts')
+
+
+
 </body>
 
 </html>

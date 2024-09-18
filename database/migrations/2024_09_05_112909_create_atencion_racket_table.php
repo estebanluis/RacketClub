@@ -28,6 +28,7 @@ class CreateAtencionRacketTable extends Migration
             $table->decimal('total', 8, 2); // Campo 'total', con 8 dígitos en total y 2 decimales
             $table->timestamps(); // Campos 'created_at' y 'updated_at'
             $table->string('estado');
+            $table->text('observaciones')->nullable();
         });
     }
 
