@@ -47,6 +47,8 @@
                                             <th>Hora</th>
                                             <th>Nro Carril</th>
                                             <th>Nro de Alumnos</th>
+                                            <th>Salario</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,7 +59,15 @@
                                                 <td>{{ $data->hora }}</td>
                                                 <td>{{ $data->carril}}</td>
                                                 <td>{{ $data->nalumnos}}</td>
-                                                
+                                                <td>{{ $data->salario}}</td>
+                                                <td>
+                                                    <form action="{{ route('turnos.salario.formulario', ['idHorario' => $data->idHorario]) }}" method="GET">
+                                                        <button type="submit" class="btn btn-success btn-sm mr-1">
+                                                            <i class="fa-solid fa-pen"></i> Agregar salario
+                                                        </button>
+                                                    </form>
+                                                </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>

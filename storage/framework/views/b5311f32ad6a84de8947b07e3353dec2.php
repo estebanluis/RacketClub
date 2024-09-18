@@ -134,19 +134,21 @@ endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
                   </div>
-                  
-                  <!-- <div class="col-lg-6">
+
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
                     <div class="form-group">
-                      <label for="adelanto">Adelanto (Bs.)</label>
-                      <input type="text" name="adelanto" class="form-control <?php $__errorArgs = ['adelanto'];
+                      <label for="tiempoReserva">Cantidad de Horas</label>
+                      <input type="Number" min="1"  name="tiempoReserva" class="form-control <?php $__errorArgs = ['tiempoReserva'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="name" placeholder="Monto del Adelanto" value="<?php echo e(old('adelanto')); ?>" >
-                      <?php $__errorArgs = ['adelanto'];
+unset($__errorArgs, $__bag); ?>" id="tiempoReserva" placeholder="Cantidad de horas de la reserva" value="<?php echo e(old('tiempoReserva')); ?>" required>
+                      <?php $__errorArgs = ['tiempoReserva'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -157,7 +159,30 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
-                  </div>  -->
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="observaciones">Observaciones</label>
+                      <textarea name="observaciones" id="observaciones" class="form-control <?php $__errorArgs = ['observaciones'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" cols="10" rows="3" placeholder="Observaciones"><?php echo e(old('observaciones')); ?></textarea>
+                      <?php $__errorArgs = ['observaciones'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                      <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                      <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                  </div>
 
                 </div>
                 

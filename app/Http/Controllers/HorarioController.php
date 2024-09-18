@@ -38,37 +38,31 @@ class HorarioController extends Controller
         $nalumnos = $request->input('nalumnos');
         $observaciones = $request->input('observaciones');
         $fecha_formateada = $fecha_actual->format('d-m-Y');
-
-
-        $verificar= DB::table('horarios')
+    
+        $verificar = DB::table('horarios')
                     ->select(DB::raw('COUNT(horarios.carril) as carril'))
                     ->where('carril', '=', $carril)
                     ->where('fecha', '=', $fecha_formateada)
                     ->where('hora', '=', $hora)
                     ->first();
-        if($verificar->carril == 1){
-
+        
+        if ($verificar->carril == 1) {
             Alert::warning('Error', 'Carril Ocupado!');
             return redirect('/horarios');
-
-        }else{
-
+        } else {
             $horario = new Horario();
             $horario->hora = $hora;
             $horario->id_user = $id_user;
             $horario->carril = $carril;
             $horario->nalumnos = $nalumnos;
             $horario->observaciones = $observaciones;
-            $horario->fecha = $fecha_formateada; 
+            $horario->fecha = $fecha_formateada;
+            $horario->salario = '0'; // Asignar el salario como vacío
             $horario->save();
-
-
-            Alert::success('Success', 'Turno Registrado !');
+    
+            Alert::success('Success', 'Turno Registrado!');
             return redirect('/horarios');
-
-
         }
-        
     }
-
+    
 }

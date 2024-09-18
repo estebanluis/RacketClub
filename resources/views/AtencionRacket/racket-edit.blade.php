@@ -94,9 +94,19 @@
                                         </div>
                                     </div>
                                     
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                        <label for="observaciones">Observaciones</label>
+                                        <textarea name="observaciones" id="observaciones" class="form-control @error('observaciones') is-invalid @enderror" cols="10" rows="3" placeholder="Observaciones">{{old('supplier', $barang->observaciones)}}</textarea>
+                                        @error('observaciones')
+                                        <span class="invalid-feedback text-danger">{{ $message }}</span>
+                                        @enderror
+                                        </div>
+                                    </div>
                                     
                                     
                                 </div>
+                                
                                 
                             </div>
                             <div class="card-footer text-right">

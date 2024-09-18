@@ -19,7 +19,10 @@ class CreateReservasCanchaTable extends Migration
             $table->time('hora'); // Campo 'hora'
             $table->integer('numero_cancha'); // Campo 'numeroCancha'
             $table->date('fecha'); // Campo 'fecha' para almacenar la fecha de la reserva
+            $table->text('observaciones')->nullable(); // Campo para observaciones
+            $table->integer('tiempoReserva')->nullable(); 
             $table->timestamps(); // Agrega 'created_at' y 'updated_at'
+
         });
     }
 

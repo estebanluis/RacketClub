@@ -40,6 +40,7 @@ class AtencionRacketController extends Controller
              'name' => 'required|max:100',
              'horaEntrada' => 'required|date_format:H:i',
              'cancha' => 'required|integer|min:1|max:4',
+             'observaciones' => 'nullable|string|max:500', 
          ]);
      
          // Verificamos si la cancha está ocupada
@@ -58,6 +59,7 @@ class AtencionRacketController extends Controller
          $atencionRacket->nombre = $request->input('name');
          $atencionRacket->hora_inicio = $request->input('horaEntrada');
          $atencionRacket->cancha = $request->input('cancha');
+         $atencionRacket->observaciones = $request->input('observaciones');
      
          // Llenamos los campos faltantes con valores predeterminados
          $atencionRacket->fecha = now()->toDateString(); // Fecha del sistema
@@ -118,6 +120,7 @@ class AtencionRacketController extends Controller
             'horainicio' => 'required|date_format:H:i',
             'horasalida' => 'required|date_format:H:i|after:horainicio',
             'total' => 'required|numeric',
+            'observaciones' => 'nullable|string|max:500', 
         ]);
         
         $atencion = AtencionRacket::findOrFail($id);
@@ -140,6 +143,7 @@ class AtencionRacketController extends Controller
             'total_horas' => $totalTiempo,          
             'total' => $request->total,
             'estado' => 'libre',
+            'observaciones' => $request->observaciones,
 
         ]);
 

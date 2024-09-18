@@ -15,6 +15,9 @@ class ReservaCancha extends Model
         'nombre_reserva',
         'hora',
         'numero_cancha',
+        'observaciones',
+        'tiempoReserva',
         'fecha' // Agregamos la columna 'fecha'
+
     ];
 }

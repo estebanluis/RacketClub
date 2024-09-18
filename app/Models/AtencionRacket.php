@@ -24,5 +24,6 @@ class AtencionRacket extends Model
         'total',
         'cancha',
         'estado',
+        'observaciones',
     ];
 }

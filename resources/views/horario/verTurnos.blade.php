@@ -37,6 +37,7 @@
                                             <th>Nombre</th>
                                             <th>Fecha</th>
                                             <th>Nro de seciones</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>

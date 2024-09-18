@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('hora');
             $table->string('carril');
             $table->integer('nalumnos');
+            $table->integer('salario');
             $table->text('observaciones')->nullable();
             $table->timestamps();
         });

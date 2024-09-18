@@ -47,6 +47,8 @@
                                             <th>Hora</th>
                                             <th>Nro Carril</th>
                                             <th>Nro de Alumnos</th>
+                                            <th>Salario</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,7 +59,15 @@
                                                 <td><?php echo e($data->hora); ?></td>
                                                 <td><?php echo e($data->carril); ?></td>
                                                 <td><?php echo e($data->nalumnos); ?></td>
-                                                
+                                                <td><?php echo e($data->salario); ?></td>
+                                                <td>
+                                                    <form action="<?php echo e(route('turnos.salario.formulario', ['idHorario' => $data->idHorario])); ?>" method="GET">
+                                                        <button type="submit" class="btn btn-success btn-sm mr-1">
+                                                            <i class="fa-solid fa-pen"></i> Agregar salario
+                                                        </button>
+                                                    </form>
+                                                </td>
+
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>

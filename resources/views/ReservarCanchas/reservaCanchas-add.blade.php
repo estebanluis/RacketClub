@@ -78,16 +78,27 @@
                       @enderror
                     </div>
                   </div>
-                  
-                  <!-- <div class="col-lg-6">
+
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
                     <div class="form-group">
-                      <label for="adelanto">Adelanto (Bs.)</label>
-                      <input type="text" name="adelanto" class="form-control @error('adelanto') is-invalid @enderror" id="name" placeholder="Monto del Adelanto" value="{{old('adelanto')}}" >
-                      @error('adelanto')
+                      <label for="tiempoReserva">Cantidad de Horas</label>
+                      <input type="Number" min="1"  name="tiempoReserva" class="form-control @error('tiempoReserva') is-invalid @enderror" id="tiempoReserva" placeholder="Cantidad de horas de la reserva" value="{{old('tiempoReserva')}}" required>
+                      @error('tiempoReserva')
                       <span class="invalid-feedback text-danger">{{ $message }}</span>
                       @enderror
                     </div>
-                  </div>  -->
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="observaciones">Observaciones</label>
+                      <textarea name="observaciones" id="observaciones" class="form-control @error('observaciones') is-invalid @enderror" cols="10" rows="3" placeholder="Observaciones">{{old('observaciones')}}</textarea>
+                      @error('observaciones')
+                      <span class="invalid-feedback text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
 
                 </div>
                 
