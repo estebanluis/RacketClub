@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasTProfController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReservaCanchaController;
 use App\Http\Controllers\verTurnosController;
 
@@ -68,3 +69,16 @@ Route::resource('/rcancha', ReservaCanchaController::class);
 Route::resource('/atenracket', AtencionRacketController::class);
 // Pasar a atención
 Route::post('/rcancha/{id}/atencion', [ReservaCanchaController::class, 'transferToAtencion'])->name('rcancha.transferToAtencion');
+
+
+//route ver productos
+Route::get('/dashboard/agreagar-productos', [ProductoController::class, 'indexProductos']);
+Route::post('/dashboard/agreagar-productos', [ProductoController::class, 'store'])->name('productos.store');
+Route::get('/dashboard/listaproductos', [ProductoController::class, 'indexlistProd']);
+Route::get('/productos/{id}/edit', [ProductoController::class, 'editar'])->name('productos.edit');
+route::get('/productos/{id_producto}/edit', [ProductoController::class, 'editar'])->name('productos.edit');
+Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
+//rutas de ventas
+Route::get('/ventas', [ProductoController::class, 'indexVentas']);
+Route::post('/productos/fetch-product', [ProductoController::class, 'fetchProductById'])->name('productos.fetch');
+Route::post('/ventas/store', [ProductoController::class, 'storeVenta'])->name('storeVenta');
