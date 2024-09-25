@@ -186,6 +186,36 @@
                                 </a>
                             <?php endif; ?>
                         </li>
+                        <li class="nav-item">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <a href="/ventas" class="nav-link">
+                                    <i class="nav-icon fa fa-shopping-basket"></i>
+                                    <p>
+                                        Ventas
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <a href="/dashboard/agreagar-productos" class="nav-link">
+                                    <i class="nav-icon fa fa-shopping-basket"></i>
+                                    <p>
+                                        Agregar Productos
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <a href="/dashboard/listaproductos" class="nav-link">
+                                    <i class="nav-icon fa fa-shopping-basket"></i>
+                                    <p>
+                                        Lista Productos
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
