@@ -117,6 +117,16 @@
                         </li>
                         <li class="nav-item">
                             @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                            <a href="/reporte" class="nav-link">
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                <p>
+                                    Reporte Financiero
+                                </p>
+                            </a>
+                            @endif
+                        </li>
+                        <li class="nav-item">
+                            @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
 
                             <a href="/registrarAlumno" class="nav-link">
                                 <i class="nav-icon fa fa-user-plus"></i>
@@ -206,7 +216,7 @@
                         <li class="nav-item">
                         @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket')
                         <a href="/dashboard/agreagar-productos" class="nav-link">
-                                    <i class="nav-icon fa fa-shopping-basket"></i>
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
                                     <p>
                                         Agregar Productos
                                     </p>
@@ -304,7 +314,11 @@
     <script>
         $(document).ready(function() {
             $('#example1').DataTable({
-                responsive: true
+                responsive: true,
+                "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+        }
+               
             });
 
         });

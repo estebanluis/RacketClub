@@ -11,9 +11,9 @@ use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasTProfController;
 use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ReservaCanchaController;
 use App\Http\Controllers\verTurnosController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,9 +37,16 @@ Route::get('/registerUser', [AuthController::class, 'registerUser']);
 Route::post('/registerUser', [AuthController::class, 'processUser']);
 Route::get('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'indexAsistencia']);
 Route::post('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'update'])->name('registrarAlumn.update');
+//Route::get('/generar-pdf/{codigo}', [RegistroAlumnosController::class, 'generarPdf'])->name('generarPdf');
 // route dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
+Route::post('/reinscribir/{id}', [BarangController::class, 'reinscribirAlumn'])->name('reinscribir.alumn');
+Route::get('/ruta/para/reinscribir/{id}', [BarangController::class, 'showReinscribirForm'])->name('reinscribir.form');
+//route barang
+Route::resource('/barang', BarangController::class)->middleware('auth');
+Route::post('/generate-pdf/{id}', [BarangController::class, 'generatePDF'])->name('generate.pdf');
+//route registrar horario
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 //route registrar horario
@@ -71,10 +78,16 @@ Route::get('/dashboard/listaproductos', [ProductoController::class, 'indexlistPr
 Route::get('/productos/{id}/edit', [ProductoController::class, 'editar'])->name('productos.edit');
 route::get('/productos/{id_producto}/edit', [ProductoController::class, 'editar'])->name('productos.edit');
 Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
+Route::post('/aniadirStock', [ProductoController::class, 'aniadirStock'])->name('aniadirStock');
 //rutas de ventas
 Route::get('/ventas', [ProductoController::class, 'indexVentas']);
 Route::post('/productos/fetch-product', [ProductoController::class, 'fetchProductById'])->name('productos.fetch');
 Route::post('/ventas/store', [ProductoController::class, 'storeVenta'])->name('storeVenta');
+//rutas reportes
+Route::get('/reporte', [ReportesController::class, 'indexReporte']);
+Route::get('/reporte-estudiantes', [ReportesController::class, 'obtenerEstudiantesPorDia']);
+Route::get('/reporte-estudiantes', [ReportesController::class, 'obtenerEstudiantesPorDia']);
+Route::get('/generar-informe/{dia}/{mes}/{anio}', [ReportesController::class, 'generarInforme']);
 
 // Ruta para mostrar la lista de atenciones
 Route::get('/piscinaFinde', [PiscinaFindeController::class, 'index'])->name('piscina.index');

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RegistroAlumno extends Model
 {
     protected $table='clientes';
-    
+    protected $guarded = [];
     protected $fillable=[
     'nombre',
     'codigo',
@@ -23,8 +23,10 @@ class RegistroAlumno extends Model
     'costo',
     'descuento',
     'edad',
-    'telefono'
+    'telefono',
+    'nroReinscripciones'
     
     ];
     use HasFactory;
+
 }

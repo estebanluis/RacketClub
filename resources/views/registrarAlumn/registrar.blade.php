@@ -32,6 +32,7 @@
                 <a href="/" class="h1"><b>REGISTRAR</b> ALUMNOS</a>
             </div>
             <div class="card-body">
+    
     <form class="needs-validation" novalidate action="{{ route('registrarAlumn.store') }}" method="POST">
         @csrf
         <div class="row">
@@ -200,6 +201,24 @@
         <!-- Repite las filas anteriores para los siguientes campos -->
         <!-- Asegúrate de cerrar el formulario al final -->
     </form>
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Reinscripción completada',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Imprimir',
+                cancelButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('{{ route('generarPdf', session('codigoGenerado')) }}', '_blank');
+                }
+            });
+        });
+    </script>
+@endif
 </div>
             
                 

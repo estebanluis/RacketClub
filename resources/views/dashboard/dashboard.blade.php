@@ -71,6 +71,19 @@
                         </div>
                         @endif
                     </div>
+                    <div class="col-lg-3 col-md-6">
+                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <p>Reportes financieros</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="/reporte" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                        @endif
+                    </div>
 
                     <div class="col-lg-3 col-md-6">
                         @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
