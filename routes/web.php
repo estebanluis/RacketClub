@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasTProfController;
+use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReservaCanchaController;
 use App\Http\Controllers\verTurnosController;
@@ -36,25 +37,17 @@ Route::get('/registerUser', [AuthController::class, 'registerUser']);
 Route::post('/registerUser', [AuthController::class, 'processUser']);
 Route::get('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'indexAsistencia']);
 Route::post('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'update'])->name('registrarAlumn.update');
-
 // route dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
-
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
-
 //route registrar horario
 Route::resource('/horarios', HorarioController::class);
-
-
-
 // Ruta para mostrar la tabla de "Turnos Trabajados"
 Route::get('/turnos', [verTurnosController::class, 'index'])->name('turnos.index');
-
 // Ruta para ver los detalles de un turno específico
 Route::get('/turnos/detalles/{id_user}/{fecha}', [verTurnosController::class, 'showWithDate'])->name('turnos.showWithDate');
-
 // Ruta para mostrar el formulario de agregar/editar salario
 Route::get('/turnos/salario/{idHorario}', [verTurnosController::class, 'showSalarioForm'])->name('turnos.salario.formulario');
 
@@ -82,3 +75,10 @@ Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->n
 Route::get('/ventas', [ProductoController::class, 'indexVentas']);
 Route::post('/productos/fetch-product', [ProductoController::class, 'fetchProductById'])->name('productos.fetch');
 Route::post('/ventas/store', [ProductoController::class, 'storeVenta'])->name('storeVenta');
+
+// Ruta para mostrar la lista de atenciones
+Route::get('/piscinaFinde', [PiscinaFindeController::class, 'index'])->name('piscina.index');
+// Ruta para registrar una nueva atención (desde el formulario en el modal)
+Route::post('/piscinaFinde/store', [PiscinaFindeController::class, 'store'])->name('piscina.register');
+// Ruta para finalizar la atención
+Route::put('/piscinaFinde/finalizar/{id}', [PiscinaFindeController::class, 'finalizar'])->name('piscina.finalizar');

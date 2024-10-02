@@ -86,7 +86,7 @@
                                         document.addEventListener('DOMContentLoaded', function() {
                                         Swal.fire({
                                         title: 'venta realizada',
-                                        text: '{{ session('success') }}',
+                                        text: "{{ session('success') }}",
                                         icon: 'success',
                                         showCancelButton: false,
                                         confirmButtonText: 'Aceptar'

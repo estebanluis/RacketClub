@@ -47,8 +47,10 @@
                                             <th>Hora</th>
                                             <th>Nro Carril</th>
                                             <th>Nro de Alumnos</th>
+                                            @if(Auth::user()->TipoUsuario === 'Administrador')
                                             <th>Salario</th>
                                             <th>Acciones</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -59,6 +61,7 @@
                                                 <td>{{ $data->hora }}</td>
                                                 <td>{{ $data->carril}}</td>
                                                 <td>{{ $data->nalumnos}}</td>
+                                                @if(Auth::user()->TipoUsuario === 'Administrador')
                                                 <td>{{ $data->salario}}</td>
                                                 <td>
                                                     <form action="{{ route('turnos.salario.formulario', ['idHorario' => $data->idHorario]) }}" method="GET">
@@ -67,6 +70,7 @@
                                                         </button>
                                                     </form>
                                                 </td>
+                                                @endif
 
                                             </tr>
                                         @endforeach
