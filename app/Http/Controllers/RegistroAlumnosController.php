@@ -1,124 +1,161 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Carbon\Carbon;
 use App\Models\RegistroAlumno;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Dompdf\Dompdf;
+use RealRashid\SweetAlert\Facades\Alert;
+use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
 class RegistroAlumnosController extends Controller
 {
     public function generarCodigoCorrelativo()
     {
-    $ultimoCodigo = RegistroAlumno::orderBy('codigo', 'desc')->first();
-
-    if (!$ultimoCodigo) {
-        $codigo = '5001';
-    } else {
-        //$codigo ='0'. str_pad($ultimoCodigo->codigo + 1, 2, '0', STR_PAD_LEFT);
-        $codigo = str_pad($ultimoCodigo->codigo + 1, 2, '0', STR_PAD_LEFT);
+        $ultimoCodigo = RegistroAlumno::orderBy('codigo', 'desc')->first();
+        $codigo = $ultimoCodigo ? str_pad($ultimoCodigo->codigo + 1, 2, '0', STR_PAD_LEFT) : '5001';
+        return $codigo;
     }
 
-    return $codigo;
-    }
     public function indexlis()
-        {
-            $alumnos = RegistroAlumno::all();
+    {
+        $alumnos = RegistroAlumno::all();
+        return view('listaAlumnos.index', ['alumnos' => $alumnos]);
+    }
 
-            return view('listaAlumnos.index', [
-                'alumnos' => $alumnos
-             ]); 
-        }
-    public function index(){
-
+    public function index()
+    {
         return view('registrarAlumn.registrar');
     }
-    public function store(Request $request){
-        $request-> validate([
-            'nombre'=> 'required',
-            'apellidoMat' => 'required',
-            'edad' => 'required',
-            'direccion' => 'required',
-            'apellido'=> 'required',
-            'telefono'=> 'required',
 
-        ]);
-        
-        $registrarAlumno = new RegistroAlumno();
-        $registrarAlumno -> modalidad = $request-> modalidad;
-        $alej = 0;
-        $monto = 0;
-        if( $request-> modalidad == "Natación curso completo"){
-            $alej += 20;
-        }else{
-            if($request-> modalidad == "Natación*3 semana 12"){
-                $alej += 12;
-            }else{
-                if($request-> modalidad == "Natación*3 semana 20"){
-                    $alej += 20;
-                }else{
-                    if($request-> modalidad == "Natación medio curso"){
-                        $alej += 10;
-                    } 
-                }
-            }
-        }
-        if( $request-> modalidad == "Natación curso completo"){
-            $monto += 220;
-        }else{
-            if($request-> modalidad == "Natación*3 semana 12"){
-                $monto += 120;
-            }else{
-                if($request-> modalidad == "Natación*3 semana 20"){
-                    $monto += 250;
-                }else{
-                    if($request-> modalidad == "Natación medio curso"){
-                        $monto += 150;
-                    } 
-                }
-            }
-        }
-        if ($request->modalidad == "Natación curso completo" || $request->modalidad == "Natación*3 semana 12") {
+    public function store(Request $request)
+{
+    ini_set('max_execution_time', 120); // Aumentar el tiempo de ejecución máxima
+
+    $request->validate([
+        'nombre' => 'required',
+        'apellidoMat' => 'required',
+        'edad' => 'required',
+        'direccion' => 'required',
+        'apellido' => 'required',
+        'telefono' => 'required',
+    ]);
+
+    // Validar si ya existe un alumno con los mismos datos
+    $existeAlumno = RegistroAlumno::where([
+        'modalidad' => $request->modalidad,
+        'nombre' => $request->nombre,
+        'apellido' => $request->apellido,
+        'apellidoMat' => $request->apellidoMat,
+        'horario'=> $request->horario,
+    ])->exists();
+
+    if ($existeAlumno) {
+        Alert::info('Advertencia', 'El alumno ya está inscrito en la modalidad seleccionada. No es posible inscribirlo de nuevo.');
+        return back();
+    }
+
+    // Continuar con la inscripción si no existe
+    $modalidad = $request->modalidad;
+    $alej = $monto = 0;
+
+    switch ($modalidad) {
+        case "Natación curso completo":
+            $alej = 20;
+            $monto = 220;
             $diasVencimiento = 31;
-        } elseif ($request->modalidad == "Natación medio curso") {
-            $diasVencimiento = 17;
-        } elseif ($request->modalidad == "Natación*3 semana 20") {
+            break;
+        case "Natación*3 semana 12":
+            $alej = 12;
+            $monto = 120;
+            $diasVencimiento = 31;
+            break;
+        case "Natación*3 semana 20":
+            $alej = 20;
+            $monto = 250;
             $diasVencimiento = 60;
-        } else {
-            // Modalidad no reconocida, asignar un valor predeterminado
+            break;
+        case "Natación medio curso":
+            $alej = 10;
+            $monto = 150;
+            $diasVencimiento = 17;
+            break;
+        default:
             $diasVencimiento = 31;
-        }
-    
-        $fechaActual = now();
-        $feVen = $fechaActual->addDays($diasVencimiento)->format('d/m/y');
-        $codigoGenerado = $this->generarCodigoCorrelativo();
-        $registrarAlumno -> nombre = $request -> nombre;
-        
-        $registrarAlumno -> apellido = $request -> apellido;
-        $registrarAlumno -> apellidoMat = $request -> apellidoMat;
-        $registrarAlumno -> edad = $request -> edad;
-        $registrarAlumno -> usuario = Auth::user()->name;
-        $registrarAlumno -> horario = $request -> horario;
-        $registrarAlumno -> direccion = $request -> direccion;
-        $registrarAlumno -> observciones = $request -> observciones;
-        $registrarAlumno -> telefono = $request -> telefono;
-        $registrarAlumno -> nrsesiones = $alej;
-        $registrarAlumno -> descuento = $request -> descuento;
-        $registrarAlumno -> costo = $monto;
-        $registrarAlumno -> codigo = $codigoGenerado;
-        $registrarAlumno->save();
+            break;
+    }
 
-        $nom = $request -> nombre;
-        $apell = $request -> apellido;
-        $apellM = $request -> apellidoMat;
-        $hora = $request -> horario;
-        $codi = $codigoGenerado;
-        $eda = $request -> edad;
-        $mod = $request -> modalidad;
-        $apellM = $request -> apellidoMat;
-        $pdf = PDF::loadView('pdf.tarjeta', compact('nom','apell','apellM','hora','alej','codi','apellM','eda','mod','feVen'));
-        
-        return $pdf->download($apell.' '.$apellM.''.$nom.'.pdf');
+    $fechaActual = now();
+    $feVen = $fechaActual->addDays($diasVencimiento)->format('d/m/y');
+    $codigoGenerado = $this->generarCodigoCorrelativo();
+
+    $registrarAlumno = new RegistroAlumno();
+    $registrarAlumno->fill([
+        'modalidad' => $modalidad,
+        'nroReinscripciones' => 0,
+        'nombre' => $request->nombre,
+        'apellido' => $request->apellido,
+        'apellidoMat' => $request->apellidoMat,
+        'edad' => $request->edad,
+        'usuario' => Auth::user()->name,
+        'horario' => $request->horario,
+        'direccion' => $request->direccion,
+        'observciones' => $request->observciones,
+        'telefono' => $request->telefono,
+        'nrsesiones' => $alej,
+        'descuento' => $request->descuento,
+        'costo' => $monto,
+        'codigo' => $codigoGenerado
+    ])->save();
+
+    // Generar el PDF
+    $pdf = PDF::loadView('pdf.tarjeta', [
+        'nom' => $request->nombre,
+        'apell' => $request->apellido,
+        'apellM' => $request->apellidoMat,
+        'hora' => $request->horario,
+        'alej' => $alej,
+        'codi' => $codigoGenerado,
+        'eda' => $request->edad,
+        'mod' => $modalidad,
+        'feVen' => $feVen
+    ]);
+
+    return back()
+        ->with('success', 'El alumno ha sido inscrito exitosamente.')
+        ->with('codigoGenerado', $codigoGenerado);
+}
+
+    public function generarPdf($codigo)
+    {
+        $alumno = RegistroAlumno::where('codigo', $codigo)->firstOrFail();
+        $options = new Options();
+        $options->set('defaultFont', 'Arial');
+        $options->set('isRemoteEnabled', true);
+
+        // Crear una instancia de DomPDF con las opciones configuradas
+        $dompdf = new Dompdf($options);
+
+        // Renderizar la vista HTML a PDF
+        $pdf = view('pdf.tarjeta', [
+            'nom' => $alumno->nombre,
+            'apell' => $alumno->apellido,
+            'apellM' => $alumno->apellidoMat,
+            'hora' => $alumno->horario,
+            'codi' => $alumno->codigo,
+            'mod' => $alumno->modalidad,
+            'feVen' => now()->addDays(31)->format('d/m/y')
+        ]);
+
+        $dompdf->loadHtml($pdf->render());
+
+        // Renderizar el PDF
+        $dompdf->render();
+
+        // Mostrar el PDF en una nueva ventana
+        return $dompdf->stream("{$alumno->apellido} {$alumno->apellidoMat} {$alumno->nombre}.pdf", ["Attachment" => false]);
     }
 }

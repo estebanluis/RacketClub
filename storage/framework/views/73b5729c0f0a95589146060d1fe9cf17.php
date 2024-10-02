@@ -32,6 +32,7 @@
                 <a href="/" class="h1"><b>REGISTRAR</b> ALUMNOS</a>
             </div>
             <div class="card-body">
+    
     <form class="needs-validation" novalidate action="<?php echo e(route('registrarAlumn.store')); ?>" method="POST">
         <?php echo csrf_field(); ?>
         <div class="row">
@@ -340,6 +341,24 @@ unset($__errorArgs, $__bag); ?>
         <!-- Repite las filas anteriores para los siguientes campos -->
         <!-- Asegúrate de cerrar el formulario al final -->
     </form>
+    <?php if(session('success')): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Reinscripción completada',
+                text: '<?php echo e(session('success')); ?>',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Imprimir',
+                cancelButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('<?php echo e(route('generarPdf', session('codigoGenerado'))); ?>', '_blank');
+                }
+            });
+        });
+    </script>
+<?php endif; ?>
 </div>
             
                 

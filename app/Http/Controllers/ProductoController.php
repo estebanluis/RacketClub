@@ -8,6 +8,7 @@ use App\Models\producto;
 use App\Models\venta;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
+use App\Models\AniadirStock;
 class ProductoController extends Controller
 {
     public function indexProductos()
@@ -84,6 +85,8 @@ class ProductoController extends Controller
     }
     public function storeVenta(Request $request)
 {
+    
+
     $productos = $request->input('productos'); // Array de productos
     $total = $request->input('total');
     $vendedor = Auth::user()->name; // Sistema de autenticación
@@ -122,7 +125,31 @@ class ProductoController extends Controller
 
     return redirect()->back()->with('success', 'Venta realizada exitosamente');
 }
+public function aniadirStock(Request $request)
+{
+    $request->validate([
+        'cantidad' => 'required|numeric',
+        'pagoDistribuidor' => 'required|numeric',
+        'precioProducto' => 'required|numeric',
+    ]);
 
+    // Actualizar la tabla productos
+    $producto = Producto::findOrFail($request->id_producto);
+    $producto->stock += $request->cantidad;
+    $producto->precio = $request->precioProducto;
+    $producto->save();
+
+    // Insertar en la tabla aniadirStock
+    $stockEntry = new AniadirStock();
+    $stockEntry->nombreProducto = $producto->nombre;
+    $stockEntry->id_producto_aniadido = $producto->id_producto;
+    $stockEntry->catidad_aniadida = $request->cantidad;
+    $stockEntry->responsable = Auth::user()->name;
+    $stockEntry->pago_distribuidor = $request->pagoDistribuidor;
+    $stockEntry->save();
+
+    return redirect()->back()->with('success', 'Stock añadido correctamente');
+}
 
     
 

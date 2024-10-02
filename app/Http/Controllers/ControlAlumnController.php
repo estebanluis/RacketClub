@@ -22,7 +22,14 @@ class ControlAlumnController extends Controller
             $asistencia->fecha = now(); // Obtiene la fecha y hora actual
             $asistencia->save();
             $fechasAsistencia = fechasasistencia::where('codigoAlumno', $codigo)->pluck('fecha')->toArray();
-            
+            $fechasAsistencia = fechasasistencia::where('codigoAlumno', $codigo)
+            ->get(['fecha'])
+            ->map(function ($asistencia) {
+                return [
+                    'title' => 'Asistencia',
+                    'start' => $asistencia->fecha,
+                ];
+            })->toArray();
             if ($registro) {
                 $modalidad = $registro->modalidad;
                 $fechaVencimiento = null;

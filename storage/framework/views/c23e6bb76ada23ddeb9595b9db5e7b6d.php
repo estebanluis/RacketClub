@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('title', 'Lista Alumnos'); ?>
+<?php $__env->startSection('title', 'Lista Productos'); ?>
 <?php $__env->startSection('content'); ?>
 
 <div class="content-wrapper">
@@ -49,17 +49,9 @@
                                         <td><?php echo e($data->categoria); ?></td>
                                         <td><?php echo e($data->stock); ?></td>
                                         <td>
-                                            <form class="d-inline" action="<?php echo e(route('productos.edit', $data->id_producto)); ?>" method="GET">
-                                                <button type="submit" class="btn btn-success btn-sm mr-1">
-                                                    <i class="fa-solid fa-pen"></i> Edit
-                                                </button>
-                                            </form>
-                                            <form class="d-inline" action="" method="POST">
-                                                <?php echo csrf_field(); ?>
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="fa-solid fa-file-pdf"></i> Reimprimir
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#modalAddStock" onclick="setModalValues('<?php echo e($data->id_producto); ?>', '<?php echo e($data->nombre); ?>', '<?php echo e($data->precio); ?>')">
+                                                <i class="fa-solid fa-pen"></i> Añadir stock
+                                            </button>
                                         </td>
                                     </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -73,7 +65,51 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Modal para añadir stock -->
+<div class="modal fade" id="modalAddStock" tabindex="-1" role="dialog" aria-labelledby="modalAddStockLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAddStockLabel">Añadir a Stock</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formAddStock" action="<?php echo e(route('aniadirStock')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <div class="form-group">
+                        <label for="nombreProducto">Producto</label>
+                        <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad a Añadir</label>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pagoDistribuidor">Pago a Distribuidor</label>
+                        <input type="number" class="form-control" id="pagoDistribuidor" name="pagoDistribuidor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="precioProducto">Precio Unitario del Producto</label>
+                        <input type="number" class="form-control" id="precioProducto" name="precioProducto" required>
+                    </div>
+                    <input type="hidden" id="id_producto" name="id_producto">
+                    <button type="submit" class="btn btn-primary">Añadir al Stock</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setModalValues(id, nombre, precio) {
+        document.getElementById('id_producto').value = id;
+        document.getElementById('nombreProducto').value = nombre;
+        document.getElementById('precioProducto').value = precio;
+    }
+</script>
 
 <?php $__env->stopSection(); ?>
 

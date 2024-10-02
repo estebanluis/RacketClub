@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('apellidoMat');
+            $table->integer('nroReinscripciones');
             $table->string('direccion');
             $table->integer('costo')->nullable();
             $table->integer('codigo')->unique();
