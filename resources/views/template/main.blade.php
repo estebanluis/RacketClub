@@ -161,7 +161,7 @@
                                 <a href="/hprof" class="nav-link">
                                     <i class="nav-icon fa-solid fa-box"></i>
                                     <p>
-                                        Horas Trabajadas
+                                        Sueldos
                                     </p>
                                 </a>
                             @endif
@@ -172,6 +172,13 @@
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
                                         Turnos Trabajados
+                                    </p>
+                                </a>
+                            @elseif(Auth::user()->TipoUsuario === 'Profesor')
+                                <a href="/turnos" class="nav-link">
+                                    <i class="nav-icon fa fa-briefcase"></i>
+                                    <p>
+                                        Horario
                                     </p>
                                 </a>
                             @endif
@@ -223,6 +230,16 @@
                                     <p>
                                         Lista Productos
                                     </p>
+                                </a>
+                            @endif
+                        </li>
+                        <li class="nav-item">
+                            @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                                <a href="/piscinaFinde" class="nav-link">
+                                            <i class="nav-icon fa fa-handshake"></i>
+                                            <p>
+                                                Atencion Fin de semana
+                                            </p>
                                 </a>
                             @endif
                         </li>

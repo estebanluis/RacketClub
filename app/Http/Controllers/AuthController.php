@@ -31,10 +31,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            Alert::success('Success', 'Login success !');
+            Alert::success('Success', 'Inicio de sesion correcto !');
             return redirect()->intended('/dashboard');
         } else {
-            Alert::error('Error', 'Login failed !');
+            Alert::error('Error', 'Inicio de sesion incorrecto !');
             return redirect('/login');
         }
     }
@@ -59,7 +59,7 @@ class AuthController extends Controller
         $validated['TipoUsuario'] = $request->input('TipoUsuario');
         $user = User::create($validated);
 
-        Alert::success('Success', 'Register user has been successfully !');
+        Alert::success('Success', 'Usario Registrado Exitosamente !');
         return redirect('/login');
     }
 
@@ -69,7 +69,7 @@ class AuthController extends Controller
 
         request()->session()->invalidate();
         request()->session()->regenerateToken();
-        Alert::success('Success', 'Log out success !');
+        Alert::success('Success', 'Sesion Cerrada Exitosamente !');
         return redirect('/login');
     }
 
@@ -93,7 +93,7 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        Alert::success('Success', 'Register user has been successfully !');
+        Alert::success('Success', 'Usario Registrado Exitosamente  !');
         return redirect('/RegisterUser');
     }
 
