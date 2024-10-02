@@ -4,21 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Horario;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class verTurnosController extends Controller
 {
-    public function index()
-    {
-        $id_usuario = Auth::id();
-        $listaAlumnos = DB::table('horarios')
-                        ->join('users', 'users.id_user', '=', 'horarios.id_user')
-                        ->select('users.id_user','users.name', 'horarios.fecha', DB::raw('COUNT(horarios.fecha) as HorariosAtendidos'))
-                        ->groupBy('users.name', 'horarios.fecha','users.id_user') 
-                        ->get();
+    public function index(){
 
+        $id_usuario = Auth::id();
+
+        $tipoUsuario = Auth::user()->TipoUsuario;
+
+        $fechaActual = Carbon::now()->format('d-m-Y');
+        //dd($fechaActual);
+
+        if ($tipoUsuario !== 'Profesor') {
+            // Mostrar todos los horarios
+            $listaAlumnos = DB::table('horarios')
+                ->join('users', 'users.id_user', '=', 'horarios.id_user')
+                ->select('users.id_user', 'users.name', 'horarios.fecha', DB::raw('COUNT(horarios.fecha) as HorariosAtendidos'))
+                ->groupBy('users.name', 'horarios.fecha', 'users.id_user')
+                ->get();
+        } else {
+            
+            $listaAlumnos = DB::table('horarios')
+            ->join('users', 'users.id_user', '=', 'horarios.id_user')
+            ->select('users.id_user', 'users.name', 'horarios.fecha', DB::raw('COUNT(horarios.fecha) as HorariosAtendidos'))
+            ->where('users.id_user', $id_usuario) 
+            ->where('horarios.salario', 0)
+            ->where(DB::raw('STR_TO_DATE(horarios.fecha, "%d-%m-%Y")'), '>=', DB::raw('STR_TO_DATE("'.$fechaActual.'", "%d-%m-%Y")')) 
+            ->groupBy('users.name', 'horarios.fecha', 'users.id_user')
+            ->get();
+        }
+
+        // Retornar la vista con los datos correspondientes
         return view('horario.verTurnos', [
             'barang' => $listaAlumnos
         ]);

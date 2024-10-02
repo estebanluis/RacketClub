@@ -151,7 +151,7 @@
                                 <a href="/hprof" class="nav-link">
                                     <i class="nav-icon fa-solid fa-box"></i>
                                     <p>
-                                        Horas Trabajadas
+                                        Sueldos
                                     </p>
                                 </a>
                             <?php endif; ?>
@@ -162,6 +162,13 @@
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
                                         Turnos Trabajados
+                                    </p>
+                                </a>
+                            <?php elseif(Auth::user()->TipoUsuario === 'Profesor'): ?>
+                                <a href="/turnos" class="nav-link">
+                                    <i class="nav-icon fa fa-briefcase"></i>
+                                    <p>
+                                        Horario
                                     </p>
                                 </a>
                             <?php endif; ?>
@@ -213,6 +220,16 @@
                                     <p>
                                         Lista Productos
                                     </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                                <a href="/piscinaFinde" class="nav-link">
+                                            <i class="nav-icon fa fa-handshake"></i>
+                                            <p>
+                                                Atencion Fin de semana
+                                            </p>
                                 </a>
                             <?php endif; ?>
                         </li>
