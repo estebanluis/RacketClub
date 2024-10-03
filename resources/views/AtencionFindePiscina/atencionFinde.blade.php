@@ -55,8 +55,8 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($barang as $data)
-                                            <tr onclick="mostrarObservaciones('{{ $data->observaciones }}')">
-                                                 <td>
+                                            <tr data-observaciones="{{ $data->observaciones }}">
+                                                <td>
                                                     @if ($data->estado)
                                                         <span class="text-success">En Atención</span>
                                                     @else
@@ -68,7 +68,7 @@
                                                 <td>{{ $data->ninos }}</td>
                                                 <td>{{ $data->fecha }}</td>
                                                 <td>{{ $data->total }}</td>
-                                                <td>
+                                                <td class="acciones">
                                                     @if ($data->estado)
                                                         <form class="d-inline" action="{{ route('piscina.finalizar', $data->id) }}" method="POST">
                                                             @csrf
@@ -82,7 +82,6 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-
                                 </table>
                             </div>
                             <!-- /.card-body -->
@@ -94,72 +93,80 @@
         </div>
     </div>
 
-   <!-- Modal para registrar la atención -->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="registerModalLabel">Registrar Atención en Piscina</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulario para registrar -->
-                <form action="{{ route('piscina.register') }}" method="POST">
-                    @csrf
-                    <!-- Campo Nombre -->
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la piscina" required>
-                    </div>
-                    <!-- Seleccionar Adultos -->
-                    <div class="form-group">
-                        <label for="adultos">Adultos</label>
-                        <input type="number" class="form-control" id="adultos" name="adultos" value="0" min="0" onchange="calcularTotal()" required>
-                    </div>
-                    <!-- Seleccionar Niños -->
-                    <div class="form-group">
-                        <label for="ninos">Niños</label>
-                        <input type="number" class="form-control" id="ninos" name="ninos" value="0" min="0" onchange="calcularTotal()" required>
-                    </div>
-                    <!-- Campo para mostrar el Total -->
-                    <div class="form-group">
-                        <label for="total">Total</label>
-                        <input type="number" class="form-control" id="total" name="total" readonly>
-                    </div>
-                    <!-- Campo Observaciones -->
-                    <div class="form-group">
-                        <label for="observaciones">Observaciones</label>
-                        <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Ingrese observaciones..."></textarea>
-                    </div>
+    <!-- Modal para registrar la atención -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content rounded">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="registerModalLabel">Registrar Atención en Piscina</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario para registrar -->
+                    <form action="{{ route('piscina.register') }}" method="POST" onsubmit="return validarFormulario()">
+                        @csrf
+                        <!-- Campo Nombre -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la piscina">
+                            <div class="invalid-feedback">Este campo es obligatorio.</div>
+                        </div>
 
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-success">Registrar</button>
-                    </div>
-                </form>
+                        <!-- Adultos, Niños y Total en una sola línea -->
+                        <div class="form-row">
+                            <!-- Seleccionar Adultos -->
+                            <div class="form-group col-md-4">
+                                <label for="adultos">Adultos</label>
+                                <input type="number" class="form-control" id="adultos" name="adultos" value="0" min="0" onchange="calcularTotal()">
+                                <div class="invalid-feedback">Por favor ingrese un número válido.</div>
+                            </div>
+                            <!-- Seleccionar Niños -->
+                            <div class="form-group col-md-4">
+                                <label for="ninos">Niños</label>
+                                <input type="number" class="form-control" id="ninos" name="ninos" value="0" min="0" onchange="calcularTotal()">
+                                <div class="invalid-feedback">Por favor ingrese un número válido.</div>
+                            </div>
+                            <!-- Campo para mostrar el Total -->
+                            <div class="form-group col-md-4">
+                                <label for="total">Total</label>
+                                <input type="number" class="form-control" id="total" name="total" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Campo Observaciones -->
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Ingrese observaciones..."></textarea>
+                            <div class="invalid-feedback">Este campo es obligatorio.</div>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success">Registrar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal para mostrar observaciones -->
-<div class="modal fade" id="observacionesModal" tabindex="-1" role="dialog" aria-labelledby="observacionesModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content rounded">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="observacionesModalLabel">Observaciones</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="observacionesText">Aquí van las observaciones...</p>
+    <!-- Modal para mostrar observaciones -->
+    <div class="modal fade" id="observacionesModal" tabindex="-1" role="dialog" aria-labelledby="observacionesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="observacionesModalLabel">Observaciones</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="observacionesText">Aquí van las observaciones...</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 
 @endsection
 
@@ -178,7 +185,9 @@
         }
     </script>
 
+    <!-- Script para mostrar observaciones y evitarlo en acciones -->
     <script>
+        // Función para mostrar las observaciones
         function mostrarObservaciones(observaciones) {
             // Establecer el texto de las observaciones en el modal
             document.getElementById('observacionesText').innerText = observaciones || 'No hay observaciones.';
@@ -187,16 +196,65 @@
             $('#observacionesModal').modal('show');
         }
 
-        function calcularTotal() {
-            var adultos = parseInt(document.getElementById('adultos').value) || 0;
-            var ninos = parseInt(document.getElementById('ninos').value) || 0;
+        // Asignar el evento de clic a todas las filas
+        document.querySelectorAll('tr').forEach(function(row) {
+            row.addEventListener('click', function(event) {
+                // Verificar si el clic fue en la columna de acciones
+                if (event.target.closest('.acciones')) {
+                    return; // No abrir el modal si el clic fue en la columna de acciones
+                }
 
-            // Cálculo: Adultos (35 cada uno) y Niños (25 cada uno)
-            var total = (adultos * 35) + (ninos * 25);
-
-            // Mostrar el total en el campo correspondiente
-            document.getElementById('total').value = total;
-        }
+                // Mostrar las observaciones si no es en las acciones
+                var observaciones = this.getAttribute('data-observaciones');
+                mostrarObservaciones(observaciones);
+            });
+        });
     </script>
 
+    <!-- Script para validar el formulario antes de enviarlo -->
+    <script>
+        
+        function validarFormulario() {
+            var valido = true;
+
+            // Verificar campo de nombre
+            var nombre = document.getElementById('nombre');
+            if (nombre.value.trim() === '') {
+                nombre.classList.add('is-invalid');
+                valido = false;
+            } else {
+                nombre.classList.remove('is-invalid');
+            }
+
+            // Verificar campo de adultos
+            var adultos = document.getElementById('adultos');
+            if (adultos.value === '' || isNaN(adultos.value) || parseInt(adultos.value) < 0) {
+                adultos.classList.add('is-invalid');
+                valido = false;
+            } else {
+                adultos.classList.remove('is-invalid');
+            }
+
+            // Verificar campo de niños
+            var ninos = document.getElementById('ninos');
+            if (ninos.value === '' || isNaN(ninos.value) || parseInt(ninos.value) < 0) {
+                ninos.classList.add('is-invalid');
+                valido = false;
+            } else {
+                ninos.classList.remove('is-invalid');
+            }
+
+            // Verificar campo de observaciones
+            var observaciones = document.getElementById('observaciones');
+            if (observaciones.value.trim() === '') {
+                observaciones.classList.add('is-invalid');
+                valido = false;
+            } else {
+                observaciones.classList.remove('is-invalid');
+            }
+
+            // Retornar si es válido o no
+            return valido;
+    }
+    </script>
 @endsection

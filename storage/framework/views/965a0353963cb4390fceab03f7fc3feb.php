@@ -88,7 +88,7 @@ unset($__errorArgs, $__bag); ?>" placeholder="Nombre completo" required>
                         });
 
                         // Incluir FullCalendar JS y generar el calendario
-                        var fechasAsistencia = <?php echo json_encode($fechasAsistencia ?? [], 15, 512) ?>;
+                        var fechasAsistencia = <?php echo json_encode($fechasAsistencia ?? []); ?>;
                         document.addEventListener('DOMContentLoaded', function() {
                             var calendarEl = document.getElementById('calendar');
                             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -112,5 +112,4 @@ unset($__errorArgs, $__bag); ?>" placeholder="Nombre completo" required>
 
 </div>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/registrarAlumn/controlAlumn.blade.php ENDPATH**/ ?>

@@ -55,25 +55,26 @@
                                         <td><?php echo e($data->nroReinscripciones); ?></td>
                                         <td><?php echo e($data->observciones); ?></td>
                                         <td>
-                                            <form class="d-inline" action="/barang/<?php echo e($data->id); ?>/edit" method="GET">
-                                                <button type="submit" class="btn btn-success btn-sm mr-1">
-                                                    <i class="fa-solid fa-pen"></i> Edit
-                                                </button>
-                                            </form>
+                                        <form class="d-inline" action="/barang/<?php echo e($data->id); ?>/edit" method="GET">
+                                            <button type="submit" class="btn btn-success btn-sm mr-2">
+                                                <i class="fa-solid fa-pen"></i> Edit
+                                            </button>
+                                        </form>
 
-                                            <form class="d-inline reinscribirForm" action="<?php echo e(route('reinscribir.alumn', ['id' => $data->id])); ?>" method="POST">
-                                                <?php echo csrf_field(); ?>
-                                                <button type="button" class="btn btn-primary btn-sm reinscribirBtn">
-                                                    <i class="fa-solid fa-file-pdf"></i> Reinscribir
-                                                </button>
-                                            </form>
+                                        <form class="d-inline reinscribirForm" action="<?php echo e(route('reinscribir.alumn', ['id' => $data->id])); ?>" method="POST">
+                                            <?php echo csrf_field(); ?>
+                                            <button type="button" class="btn btn-primary btn-sm reinscribirBtn mr-2">
+                                                <i class="fa-solid fa-file-pdf"></i> Reinscribir
+                                            </button>
+                                        </form>
 
-                                            <form class="d-inline" action="<?php echo e(route('generate.pdf', ['id' => $data->id])); ?>" method="POST">
-                                                <?php echo csrf_field(); ?>
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="fa-solid fa-file-pdf"></i> Reimprimir
-                                                </button>
-                                            </form>
+                                        <form class="d-inline" action="<?php echo e(route('generate.pdf', ['id' => $data->id])); ?>" method="POST">
+                                            <?php echo csrf_field(); ?>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="fa-solid fa-file-pdf"></i> Reimprimir
+                                            </button>
+                                        </form>
+
                                         </td>
                                     </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
