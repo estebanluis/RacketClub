@@ -95,18 +95,182 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
-                            <a href="/registerUser" class="nav-link">
-                                <i class="nav-icon fa fa-user-plus"></i>
-                                <p>
-                                    Registrar Usuarios
-                                </p>
-                            </a>
+                        <li class="nav-item has-treeview <?php echo e(Request::is('registerUser') || Request::is('registrarAlumno') ? 'menu-open' : ''); ?>">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                <a href="#" class="nav-link <?php echo e(Request::is('registerUser') || Request::is('registrarAlumno') ? 'active' : ''); ?>">
+                                    <i class="nav-icon fa fa-plus"></i>
+                                    <p>
+                                        Registros
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                            <a href="/registerUser" class="nav-link <?php echo e(Request::is('registerUser') ? 'active' : ''); ?>">
+                                                <i class="nav-icon fa fa-user-plus"></i>
+                                                <p>Registrar Usuarios</p>
+                                            </a>
+                                        <?php endif; ?>
+                                    </li>
+                                    <li class="nav-item">
+                                        <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                            <a href="/registrarAlumno" class="nav-link <?php echo e(Request::is('registrarAlumno') ? 'active' : ''); ?>">
+                                                <i class="nav-icon fa fa-user-plus"></i>
+                                                <p>Registrar Alumnos</p>
+                                            </a>
+                                        <?php endif; ?>
+                                    </li>
+                                </ul>
                             <?php endif; ?>
                         </li>
+
+
+                        <li class="nav-item has-treeview">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-plus"></i>
+                                <p>
+                                    Piscina
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                    <a href="/barang" class="nav-link">
+                                        <i class="nav-icon fa fa-users"></i>
+                                        <p>
+                                            Lista Alumnos
+                                        </p>
+                                    </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                        <a href="/dashboard/tomarAsistencia" class="nav-link">
+                                            <i class="nav-icon fa fa-address-card"></i>
+                                            <p>
+                                                Asistencia de alumnos
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
+                                        <a href="/horarios" class="nav-link">
+                                            <i class="nav-icon fa fa-calendar-plus" aria-hidden="true"></i>
+                                            <p>
+                                                Registrar Horario
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
+                                    <a href="/turnos" class="nav-link">
+                                        <i class="nav-icon fa fa-briefcase"></i>
+                                        <p>
+                                            Turnos Trabajados
+                                        </p>
+                                    </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                        <a href="/piscinaFinde" class="nav-link">
+                                                    <i class="nav-icon fa fa-handshake"></i>
+                                                    <p>
+                                                        Atencion Fin de semana
+                                                    </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                            </ul>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item has-treeview">
+                        <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
+                        <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-plus"></i>
+                                <p>
+                                    Racket
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                <a href="/atenracket" class="nav-link">
+                                            <i class="nav-icon fa fa-shopping-cart"></i>
+                                            <p>
+                                                Atencion Racket
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                    <?php if( Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                        <a href="/rcancha" class="nav-link">
+                                            <i class="nav-icon fa fa-clipboard"></i>
+                                            <p>
+                                                Reservar Canchas
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                            </ul>
+                            <?php endif; ?>
+                        </li>
+
+
+                        <li class="nav-item has-treeview">
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador' ): ?>
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-plus"></i>
+                                    <p>
+                                        Ventas
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                <a href="/ventas" class="nav-link">
+                                            <i class="nav-icon fa fa-shopping-basket"></i>
+                                            <p>
+                                                Vender
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                <a href="/dashboard/agreagar-productos" class="nav-link">
+                                            <i class="nav-icon fa fa-cart-plus" aria-hidden="true"></i>
+                                            <p>
+                                                Agregar Productos
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                <a href="/dashboard/listaproductos" class="nav-link">
+                                            <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
+                                            <p>
+                                                Lista Productos
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
+                                </ul>
+                            <?php endif; ?>
+                        </li>
+
+                        
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
@@ -116,7 +280,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
                             <a href="/reporte" class="nav-link">
                                 <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 <p>
@@ -126,7 +290,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <?php if( Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
 
                             <a href="/registrarAlumno" class="nav-link">
                                 <i class="nav-icon fa fa-user-plus"></i>
@@ -137,7 +301,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
                                 <a href="/dashboard/tomarAsistencia" class="nav-link">
                                     <i class="nav-icon fa fa-address-card"></i>
                                     <p>
@@ -147,7 +311,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
                                 <a href="/horarios" class="nav-link">
                                     <i class="nav-icon fa fa-calendar-plus" aria-hidden="true"></i>
                                     <p>
@@ -167,14 +331,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
-                                <a href="/turnos" class="nav-link">
-                                    <i class="nav-icon fa fa-briefcase"></i>
-                                    <p>
-                                        Turnos Trabajados
-                                    </p>
-                                </a>
-                            <?php elseif(Auth::user()->TipoUsuario === 'Profesor'): ?>
+                            <?php if(Auth::user()->TipoUsuario === 'Profesor'): ?>
                                 <a href="/turnos" class="nav-link">
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
@@ -184,8 +341,8 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
-                        <a href="/rcancha" class="nav-link">
+                            <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                                <a href="/rcancha" class="nav-link">
                                     <i class="nav-icon fa fa-clipboard"></i>
                                     <p>
                                         Reservar Canchas
@@ -194,7 +351,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/atenracket" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-cart"></i>
                                     <p>
@@ -204,17 +361,17 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <?php if(Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/ventas" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
-                                        Ventas
+                                        Vender
                                     </p>
                                 </a>
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/dashboard/agreagar-productos" class="nav-link">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                     <p>
@@ -224,7 +381,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                        <?php if(Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/dashboard/listaproductos" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
@@ -234,7 +391,7 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
-                            <?php if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
                                 <a href="/piscinaFinde" class="nav-link">
                                             <i class="nav-icon fa fa-handshake"></i>
                                             <p>
@@ -367,12 +524,12 @@
             e.preventDefault();
             Swal.fire({
                 title: 'Esta seguro?',
-                text: "No podrás revertir esto!",
+                text: "No podras revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#7367f0',
                 cancelButtonColor: '#82868b',
-                confirmButtonText: 'Sí, cerrar sesión !'
+                confirmButtonText: 'Sí, cerrar sesión'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#logging-out').submit()
