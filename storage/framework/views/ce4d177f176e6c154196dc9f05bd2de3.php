@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <div class="text-right">
                                 <a href="/atenracket" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i>
-                                    Volver
+                                    Atras
                                 </a>
                             </div>
                         </div>
