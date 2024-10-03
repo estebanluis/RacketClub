@@ -84,10 +84,8 @@
                 
               </div>
               <div class="card-footer text-right">
-                <button class="btn btn-dark mr-1" type="reset"><i class="fa-solid fa-arrows-rotate"></i>
-                  Reset</button>
                 <button class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i>
-                  Save</button>
+                  Gardar</button>
               </div>
             </form>
           </div>

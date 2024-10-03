@@ -88,7 +88,7 @@ unset($__errorArgs, $__bag); ?>" placeholder="Nombre completo" required>
                         });
 
                         // Incluir FullCalendar JS y generar el calendario
-                        var fechasAsistencia = <?php echo json_encode($fechasAsistencia ?? []); ?>;
+                        var fechasAsistencia = <?php echo json_encode($fechasAsistencia ?? [], 15, 512) ?>;
                         document.addEventListener('DOMContentLoaded', function() {
                             var calendarEl = document.getElementById('calendar');
                             var calendar = new FullCalendar.Calendar(calendarEl, {

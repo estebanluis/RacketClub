@@ -109,7 +109,7 @@
                                                 <form class="d-inline" action="/rcancha/{{ $data->id }}" method="POST">
                                                     @csrf
                                                     @method('delete')
-                                                    <button type="submit" class="btn btn-danger btn-sm" id="btn-delete"><i class="fa-solid fa-trash-can"></i> Delete</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm" id="btn-delete"><i class="fa-solid fa-trash-can"></i> Borrar</button>
                                                 </form>
                                             </td>
                                         </tr>

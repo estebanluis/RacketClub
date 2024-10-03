@@ -63,7 +63,7 @@
                                                     <form class="d-inline" action="/atenracket/<?php echo e($data->id); ?>/edit"
                                                         method="GET">
                                                         <button type="submit" class="btn btn-success btn-sm mr-1">
-                                                            <i class="fa-solid fa-pen"></i> Edit
+                                                            <i class="fa-solid fa-pen"></i> Editar
                                                         </button>
                                                     </form>
                                                     <form class="d-inline" action="/atenracket/<?php echo e($data->id); ?>"
@@ -71,7 +71,7 @@
                                                         <?php echo csrf_field(); ?>
                                                         <?php echo method_field('delete'); ?>
                                                         <button type="submit" class="btn btn-danger btn-sm"
-                                                            id="btn-delete"><i class="fa-solid fa-trash-can"></i> Delete
+                                                            id="btn-delete"><i class="fa-solid fa-trash-can"></i> Borrar
                                                         </button>
                                                     </form>
                                                 </td>

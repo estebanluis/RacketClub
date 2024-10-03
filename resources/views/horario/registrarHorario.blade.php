@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <div class="text-right">
                                 <a href="/horarios" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i>
-                                    Back
+                                    Atras
                                 </a>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                             </div>
                             <div class="card-footer text-right">
                                 <button class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i>
-                                    Save</button>
+                                    Guardar</button>
                             </div>
                         </form>
                     </div>

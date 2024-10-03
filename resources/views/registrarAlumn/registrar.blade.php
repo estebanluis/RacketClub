@@ -206,14 +206,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: 'Reinscripción completada',
-                text: '{{ session('success') }}',
+                text: "{{ session('success') }}",
                 icon: 'success',
                 showCancelButton: true,
                 confirmButtonText: 'Imprimir',
                 cancelButtonText: 'Aceptar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.open('{{ route('generarPdf', session('codigoGenerado')) }}', '_blank');
+                    window.open("{{ route('generarPdf', session('codigoGenerado')) }}", "_blank");
                 }
             });
         });
