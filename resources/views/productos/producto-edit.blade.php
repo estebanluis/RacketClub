@@ -31,7 +31,7 @@
                         <div class="card-header">
                             <div class="text-right">
                                 <a href="/dashboard/listaproductos" class="btn btn-warning btn-sm">
-                                    <i class="fa-solid fa-arrow-rotate-left"></i> Volver
+                                    <i class="fa-solid fa-arrow-rotate-left"></i> Atras
                                 </a>
                             </div>
                         </div>

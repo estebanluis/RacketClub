@@ -32,7 +32,7 @@
             <div class="card-header">
               <div class="text-right">
                 <a href="/barang" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i>
-                  Back
+                  Atras
                 </a>
               </div>
             </div>
@@ -102,7 +102,7 @@
                     document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
                     title: 'Registro completado',
-                    text: '{{ session('success') }}',
+                    text: "{{ session('success') }}",
                     icon: 'success',
                     showCancelButton: false,
                     confirmButtonText: 'Aceptar'

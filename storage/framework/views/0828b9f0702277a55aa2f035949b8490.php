@@ -109,7 +109,7 @@
                                                 <form class="d-inline" action="/rcancha/<?php echo e($data->id); ?>" method="POST">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('delete'); ?>
-                                                    <button type="submit" class="btn btn-danger btn-sm" id="btn-delete"><i class="fa-solid fa-trash-can"></i> Delete</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm" id="btn-delete"><i class="fa-solid fa-trash-can"></i> Borrar</button>
                                                 </form>
                                             </td>
                                         </tr>
