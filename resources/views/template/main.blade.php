@@ -329,13 +329,13 @@
             e.preventDefault();
             var form = $(this).closest("form");
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You will not be able to revert this!",
+                title: 'Esta Seguro ?',
+                text: "¡No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#7367f0',
                 cancelButtonColor: '#82868b',
-                confirmButtonText: 'Yes, delete!'
+                confirmButtonText: 'Si, borrar'
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
@@ -366,13 +366,13 @@
         $(".log-out").on('click', function(e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Esta seguro?',
+                text: "No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#7367f0',
                 cancelButtonColor: '#82868b',
-                confirmButtonText: 'Yes, Log Out !'
+                confirmButtonText: 'Sí, cerrar sesión !'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#logging-out').submit()
