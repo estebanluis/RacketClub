@@ -15,7 +15,8 @@ class CreateReservasCanchaTable extends Migration
     {
         Schema::create('reservas_cancha', function (Blueprint $table) {
             $table->id(); // Campo 'id' autoincrementable
-            $table->string('nombre_reserva'); // Campo 'nombreReserva'
+            $table->string('nombre_reserva');
+            $table->string('tipo'); 
             $table->time('hora'); // Campo 'hora'
             $table->integer('numero_cancha'); // Campo 'numeroCancha'
             $table->date('fecha'); // Campo 'fecha' para almacenar la fecha de la reserva

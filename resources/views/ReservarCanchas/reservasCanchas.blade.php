@@ -29,22 +29,99 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">Reservas Actuales</h3>
                             <div>
-                                <a href="/rcancha/create" class="btn btn-primary mr-2"><i class="fa-solid fa-plus"></i> Añadir Reserva</a>
+                                <!-- Cambiar el enlace a un botón que abre el modal -->
+                                <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#addReservaModal">
+                                    <i class="fa-solid fa-plus"></i> Añadir Reserva
+                                </button>
                                 <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#reservaModal">
                                     <i class="fa-solid fa-calendar-alt"></i> Ver Reserva en Calendario
                                 </a>
                             </div>
                         </div>
 
+                        <!-- Modal para Añadir Reserva -->
+                            <div class="modal fade" id="addReservaModal" tabindex="-1" role="dialog" aria-labelledby="addReservaModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #003554; color: white;">
+                                            <h5 class="modal-title" id="addReservaModalLabel">Añadir Reserva</h5>
+                                                
+                                        </div>
+                                        <form class="needs-validation" novalidate action="/rcancha" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="name">Nombre</label>
+                                                            <input type="text" name="name" class="form-control" id="name" placeholder="Nombre" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="fecha">Fecha</label>
+                                                            <input type="date" name="fecha" class="form-control" id="fecha" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="hora">Hora</label>
+                                                            <input type="time" name="hora" class="form-control" id="hora" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="cancha">Nro. Cancha</label>
+                                                            <input type="number" min="1" max="4" name="cancha" class="form-control" id="cancha" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="deporte">Deporte</label>
+                                                            <select name="deporte" class="form-control" id="deporte" required>
+                                                                <option value="">Seleccionar Deporte</option>
+                                                                <option value="racket">Racket</option>
+                                                                <option value="wally">Wally</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="tiempoReserva">Cantidad de Horas</label>
+                                                            <input type="number" min="1" name="tiempoReserva" class="form-control" id="tiempoReserva" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="observaciones">Observaciones</label>
+                                                            <textarea name="observaciones" id="observaciones" class="form-control" cols="10" rows="3" placeholder="Observaciones"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                                                <button class="btn btn-success" type="submit">Guardar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         <!-- Modal para Ver Reservas -->
                         <div class="modal fade" id="reservaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-full-height" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header" style="background-color: #003554; color: white;">
                                         <h5 class="modal-title" id="exampleModalLabel">Reservar Cancha</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
                                     </div>
                                     <div class="modal-body modal-body-full">
                                         <div id='calendar'></div> <!-- Aquí se mostrará el calendario -->
@@ -60,11 +137,8 @@
                         <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header" style="background-color: #003554; color: white;">
                                         <h5 class="modal-title" id="eventDetailLabel">Detalles de la Reserva</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
                                     </div>
                                     <div class="modal-body">
                                         <!-- Detalles del evento se agregarán aquí -->
@@ -82,6 +156,7 @@
                                         <th>Fecha</th>
                                         <th>Hora</th>
                                         <th>Nro. Cancha</th>
+                                        <th>Deporte</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -93,6 +168,7 @@
                                             <td>{{ \Carbon\Carbon::parse($data->fecha)->format('d/m/Y') }}</td>
                                             <td>{{ $data->hora }}</td>
                                             <td>{{ $data->numero_cancha }}</td>
+                                            <td>{{ $data->tipo }}</td>
                                             <td>
                                                 <form class="d-inline" action="{{ route('rcancha.transferToAtencion', $data->id) }}" method="POST">
                                                     @csrf
