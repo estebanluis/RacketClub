@@ -37,7 +37,7 @@ Route::get('/registerUser', [AuthController::class, 'registerUser']);
 Route::post('/registerUser', [AuthController::class, 'processUser']);
 Route::get('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'indexAsistencia']);
 Route::post('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'update'])->name('registrarAlumn.update');
-//Route::get('/generar-pdf/{codigo}', [RegistroAlumnosController::class, 'generarPdf'])->name('generarPdf');
+Route::get('/generar-pdf/{codigo}', [RegistroAlumnosController::class, 'generarPdf'])->name('generarPdf');
 // route dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth');

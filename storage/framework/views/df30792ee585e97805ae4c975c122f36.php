@@ -57,7 +57,7 @@
                                         <td>
                                             <form class="d-inline" action="/barang/<?php echo e($data->id); ?>/edit" method="GET">
                                                 <button type="submit" class="btn btn-success btn-sm mr-1">
-                                                    <i class="fa-solid fa-pen"></i> Edit
+                                                    <i class="fa-solid fa-pen"></i> Editar
                                                 </button>
                                             </form>
 
