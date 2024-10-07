@@ -32,7 +32,7 @@
             <div class="card-header">
               <div class="text-right">
                 <a href="/barang" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i>
-                  Back
+                  Atras
                 </a>
               </div>
             </div>

@@ -28,7 +28,7 @@
                 <a href="/" class="h1"><b>Log</b> In</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Iniciar sesión </p>
                 <form class="needs-validation" novalidate action="/login" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="input-group mb-3">
@@ -50,7 +50,7 @@
                     <div class="row">
 
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block">Acceder</button>
                         </div>
                         
                     </div>

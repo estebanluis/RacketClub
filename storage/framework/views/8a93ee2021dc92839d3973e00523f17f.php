@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="text-right">
-                                <a href="/turnos" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i> Back</a>
+                                <a href="/turnos" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i> Atras</a>
                             </div>
                         </div>
                         <form action="<?php echo e(route('turnos.salario.actualizar', ['idHorario' => $horario->idHorario])); ?>" method="POST">
@@ -205,8 +205,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <button class="btn btn-dark mr-1" type="reset"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>
-                                <button class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                                <button class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
                             </div>
                         </form>
                     </div>

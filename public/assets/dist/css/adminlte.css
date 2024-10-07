@@ -12921,7 +12921,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link.active {
   color: #fff;
-  box-shadow: 0 1px 3px #fff, 0 1px 2px #fff;
+ 
 }
 
 [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-treeview {

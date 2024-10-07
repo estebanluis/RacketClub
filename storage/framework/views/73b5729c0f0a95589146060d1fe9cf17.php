@@ -346,14 +346,14 @@ unset($__errorArgs, $__bag); ?>
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: 'Reinscripción completada',
-                text: '<?php echo e(session('success')); ?>',
+                text: "<?php echo e(session('success')); ?>",
                 icon: 'success',
                 showCancelButton: true,
                 confirmButtonText: 'Imprimir',
                 cancelButtonText: 'Aceptar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.open('<?php echo e(route('generarPdf', session('codigoGenerado'))); ?>', '_blank');
+                    window.open("<?php echo e(route('generarPdf', session('codigoGenerado'))); ?>", "_blank");
                 }
             });
         });

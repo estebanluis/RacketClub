@@ -29,8 +29,8 @@
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
-                                <thead>
+                        <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
+                        <thead class="thead-dark">
                                     <tr>
                                         <th>Codigo</th>
                                         <th>Nombre</th>
@@ -61,19 +61,20 @@
                                                 </button>
                                             </form>
 
-                                            <form class="d-inline reinscribirForm" action="{{ route('reinscribir.alumn', ['id' => $data->id]) }}" method="POST">
-                                                @csrf
-                                                <button type="button" class="btn btn-primary btn-sm reinscribirBtn">
-                                                    <i class="fa-solid fa-file-pdf"></i> Reinscribir
-                                                </button>
-                                            </form>
+                                        <form class="d-inline reinscribirForm" action="{{ route('reinscribir.alumn', ['id' => $data->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="button" class="btn btn-primary btn-sm reinscribirBtn mr-2">
+                                                <i class="fa-solid fa-file-pdf"></i> Reinscribir
+                                            </button>
+                                        </form>
 
-                                            <form class="d-inline" action="{{ route('generate.pdf', ['id' => $data->id]) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="fa-solid fa-file-pdf"></i> Reimprimir
-                                                </button>
-                                            </form>
+                                        <form class="d-inline" action="{{ route('generate.pdf', ['id' => $data->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="fa-solid fa-file-pdf"></i> Reimprimir
+                                            </button>
+                                        </form>
+
                                         </td>
                                     </tr>
                                     @endforeach

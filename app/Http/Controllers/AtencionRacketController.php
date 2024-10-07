@@ -34,142 +34,80 @@ class AtencionRacketController extends Controller
      */
 
      public function store(Request $request)
-     {
-         // Validamos los campos obligatorios
-         $validated = $request->validate([
-             'name' => 'required|max:100',
-             'horaEntrada' => 'required|date_format:H:i',
-             'cancha' => 'required|integer|min:1|max:4',
-             'observaciones' => 'nullable|string|max:500', 
-         ]);
-     
-         // Verificamos si la cancha está ocupada
-         $canchaOcupada = AtencionRacket::where('cancha', $request->input('cancha'))
-             ->where('estado', 'ocupado')
-             ->exists();
-     
-         if ($canchaOcupada) {
-             // Si la cancha está ocupada, retornamos un error
-             Alert::warning('Error', 'La cancha esta ocupada!');
-             return redirect()->back();
-         }
-     
-         // Creamos una nueva instancia de AtencionRacket y asignamos los valores
-         $atencionRacket = new AtencionRacket();
-         $atencionRacket->nombre = $request->input('name');
-         $atencionRacket->hora_inicio = $request->input('horaEntrada');
-         $atencionRacket->cancha = $request->input('cancha');
-         $atencionRacket->observaciones = $request->input('observaciones');
-     
-         // Llenamos los campos faltantes con valores predeterminados
-         $atencionRacket->fecha = now()->toDateString(); // Fecha del sistema
-         $atencionRacket->hora_fin = '00:00:00'; // Campo vacío
-         $atencionRacket->total_horas = 0; // Default 0 horas
-         $atencionRacket->saldo_cancha = 0.00; // Default saldo cancha 0
-         $atencionRacket->saldo_venta = 0.00; // Default saldo venta 0
-         $atencionRacket->total = 0.00; // Default total 0
-         $atencionRacket->estado = 'ocupado';
-     
-         $atencionRacket->save();
-     
-         Alert::success('Success', 'Atención Racket registrada exitosamente!');
-         return redirect('/atenracket');
-     }
-     
+{
+    // Validamos los campos obligatorios
+    $validated = $request->validate([
+        'name' => 'required|max:100',
+        'horaEntrada' => 'required|date_format:H:i',
+        'cancha' => 'required|integer|min:1|max:4',
+        'tipo' => 'required|string', // Validación del nuevo campo
+        'observaciones' => 'nullable|string|max:500', 
+    ]);
 
+    // Verificamos si la cancha está ocupada
+    $canchaOcupada = AtencionRacket::where('cancha', $request->input('cancha'))
+        ->where('estado', 'ocupado')
+        ->exists();
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $barang = AtencionRacket::findOrFail($id);
-
-        return view('AtencionRacket.racket-edit', [
-            'barang' => $barang,
-        ]);
+    if ($canchaOcupada) {
+        // Si la cancha está ocupada, retornamos un error
+        Alert::warning('Error', 'La cancha esta ocupada!');
+        return redirect()->back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-   /*  public function update(Request $request, $id_barang)
+    // Creamos una nueva instancia de AtencionRacket y asignamos los valores
+    $atencionRacket = new AtencionRacket();
+    $atencionRacket->nombre = $request->input('name');
+    $atencionRacket->hora_inicio = $request->input('horaEntrada');
+    $atencionRacket->cancha = $request->input('cancha');
+    $atencionRacket->tipo = $request->input('tipo'); // Almacenar el tipo seleccionado
+    $atencionRacket->observaciones = $request->input('observaciones');
+
+    // Llenamos los campos faltantes con valores predeterminados
+    $atencionRacket->fecha = now()->toDateString(); // Fecha del sistema
+    $atencionRacket->hora_fin = '00:00:00'; // Campo vacío
+    $atencionRacket->total_horas = 0; // Default 0 horas
+    $atencionRacket->saldo_cancha = 0.00; // Default saldo cancha 0
+    $atencionRacket->saldo_venta = 0.00; // Default saldo venta 0
+    $atencionRacket->total = 0.00; // Default total 0
+    $atencionRacket->estado = 'ocupado';
+
+    $atencionRacket->save();
+
+    Alert::success('Success', 'Atención Racket registrada exitosamente!');
+    return redirect('/atenracket');
+}
+     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name' => 'required|max:100|unique:barangs,name,' . $id_barang . ',id_barang',
-            'category' => 'required',
-            'supplier' => 'required',
-            'stock' => 'required',
-            'price' => 'required',
-            'note' => 'max:1000',
+            'horaSalida' => 'required|date_format:H:i',
+            'total' => 'required|numeric|min:0',
         ]);
 
-        $barang = Barang::findOrFail($id_barang);
-        $barang->update($validated);
-
-        Alert::info('Success', 'Barang has been updated !');
-        return redirect('/barang');
-    } */
-
-
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'name' => 'required|max:100',
-            'horainicio' => 'required|date_format:H:i',
-            'horasalida' => 'required|date_format:H:i|after:horainicio',
-            'total' => 'required|numeric',
-            'observaciones' => 'nullable|string|max:500', 
-        ]);
-        
+        // Obtener la atención específica
         $atencion = AtencionRacket::findOrFail($id);
 
+        // Calcular total de horas
+        $horaEntrada = new DateTime($atencion->hora_inicio);
+        $horaSalida = new DateTime($request->input('horaSalida'));
+        $intervalo = $horaEntrada->diff($horaSalida);
         
-        $horaInicio = new DateTime($request->horainicio);
-        $horaFin = new DateTime($request->horasalida);
-        $interval = $horaInicio->diff($horaFin);
+        // Obtener horas y minutos
+        $horas = $intervalo->h;
+        $minutos = $intervalo->i;
 
-        $totalHoras = $interval->h; // Horas
-        $totalMinutos = $interval->i; // Minutos
+        // Formatear como texto
+        $totalHorasTexto = "{$horas} hora(s) {$minutos} minuto(s)";
 
+        // Guardar los datos actualizados
+        $atencion->hora_fin = $request->input('horaSalida');
+        $atencion->total_horas = $totalHorasTexto; // Guardar el total en formato de texto
+        $atencion->total = $request->input('total');
+        $atencion->estado = 'libre'; // Cambiar estado a libre
+        $atencion->save();
 
-        $totalTiempo = $totalHoras . ' horas ' . $totalMinutos . ' minutos';
-
-        $atencion->update([
-            'nombre' => $request->name,
-            'hora_inicio' => $request->horainicio,  
-            'hora_fin' => $request->horasalida,     
-            'total_horas' => $totalTiempo,          
-            'total' => $request->total,
-            'estado' => 'libre',
-            'observaciones' => $request->observaciones,
-
-        ]);
-
-        Alert::info('Success', 'Atención actualizada correctamente.');
+        Alert::success('Success', 'Atención finalizada exitosamente!');
         return redirect('/atenracket');
-    }
-
-    
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id_barang)
-    {
-        try {
-            $deletedbarang = Barang::findOrFail($id_barang);
-
-            $deletedbarang->delete();
-
-            Alert::error('Success', 'Barang has been deleted !');
-            return redirect('/barang');
-        } catch (Exception $ex) {
-            Alert::warning('Error', 'Cant deleted, Barang already used !');
-            return redirect('/barang');
-        }
     }
 
 }
