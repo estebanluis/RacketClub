@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="text-right">
-                                <a href="/turnos" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i> Volver</a>
+                                <a href="/turnos" class="btn btn-warning btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i> Atras</a>
                             </div>
                         </div>
                         <form action="<?php echo e(route('turnos.salario.actualizar', ['idHorario' => $horario->idHorario])); ?>" method="POST">

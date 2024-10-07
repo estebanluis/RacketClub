@@ -38,11 +38,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-striped table-bordered table-hover text-center"
-                                    style="width: 100%">
-                                    <thead>
+                            <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
+                            <thead class="thead-dark">
                                         <tr>
                                             <th>Estado</th>
                                             <th>Nombre</th>
@@ -58,9 +56,9 @@
                                             <tr data-observaciones="<?php echo e($data->observaciones); ?>">
                                                 <td>
                                                     <?php if($data->estado): ?>
-                                                        <span class="text-success">En Atención</span>
+                                                        <span class="badge badge-success">En Atención</span>
                                                     <?php else: ?>
-                                                        <span class="text-danger">Finalizado</span>
+                                                        <span class="badge badge-danger">Finalizado</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?php echo e($data->nombre); ?></td>
@@ -84,7 +82,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     </div><!-- /.container-fluid -->
                 </div>
@@ -104,38 +101,31 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario para registrar -->
                     <form action="<?php echo e(route('piscina.register')); ?>" method="POST" onsubmit="return validarFormulario()">
                         <?php echo csrf_field(); ?>
-                        <!-- Campo Nombre -->
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la piscina">
                             <div class="invalid-feedback">Este campo es obligatorio.</div>
                         </div>
 
-                        <!-- Adultos, Niños y Total en una sola línea -->
                         <div class="form-row">
-                            <!-- Seleccionar Adultos -->
                             <div class="form-group col-md-4">
                                 <label for="adultos">Adultos</label>
                                 <input type="number" class="form-control" id="adultos" name="adultos" value="0" min="0" onchange="calcularTotal()">
                                 <div class="invalid-feedback">Por favor ingrese un número válido.</div>
                             </div>
-                            <!-- Seleccionar Niños -->
                             <div class="form-group col-md-4">
                                 <label for="ninos">Niños</label>
                                 <input type="number" class="form-control" id="ninos" name="ninos" value="0" min="0" onchange="calcularTotal()">
                                 <div class="invalid-feedback">Por favor ingrese un número válido.</div>
                             </div>
-                            <!-- Campo para mostrar el Total -->
                             <div class="form-group col-md-4">
                                 <label for="total">Total</label>
                                 <input type="number" class="form-control" id="total" name="total" readonly>
                             </div>
                         </div>
 
-                        <!-- Campo Observaciones -->
                         <div class="form-group">
                             <label for="observaciones">Observaciones</label>
                             <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Ingrese observaciones..."></textarea>
@@ -171,53 +161,38 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
-    <!-- Script para calcular el total -->
     <script>
         function calcularTotal() {
             var adultos = parseInt(document.getElementById('adultos').value) || 0;
             var ninos = parseInt(document.getElementById('ninos').value) || 0;
 
-            // Cálculo: Adultos (35 cada uno) y Niños (25 cada uno)
             var total = (adultos * 35) + (ninos * 25);
-
-            // Mostrar el total en el campo correspondiente
             document.getElementById('total').value = total;
         }
     </script>
 
-    <!-- Script para mostrar observaciones y evitarlo en acciones -->
     <script>
-        // Función para mostrar las observaciones
         function mostrarObservaciones(observaciones) {
-            // Establecer el texto de las observaciones en el modal
             document.getElementById('observacionesText').innerText = observaciones || 'No hay observaciones.';
-            
-            // Mostrar el modal
             $('#observacionesModal').modal('show');
         }
 
-        // Asignar el evento de clic a todas las filas
         document.querySelectorAll('tr').forEach(function(row) {
             row.addEventListener('click', function(event) {
-                // Verificar si el clic fue en la columna de acciones
                 if (event.target.closest('.acciones')) {
-                    return; // No abrir el modal si el clic fue en la columna de acciones
+                    return;
                 }
 
-                // Mostrar las observaciones si no es en las acciones
                 var observaciones = this.getAttribute('data-observaciones');
                 mostrarObservaciones(observaciones);
             });
         });
     </script>
 
-    <!-- Script para validar el formulario antes de enviarlo -->
     <script>
-        
         function validarFormulario() {
             var valido = true;
 
-            // Verificar campo de nombre
             var nombre = document.getElementById('nombre');
             if (nombre.value.trim() === '') {
                 nombre.classList.add('is-invalid');
@@ -226,7 +201,6 @@
                 nombre.classList.remove('is-invalid');
             }
 
-            // Verificar campo de adultos
             var adultos = document.getElementById('adultos');
             if (adultos.value === '' || isNaN(adultos.value) || parseInt(adultos.value) < 0) {
                 adultos.classList.add('is-invalid');
@@ -235,7 +209,6 @@
                 adultos.classList.remove('is-invalid');
             }
 
-            // Verificar campo de niños
             var ninos = document.getElementById('ninos');
             if (ninos.value === '' || isNaN(ninos.value) || parseInt(ninos.value) < 0) {
                 ninos.classList.add('is-invalid');
@@ -244,7 +217,6 @@
                 ninos.classList.remove('is-invalid');
             }
 
-            // Verificar campo de observaciones
             var observaciones = document.getElementById('observaciones');
             if (observaciones.value.trim() === '') {
                 observaciones.classList.add('is-invalid');
@@ -253,9 +225,8 @@
                 observaciones.classList.remove('is-invalid');
             }
 
-            // Retornar si es válido o no
             return valido;
-    }
+        }
     </script>
 <?php $__env->stopSection(); ?>
 

@@ -29,8 +29,8 @@
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
-                                <thead>
+                        <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
+                        <thead class="thead-dark">
                                     <tr>
                                         <th>Codigo</th>
                                         <th>Nombre</th>
