@@ -80,8 +80,9 @@ class ReservaCanchaController extends Controller
             'fecha' => 'required|date', // Validar el formato de fecha
             'tiempoReserva' => 'required|integer|min:1', // Validar tiempoReserva
             'observaciones' => 'nullable|string|max:500', // Validar observaciones (opcional)
+            'deporte' => 'required|in:racket,wally', // Validar el campo deporte
         ]);
-       
+    
         // Crear la reserva con los nuevos campos
         $barang = ReservaCancha::create([
             'nombre_reserva' => $request->input('name'),
@@ -90,13 +91,13 @@ class ReservaCanchaController extends Controller
             'fecha' => $request->input('fecha'),
             'tiempoReserva' => $request->input('tiempoReserva'), // Agregar tiempoReserva
             'observaciones' => $request->input('observaciones'), // Agregar observaciones
+            'tipo' => $request->input('deporte'), // Agregar tipo (racket o wally)
         ]);
     
         Alert::success('Success', 'La Reserva fue Registrada !');
         return redirect('/rcancha');
     }
     
-
 
     /**
      * Display the specified resource.
@@ -150,7 +151,8 @@ class ReservaCanchaController extends Controller
         $atencionRacket = new AtencionRacket();
         $atencionRacket->nombre = $reserva->nombre_reserva;
         $atencionRacket->fecha = $reserva->fecha;
-        $atencionRacket->hora_inicio = $reserva->hora; 
+        $atencionRacket->hora_inicio = $reserva->hora;
+        $atencionRacket->tipo = $reserva->tipo; 
         $atencionRacket->cancha = $reserva->numero_cancha;
         $atencionRacket->observaciones = $reserva->observaciones;
     

@@ -13,6 +13,7 @@ class ReservaCancha extends Model
 
     protected $fillable = [
         'nombre_reserva',
+        'tipo',
         'hora',
         'numero_cancha',
         'observaciones',
