@@ -1,6 +1,4 @@
-<div>
-    
-</div>
+
 @extends('template.main')
 @section('title', 'Barang')
 @section('content')
@@ -39,9 +37,8 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-striped table-bordered table-hover text-center"
-                                    style="width: 100%">
-                                    <thead>
+                            <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
+                            <thead class="thead-dark">
                                         <tr>
                                             <th>Codigo</th>
                                             <th>Nombre</th>
@@ -50,7 +47,7 @@
                                             <th>Nro de seciones</th>
                                             <th>Telefono</th>
                                             <th>Observaciones</th>
-                                            <th>Trajeta</th>
+                                            <th>Tarjeta</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -15,6 +15,7 @@ class AtencionRacket extends Model
     // Define los campos que pueden ser asignados en masa
     protected $fillable = [
         'nombre',
+        'tipo',
         'fecha',
         'hora_inicio',
         'hora_fin',

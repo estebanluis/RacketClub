@@ -18,6 +18,7 @@ class CreateAtencionRacketTable extends Migration
         Schema::create('atencionRacket', function (Blueprint $table) {
             $table->id(); // Campo 'id' autoincrementable
             $table->string('nombre'); // Campo 'nombre' para el nombre de la reserva o cliente
+            $table->string('tipo');
             $table->date('fecha'); // Campo 'fecha' para la fecha de la reserva
             $table->time('hora_inicio'); // Campo 'hora de inicio'
             $table->time('hora_fin'); // Campo 'hora de fin'
