@@ -75,10 +75,10 @@ Route::post('/rcancha/{id}/atencion', [ReservaCanchaController::class, 'transfer
 Route::get('/dashboard/agreagar-productos', [ProductoController::class, 'indexProductos']);
 Route::post('/dashboard/agreagar-productos', [ProductoController::class, 'store'])->name('productos.store');
 Route::get('/dashboard/listaproductos', [ProductoController::class, 'indexlistProd']);
-Route::get('/productos/{id}/edit', [ProductoController::class, 'editar'])->name('productos.edit');
-route::get('/productos/{id_producto}/edit', [ProductoController::class, 'editar'])->name('productos.edit');
-Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
+Route::get('/dashboard/listaproductos', [ProductoController::class, 'indexlistProd'])->name('productos.list');
+Route::put('/dashboard/productos/{id}', [ProductoController::class, 'update'])->name('productos.update');
 Route::post('/aniadirStock', [ProductoController::class, 'aniadirStock'])->name('aniadirStock');
+Route::resource('productos', ProductoController::class);
 //rutas de ventas
 Route::get('/ventas', [ProductoController::class, 'indexVentas']);
 Route::post('/productos/fetch-product', [ProductoController::class, 'fetchProductById'])->name('productos.fetch');

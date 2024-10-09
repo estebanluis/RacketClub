@@ -19,7 +19,6 @@
             </div>
         </div>
     </div>
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
@@ -27,10 +26,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalAddProduct">
+                                    <i class="fa-solid fa-plus"></i> Agregar Producto
+                                </button>
+                            </div>
                             <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
-                                <thead>
+                                <thead class="thead-dark">
                                     <tr>
                                         <th>Codigo</th>
                                         <th>Nombre</th>
@@ -58,7 +62,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
                 </div>
             </div>
@@ -66,50 +69,45 @@
     </div>
 </div>
 
-<!-- Modal para añadir stock -->
-<div class="modal fade" id="modalAddStock" tabindex="-1" role="dialog" aria-labelledby="modalAddStockLabel" aria-hidden="true">
+<!-- Modal para agregar producto -->
+<div class="modal fade" id="modalAddProduct" tabindex="-1" role="dialog" aria-labelledby="modalAddProductLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalAddStockLabel">Añadir a Stock</h5>
+                <h5 class="modal-title" id="modalAddProductLabel">Agregar Producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formAddStock" action="<?php echo e(route('aniadirStock')); ?>" method="POST">
+                <form action="<?php echo e(route('productos.store')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
                     <div class="form-group">
-                        <label for="nombreProducto">Producto</label>
-                        <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" readonly>
+                        <label for="nombre">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" id="nombre" required>
                     </div>
                     <div class="form-group">
-                        <label for="cantidad">Cantidad a Añadir</label>
-                        <input type="number" class="form-control" id="cantidad" name="cantidad" required>
+                        <label for="id_producto">Código Producto</label>
+                        <input type="text" name="id_producto" class="form-control" id="id_producto" required>
                     </div>
                     <div class="form-group">
-                        <label for="pagoDistribuidor">Pago a Distribuidor</label>
-                        <input type="number" class="form-control" id="pagoDistribuidor" name="pagoDistribuidor" required>
+                        <label for="stock">Stock</label>
+                        <input type="number" name="stock" class="form-control" id="stock" min="1" required>
                     </div>
                     <div class="form-group">
-                        <label for="precioProducto">Precio Unitario del Producto</label>
-                        <input type="number" class="form-control" id="precioProducto" name="precioProducto" required>
+                        <label for="categoria">Categoría</label>
+                        <input type="text" name="categoria" class="form-control" id="categoria" required>
                     </div>
-                    <input type="hidden" id="id_producto" name="id_producto">
-                    <button type="submit" class="btn btn-primary">Añadir al Stock</button>
+                    <div class="form-group">
+                        <label for="precio">Precio</label>
+                        <input type="number" name="precio" class="form-control" id="precio" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Guardar Producto</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    function setModalValues(id, nombre, precio) {
-        document.getElementById('id_producto').value = id;
-        document.getElementById('nombreProducto').value = nombre;
-        document.getElementById('precioProducto').value = precio;
-    }
-</script>
 
 <?php $__env->stopSection(); ?>
 
