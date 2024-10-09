@@ -107,9 +107,9 @@
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         @if(Auth::user()->TipoUsuario === 'Administrador')
-                                            <a href="/registerUser" class="nav-link {{ Request::is('registerUser') ? 'active' : '' }}">
+                                            <a href="{{ route('luser.index') }}" class="nav-link {{ Request::is('luser') ? 'active' : '' }}">
                                                 <i class="nav-icon fa fa-user-plus"></i>
-                                                <p>Registrar Usuarios</p>
+                                                <p>Lista Usuarios</p>
                                             </a>
                                         @endif
                                     </li>
@@ -537,6 +537,18 @@
             })
         });
     </script>
+
+    <script>
+        // Redirigir a la página de inicio de sesión si la sesión ha expirado
+        setInterval(function() {
+            $.get('/check-session', function(response) {
+                if (response.expired) {
+                    window.location.href = '/login'; // Cambia esto por la ruta correcta de tu login
+                }
+            });
+        }, 60000); // Verifica cada 60 segundos
+    </script>
+
 @yield('scripts')
 
 

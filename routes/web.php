@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasTProfController;
+use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
@@ -95,3 +96,9 @@ Route::get('/piscinaFinde', [PiscinaFindeController::class, 'index'])->name('pis
 Route::post('/piscinaFinde/store', [PiscinaFindeController::class, 'store'])->name('piscina.register');
 // Ruta para finalizar la atención
 Route::put('/piscinaFinde/finalizar/{id}', [PiscinaFindeController::class, 'finalizar'])->name('piscina.finalizar');
+//ruta lista usuarios 
+Route::resource('/luser', ListUserController::class);
+//ruta para verificar la sesion 
+Route::get('/check-session', function () {
+    return response()->json(['expired' => !auth()->check()]);
+});
