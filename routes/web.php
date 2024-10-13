@@ -47,7 +47,6 @@ Route::get('/ruta/para/reinscribir/{id}', [BarangController::class, 'showReinscr
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 Route::post('/generate-pdf/{id}', [BarangController::class, 'generatePDF'])->name('generate.pdf');
-//route registrar horario
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 //route registrar horario

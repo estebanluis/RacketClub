@@ -86,7 +86,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para añadir atención -->
 <div class="modal fade" id="addAtencionModal" tabindex="-1" role="dialog" aria-labelledby="addAtencionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -110,7 +109,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="horaEntrada">Hora Entrada</label>
-                                <input type="time" name="horaEntrada" class="form-control @error('horaEntrada') is-invalid @enderror" id="horaEntrada" value="{{ old('horaEntrada') }}" required>
+                                <input type="time" name="horaEntrada" class="form-control @error('horaEntrada') is-invalid @enderror" id="horaEntrada" readonly required>
                                 @error('horaEntrada')
                                 <span class="invalid-feedback text-danger">{{ $message }}</span>
                                 @enderror
@@ -163,6 +162,8 @@
 </div>
 
 
+
+
 <!-- Modal para finalizar atención -->
 <div class="modal fade" id="finalizarAtencionModal" tabindex="-1" role="dialog" aria-labelledby="finalizarAtencionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -187,12 +188,12 @@
                     </div>
                     <div class="form-group">
                         <label for="total">Total (Bs.)</label>
-                        <input type="number" name="total" id="total" class="form-control" required>
+                        <input type="number" name="total" id="total" class="form-control" min="1" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-danger">Finalizar Atención</button>
+                 <button type="submit" class="btn btn-danger">Finalizar Atención</button>
                 </div>
             </form>
 
