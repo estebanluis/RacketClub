@@ -60,7 +60,7 @@
                                                     data-tipousuario="<?php echo e($data->TipoUsuario); ?>">
                                                     <i class="fa-solid fa-pen"></i> Editar
                                                 </button>
-                                                
+                                                            
                                                 <!-- Botón para eliminar -->
                                                 <form class="d-inline" action="/luser/<?php echo e($data->id_user); ?>" method="POST">
                                                     <?php echo csrf_field(); ?>
@@ -182,7 +182,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control <?php $__errorArgs = ['passwordConfirm'];
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -190,7 +190,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" placeholder="Repite la contraseña" required>
-                        <?php $__errorArgs = ['passwordConfirm'];
+                        <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -201,10 +201,9 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -212,159 +211,72 @@ unset($__errorArgs, $__bag); ?>
     </div>
 </div>
 
-<!-- Modal para editar usuario -->
-<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+<!-- Modal para editar usuarios -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
+        <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="registerModalLabel">Editar Usuario</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/luser/update" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <?php echo method_field('PUT'); ?> <!-- Para que se use el método PUT -->
-                    <input type="hidden" name="id_user" id="id_user">
-
-                    <div class="input-group mb-3">
-                        <input type="text" name="name" id="edit_name" class="form-control <?php $__errorArgs = ['name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" placeholder="Nombre completo" 
-                               value="<?php echo e(old('name', '')); ?>" required>
-                        <?php $__errorArgs = ['name'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <input type="email" name="email" id="edit_email" class="form-control <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" placeholder="Correo electrónico" 
-                               value="<?php echo e(old('email', '')); ?>" required>
-                        <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <select name="TipoUsuario" id="edit_TipoUsuario" class="form-control <?php $__errorArgs = ['TipoUsuario'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" required>
-                            <option value="" disabled selected>Selecciona un tipo de usuario</option>
-                            <option value="Administrador" <?php echo e(old('TipoUsuario', '') == 'Administrador' ? 'selected' : ''); ?>>Administrador</option>
-                            <option value="Secretaria Natacion" <?php echo e(old('TipoUsuario', '') == 'Secretaria Natacion' ? 'selected' : ''); ?>>Secretaria Piscina</option>
-                            <option value="Secretaria Racket" <?php echo e(old('TipoUsuario', '') == 'Secretaria Racket' ? 'selected' : ''); ?>>Secretaria Racket</option>
-                            <option value="Profesor" <?php echo e(old('TipoUsuario', '') == 'Profesor' ? 'selected' : ''); ?>>Profesor</option>
-                        </select>
-                        <?php $__errorArgs = ['TipoUsuario'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-
-                    <!-- Campo opcional para cambiar contraseña -->
-                    <div class="input-group mb-3">
-                        <input type="password" name="password" id="password" class="form-control <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" placeholder="Nueva contraseña (opcional)">
-                        <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-
-                    <!-- Campo para confirmar la nueva contraseña -->
-                    <div class="input-group mb-3">
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirma la nueva contraseña (opcional)">
-                    </div>
-
-                    <div class="row">
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
-                        </div>
-                    </div>
-                </form>
+            <form class="needs-validation" novalidate action="<?php echo e(route('luser.update', 'id_user')); ?>" method="POST">
+    <?php echo csrf_field(); ?>
+    <?php echo method_field('PUT'); ?> <!-- Asegúrate de usar PUT aquí -->
+    <input type="hidden" name="id_user" id="id_user">
+    <div class="input-group mb-3">
+        <input type="text" name="name" id="edit_name" class="form-control" placeholder="Nombre completo" required>
+    </div>
+    <div class="input-group mb-3">
+        <input type="email" name="email" id="edit_email" class="form-control" placeholder="Correo electrónico" required>
+    </div>
+    <div class="input-group mb-3">
+        <select name="TipoUsuario" id="edit_TipoUsuario" class="form-control" required>
+            <option value="" disabled selected>Selecciona un tipo de usuario</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Secretaria Natacion">Secretaria Piscina</option>
+            <option value="Secretaria Racket">Secretaria Racket</option>
+            <option value="Profesor">Profesor</option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" name="password" id="edit_password" class="form-control" placeholder="Contraseña (deja en blanco si no deseas cambiarla)">
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" name="password_confirmation" id="edit_password_confirmation" class="form-control" placeholder="Repite la contraseña (si cambiaste la contraseña)">
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    </div>
+</form>
             </div>
         </div>
     </div>
 </div>
 
+<?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
-<script>
-    // Abrir modal de edición y rellenar con datos
-    $('#editUserModal').on('show.bs.modal', function (event) {
-        // Limpiar errores de validación
-        $('.is-invalid').removeClass('is-invalid');
-        $('.invalid-feedback').remove();
 
+<script>
+    // Script para llenar el modal de edición con datos del usuario seleccionado
+    $('#editUserModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
         var id = button.data('id');
         var name = button.data('name');
         var email = button.data('email');
-        var tipousuario = button.data('tipousuario');
+        var tipoUsuario = button.data('tipousuario');
 
         var modal = $(this);
-        modal.find('#id_user').val(id); // Cambiado a 'id_user'
-        modal.find('#edit_name').val(name); // Cambiado a 'edit_name'
-        modal.find('#edit_email').val(email); // Cambiado a 'edit_email'
-        modal.find('#edit_TipoUsuario').val(tipousuario); // Cambiado a 'edit_TipoUsuario'
+        modal.find('#id_user').val(id);
+        modal.find('#edit_name').val(name);
+        modal.find('#edit_email').val(email);
+        modal.find('#edit_TipoUsuario').val(tipoUsuario);
     });
-
-    <?php if($errors->any()): ?>
-        $('#registerUserModal').modal('show');
-    <?php endif; ?>
 </script>
-<?php $__env->stopSection(); ?>
-
 
 
 <?php $__env->stopSection(); ?>

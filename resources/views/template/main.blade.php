@@ -428,7 +428,6 @@
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
-
     <!-- jQuery -->
     <script src="/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -548,6 +547,17 @@
             });
         }, 60000); // Verifica cada 60 segundos
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#addAtencionModal').on('show.bs.modal', function() {
+                const now = new Date();
+                const horaActual = now.toTimeString().split(' ')[0].slice(0, 5); // Solo HH:MM
+                document.getElementById('horaEntrada').value = horaActual;
+            });
+        });
+    </script>
+
+    
 
 @yield('scripts')
 
