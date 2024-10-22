@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\fechasAsistencia;
 use App\Http\Controllers\AtencionRacketController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -37,12 +37,20 @@ Route::get('/registerUser', [AuthController::class, 'registerUser']);
 Route::post('/registerUser', [AuthController::class, 'processUser']);
 Route::get('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'indexAsistencia']);
 Route::post('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'update'])->name('registrarAlumn.update');
+Route::post('/controlAlumn/obtenerAlumno', [ControlAlumnController::class, 'obtenerAlumno'])->name('controlAlumn.obtenerAlumno');
+Route::delete('/listaClientes/{id}', [RegistroAlumnosController::class, 'destroy'])->name('barang.destroy');
 Route::get('/generar-pdf/{codigo}', [RegistroAlumnosController::class, 'generarPdf'])->name('generarPdf');
+Route::get('/stream-sse', [ControlAlumnController::class, 'streamSSE']);
 // route dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
 Route::post('/reinscribir/{id}', [BarangController::class, 'reinscribirAlumn'])->name('reinscribir.alumn');
 Route::get('/ruta/para/reinscribir/{id}', [BarangController::class, 'showReinscribirForm'])->name('reinscribir.form');
+Route::get('/obtener-asistencias', [DashboardController::class, 'obtenerFechas']);
+Route::post('/subir-anuncio', [DashboardController::class, 'subir'])->name('anuncios.subir');
+Route::get('/obtener-fechas', [DashboardController::class, 'obtenerFechas']);
+Route::post('/subir-anuncio', [DashboardController::class, 'subirAnuncio']);
+
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 Route::post('/generate-pdf/{id}', [BarangController::class, 'generatePDF'])->name('generate.pdf');
@@ -79,6 +87,11 @@ Route::get('/dashboard/listaproductos', [ProductoController::class, 'indexlistPr
 Route::put('/dashboard/productos/{id}', [ProductoController::class, 'update'])->name('productos.update');
 Route::post('/aniadirStock', [ProductoController::class, 'aniadirStock'])->name('aniadirStock');
 Route::resource('productos', ProductoController::class);
+Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
+Route::delete('/productos/{id_producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
+
+// Ruta específica para la actualización de productos
+Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
 //rutas de ventas
 Route::get('/ventas', [ProductoController::class, 'indexVentas']);
 Route::post('/productos/fetch-product', [ProductoController::class, 'fetchProductById'])->name('productos.fetch');

@@ -131,31 +131,34 @@ class RegistroAlumnosController extends Controller
 
     public function generarPdf($codigo)
     {
+        
         $alumno = RegistroAlumno::where('codigo', $codigo)->firstOrFail();
-        $options = new Options();
-        $options->set('defaultFont', 'Arial');
-        $options->set('isRemoteEnabled', true);
 
-        // Crear una instancia de DomPDF con las opciones configuradas
-        $dompdf = new Dompdf($options);
+    // Crear la vista del PDF con los datos personalizados
+    $pdf = PDF::loadView('pdf.tarjeta', [
+        'nom' => $alumno->nombre,
+        'apell' => $alumno->apellido,
+        'apellM' => $alumno->apellidoMat,
+        'hora' => $alumno->horario,
+        'codi' => $alumno->codigo,
+        'mod' => $alumno->modalidad,
+        'feVen' => now()->addDays(31)->format('d/m/y')
+    ]);
 
-        // Renderizar la vista HTML a PDF
-        $pdf = view('pdf.tarjeta', [
-            'nom' => $alumno->nombre,
-            'apell' => $alumno->apellido,
-            'apellM' => $alumno->apellidoMat,
-            'hora' => $alumno->horario,
-            'codi' => $alumno->codigo,
-            'mod' => $alumno->modalidad,
-            'feVen' => now()->addDays(31)->format('d/m/y')
-        ]);
-
-        $dompdf->loadHtml($pdf->render());
-
-        // Renderizar el PDF
-        $dompdf->render();
-
+    // Retornar el PDF como stream (mostrándolo en el navegador)
+    return $pdf->stream('tarjeta.pdf');
         // Mostrar el PDF en una nueva ventana
-        return $dompdf->stream("{$alumno->apellido} {$alumno->apellidoMat} {$alumno->nombre}.pdf", ["Attachment" => false]);
+       // return $dompdf->stream("{$alumno->apellido} {$alumno->apellidoMat} {$alumno->nombre}.pdf", ["Attachment" => false]);
+    }
+    public function destroy($id)
+    {
+    // Buscar el producto por su id
+    $id = RegistroAlumno::findOrFail($id);
+
+    // Eliminar el producto
+    $id->delete();
+
+    // Redirigir con un mensaje de éxito
+    return redirect()->back()->with('success', 'Alumno eliminado correctamente.');
     }
 }

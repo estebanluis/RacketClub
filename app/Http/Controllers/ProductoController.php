@@ -49,19 +49,30 @@ class ProductoController extends Controller
     ]);
     }
     public function update(Request $request, $id_producto)
-    {
-    $validated = $request->validate([
-        'nombre' => 'required',
-        'categoria' => 'required',
-        'precio' => 'required|numeric',
-        'stock' => 'required|numeric',
+    
+    {// Validación de los datos recibidos
+    $request->validate([
+        'nombre' => 'required|string|max:100',
+        'categoria' => 'required|string|max:50',
+        'stock' => 'required|integer|min:0',
+        'precio' => 'required|integer|min:0',
     ]);
+
+    // Buscar el producto por su ID
+    $producto = Producto::findOrFail($id_producto);
+
+    // Actualizar los campos
+    $producto->nombre = $request->nombre;
+    $producto->categoria = $request->categoria;
+    $producto->stock = $request->stock;
+    $producto->precio = $request->precio;
     
-    $producto = producto::where('id_producto', $id_producto)->firstOrFail();
-    $producto->update($validated);
-    
-    Alert::info('Exitoso', 'Producto actualizado correctamente');
-    return redirect('/dashboard/listaproductos');
+    // Guardar los cambios en la base de datos
+    $producto->save();
+
+    // Redireccionar de nuevo a la lista de productos con un mensaje de éxito
+    return redirect()->back()->with('success', 'Producto actualizado con éxito');
+
     }
     public function indexVentas()
     {
@@ -149,6 +160,17 @@ public function aniadirStock(Request $request)
     $stockEntry->save();
 
     return redirect()->back()->with('success', 'Stock añadido correctamente');
+}
+public function destroy($id_producto)
+{
+    // Buscar el producto por su id
+    $producto = Producto::findOrFail($id_producto);
+
+    // Eliminar el producto
+    $producto->delete();
+
+    // Redirigir con un mensaje de éxito
+    return redirect()->back()->with('success', 'Producto eliminado correctamente.');
 }
 
     

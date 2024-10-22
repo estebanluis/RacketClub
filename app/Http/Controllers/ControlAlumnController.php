@@ -6,6 +6,8 @@ use App\Models\RegistroAlumno;
 use App\Models\fechasasistencia;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class ControlAlumnController extends Controller
 {
@@ -78,7 +80,11 @@ class ControlAlumnController extends Controller
             'message1' => $message1,
             'message2' => $message2,
         ];
-
+        
+   
         return view('registrarAlumn.controlAlumn', compact('fechasAsistencia', 'messages'));
     }
-}
+    
+    
+
+} 

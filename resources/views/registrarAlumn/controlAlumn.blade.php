@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
                                     <div class="card">
                                         <h1 style="text-align: center;">CODIGO DE ALUMNO</h1>
-                                        <form name="asistencia" action="{{ route('registrarAlumn.update') }}" method="POST" id="form">
+                                        <form name="asistencia" action="{{ route('registrarAlumn.update') }}" method="POST" id="form-alumno">
                                             @csrf
                                             <div class="form-group">
                                                 <label style="margin-left: 30px" for="nombre">Codigo:</label>
@@ -134,6 +134,7 @@
                             min-height: 50px;  /* Puedes ajustar este valor */
                         }
                     </style>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
                 </div>
             </div>

@@ -143,32 +143,24 @@ class BarangController extends Controller
     }
     public function generatePDF($id)
     {
-    $alumno = RegistroAlumno::findOrFail($id);
+     $alumno = RegistroAlumno::findOrFail($id);
 
     // Configurar opciones para DomPDF
-    $options = new Options();
-    $options->set('defaultFont', 'Arial');
+    
 
-    // Crear una instancia de DomPDF con las opciones configuradas
-    $dompdf = new Dompdf($options);
-
-    // Renderizar la vista HTML a PDF
-    $pdf = view('pdf.tarjeta', [
+    // Crear la vista del PDF con los datos personalizados
+    $pdf = PDF::loadView('pdf.tarjeta', [
         'nom' => $alumno->nombre,
         'apell' => $alumno->apellido,
         'apellM' => $alumno->apellidoMat,
         'hora' => $alumno->horario,
+        'codi' =>$alumno->codigo,
         'mod' => $alumno->modalidad,
-        'codi' => $alumno->codigo,
-        'feVen' => $alumno->fechaVencimiento,
+        'feVen' => now()->addDays(31)->format('d/m/y')
     ]);
-    $dompdf->loadHtml($pdf->render());
 
-    // Renderizar el PDF
-    $dompdf->render();
-
-    // Descargar el PDF con un nombre específico
-    return $dompdf->stream('tarjeta_alumno.pdf');
+    // Retornar el PDF como stream (mostrándolo en el navegador)
+    return $pdf->stream('tarjeta.pdf');
     }
 
 public function reinscribirAlumn(Request $request, $id)

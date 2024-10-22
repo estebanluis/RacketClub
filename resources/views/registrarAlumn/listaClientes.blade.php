@@ -43,10 +43,10 @@
                                             <th>Codigo</th>
                                             <th>Nombre</th>
                                             <th>Apellidos</th>
-                                            <th>Fecha inscripcion</th>
-                                            <th>Nro de seciones</th>
+                                            <th>Fecha Ins.</th>
+                                            <th>Nro Sec.</th>
                                             <th>Telefono</th>
-                                            <th>Observaciones</th>
+                                            <th>Obs.</th>
                                             <th>Tarjeta</th>
                                         </tr>
                                     </thead>
