@@ -1,20 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\AtencionRacket;
-use App\Models\Barang;
 use App\Models\ReservaCancha;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ReservaCanchaController extends Controller
 {
-
-/**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $barang = ReservaCancha::orderBy('nombre_reserva', 'asc')->get();
@@ -22,159 +16,112 @@ class ReservaCanchaController extends Controller
         // Formatear las reservas para FullCalendar
         $events = $barang->map(function ($data) {
             return [
+                'id' => $data->id,
                 'title' => $data->nombre_reserva,
                 'start' => $data->fecha . 'T' . $data->hora,
                 'extendedProps' => [
-                    'numeroCancha' => $data->numero_cancha, // Agrega el número de cancha aquí
+                    'numeroCancha' => $data->numero_cancha,
                     'tiempoReserva' => $data->tiempoReserva,
+                    'tipo' => $data->tipo,
                     'observaciones' => $data->observaciones,
                 ],
             ];
         });
         
-    
         return view('ReservarCanchas.reservasCanchas', [
             'barang' => $barang,
             'events' => $events,
         ]);
     }
-    
-    
-    
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('ReservarCanchas.reservaCanchas-add');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-   /*  public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|max:100|unique:barangs',
-            'category' => 'required',
-            'supplier' => 'required',
-            'stock' => 'required',
-            'price' => 'required',
-            'note' => 'max:1000',
-        ]);
-
-        $barang = ReservaCancha::create($request->all());
-
-        Alert::success('Success', 'Barang has been saved !');
-        return redirect('/barang');
-    } */
 
     public function store(Request $request)
     {
-        // Validar los campos de entrada, incluyendo los nuevos
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'hora' => 'required',
-            'cancha' => 'required|integer',
-            'fecha' => 'required|date', // Validar el formato de fecha
-            'tiempoReserva' => 'required|integer|min:1', // Validar tiempoReserva
-            'observaciones' => 'nullable|string|max:500', // Validar observaciones (opcional)
-            'deporte' => 'required|in:racket,wally', // Validar el campo deporte
+            'cancha' => 'required|integer|min:1|max:4',
+            'fecha' => 'required|date',
+            'tiempoReserva' => 'required|integer|min:1',
+            'observaciones' => 'nullable|string|max:500',
+            'deporte' => 'required|in:racket,wally',
         ]);
     
-        // Crear la reserva con los nuevos campos
-        $barang = ReservaCancha::create([
-            'nombre_reserva' => $request->input('name'),
-            'hora' => $request->input('hora'),
-            'numero_cancha' => $request->input('cancha'),
-            'fecha' => $request->input('fecha'),
-            'tiempoReserva' => $request->input('tiempoReserva'), // Agregar tiempoReserva
-            'observaciones' => $request->input('observaciones'), // Agregar observaciones
-            'tipo' => $request->input('deporte'), // Agregar tipo (racket o wally)
-        ]);
+        if ($request->input('fecha') < now()->toDateString()) {
+            Alert::error('Error', 'La Reserva no puede ser registrada, la fecha no es válida!');
+            return redirect('/rcancha')->withInput();
+        }
     
-        Alert::success('Success', 'La Reserva fue Registrada !');
-        return redirect('/rcancha');
-    }
+        // Calcular hora de inicio y fin
+        $horaInicio = $request->input('hora');
+        $tiempoReserva = $request->input('tiempoReserva');
+        $horaFin = \Carbon\Carbon::createFromFormat('H:i', $horaInicio)->addHours($tiempoReserva)->format('H:i');
     
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Barang $barang)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id_barang)
-    {
-        $barang = barang::findOrFail($id_barang);
-
-        return view('barang.barang-edit', [
-            'barang' => $barang,
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+        // Verificar si ya hay una reserva en la cancha para ese rango de horas
+        $ocupada = ReservaCancha::where('numero_cancha', $request->input('cancha'))
+            ->where('fecha', $request->input('fecha'))
+            ->where(function ($query) use ($horaInicio, $horaFin) {
+                $query->whereBetween('hora', [$horaInicio, $horaFin])
+                      ->orWhereBetween(DB::raw("DATE_ADD(hora, INTERVAL tiempoReserva HOUR)"), [$horaInicio, $horaFin]);
+            })
+            ->exists();
     
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
+        if ($ocupada) {
+            Alert::error('Error', 'La cancha ya está ocupada en ese horario!');
+            return redirect('/rcancha')->withInput();
+        }
+    
         try {
-            $deletedbarang = ReservaCancha::findOrFail($id);
-
-            $deletedbarang->delete();
-
-            Alert::error('Success', 'La Reserva fue Eliminada!');
+            ReservaCancha::create([
+                'nombre_reserva' => $request->input('name'),
+                'hora' => $horaInicio,
+                'numero_cancha' => $request->input('cancha'),
+                'fecha' => $request->input('fecha'),
+                'tiempoReserva' => $request->input('tiempoReserva'),
+                'observaciones' => $request->input('observaciones'),
+                'tipo' => $request->input('deporte'),
+            ]);
+    
+            Alert::success('Éxito', 'La Reserva fue Registrada!');
             return redirect('/rcancha');
-        } catch (Exception $ex) {
-            Alert::warning('Error', 'La Reserva no pudo ser Eliminada !');
+        } catch (Exception $e) {
+            Alert::error('Error', 'La Reserva no pudo ser registrada, intente nuevamente!');
+            return redirect('/rcancha')->withInput();
+        }
+    }
+    
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'hora' => 'required',
+            'numero_cancha' => 'required|integer|min:1|max:4',
+        ]);
+
+        try {
+            $reserva = ReservaCancha::findOrFail($id);
+            $reserva->hora = $request->input('hora');
+            $reserva->numero_cancha = $request->input('numero_cancha');
+            $reserva->save();
+
+            Alert::success('Éxito', 'La Reserva fue actualizada correctamente!');
             return redirect('/rcancha');
+        } catch (Exception $e) {
+            Alert::error('Error', 'No se pudo actualizar la reserva, intente de nuevo.');
+            return redirect('/rcancha')->withInput();
         }
     }
 
-    public function transferToAtencion($id)
+    public function destroy($id)
     {
-        // Obtener la reserva por ID
-        $reserva = ReservaCancha::findOrFail($id); // Asegúrate de tener el modelo correcto
-    
-        // Crear nueva instancia de AtencionRacket
-        $atencionRacket = new AtencionRacket();
-        $atencionRacket->nombre = $reserva->nombre_reserva;
-        $atencionRacket->fecha = $reserva->fecha;
-        $atencionRacket->hora_inicio = $reserva->hora;
-        $atencionRacket->tipo = $reserva->tipo; 
-        $atencionRacket->cancha = $reserva->numero_cancha;
-        $atencionRacket->observaciones = $reserva->observaciones;
-    
-        // Llenamos los campos faltantes con valores predeterminados
-        $atencionRacket->hora_fin = '00:00:00'; // Campo vacío
-        $atencionRacket->total_horas = 0; // Default 0 horas
-        $atencionRacket->saldo_cancha = 0.00; // Default saldo cancha 0
-        $atencionRacket->saldo_venta = 0.00; // Default saldo venta 0
-        $atencionRacket->total = 0.00; // Default total 0
-        $atencionRacket->estado = 'ocupado';
-    
-        // Guardamos la atención
-        $atencionRacket->save();
-    
-        // Eliminar la reserva original
-        $reserva->delete();
-    
-        Alert::success('Success', 'La reserva ha sido pasada a atención exitosamente y eliminada de reservas!');
-        return redirect('/rcancha');
+        try {
+            $reserva = ReservaCancha::findOrFail($id);
+            $reserva->delete();
+
+            Alert::success('Éxito', 'La Reserva fue eliminada correctamente!');
+            return redirect('/rcancha');
+        } catch (Exception $e) {
+            Alert::error('Error', 'No se pudo eliminar la reserva, intente de nuevo.');
+            return redirect('/rcancha');
+        }
     }
-
-   
-    
-
 }

@@ -36,56 +36,100 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- Ciclo para las 4 canchas -->
-                @for ($i = 1; $i <= 4; $i++)
-                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                    <div class="card shadow-sm">
-                        <!-- Personalización de colores de las canchas -->
-                        <div class="card-header" style="background-color: #003554; color: white;">
-                            <h3 class="card-title">Cancha {{ $i }}</h3>
+                <!-- Columna de las 4 canchas -->
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        <!-- Ciclo para las 4 canchas -->
+                        @for ($i = 1; $i <= 4; $i++)
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header" style="background-color: #003554; color: white;">
+                                    <h3 class="card-title">Cancha {{ $i }}</h3>
+                                </div>
+                                <div class="card-body">
+                                    @php
+                                        // Filtrar los datos para la cancha y estado "ocupado"
+                                        $canchaData = $barang->where('cancha', $i)->where('estado', 'ocupado');
+                                    @endphp
+                                    
+                                    @if ($canchaData->isEmpty())
+                                        <div class="text-center">
+                                            <i class="fas fa-check-circle text-success fa-2x"></i>
+                                            <p class="mt-2">Cancha Disponible</p>
+                                        </div>
+                                    @else
+                                    @foreach ($canchaData as $data)
+                                        <div class="mb-3 p-2 border rounded bg-light">
+                                            <strong>{{ $data->nombre }}</strong>
+                                            <span class="badge badge-{{ $data->tipo == 'Racket' ? 'success' : 'info' }} float-right">
+                                                {{ $data->tipo }}
+                                            </span>
+                                            <br>
+                                            <small>Hora Entrada: {{ $data->hora_inicio }}</small><br>
+                                            <small>Hora Salida: {{ $data->hora_fin }}</small><br>
+                                            <small>Total Horas: {{ $data->total_horas }}</small><br>
+                                            <small>Total: {{ $data->total }} Bs.</small><br>
+                                            <small>Observaciones: {{ $data->observaciones ?? 'Ninguna' }}</small>
+                                        </div>
+                                        
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
+                                                onclick="setFinalizarDetails('{{ $data->id }}', '{{ $data->nombre }}', '{{ $data->hora_inicio }}', '{{ $data->hora_fin }}', '{{ $data->total_horas }}', '{{ $data->total }}', '{{ $data->observaciones }}')">
+                                                <i class="fa-solid fa-pen"></i> Finalizar Atención
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            @php
-                                // Filtrar los datos para la cancha y estado "ocupado"
-                                $canchaData = $barang->where('cancha', $i)->where('estado', 'ocupado');
-                            @endphp
-                            
-                            @if ($canchaData->isEmpty())
-                                <div class="text-center">
-                                    <i class="fas fa-check-circle text-success fa-2x"></i>
-                                    <p class="mt-2">Cancha Disponible</p>
-                                </div>
-                            @else
-                            @foreach ($canchaData as $data)
-                                <div class="mb-3 p-2 border rounded bg-light">
-                                    <strong>{{ $data->nombre }}</strong>
-                                    <span class="badge badge-{{ $data->tipo == 'Racket' ? 'success' : 'info' }} float-right">
-                                        {{ $data->tipo }}
-                                    </span>
-                                    <br>
-                                    <small>Hora Entrada: {{ $data->hora_inicio }}</small><br>
-                                    <small>Hora Salida: {{ $data->hora_fin }}</small><br>
-                                    <small>Total Horas: {{ $data->total_horas }}</small><br>
-                                    <small>Total: {{ $data->total }} Bs.</small><br>
-                                    <small>Observaciones: {{ $data->observaciones ?? 'Ninguna' }}</small>
-                                </div>
-                                
-                                <div class="mt-2">
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
-                                        onclick="setFinalizarDetails('{{ $data->id }}', '{{ $data->nombre }}', '{{ $data->hora_inicio }}', '{{ $data->hora_fin }}', '{{ $data->total_horas }}', '{{ $data->total }}', '{{ $data->observaciones }}')">
-                                        <i class="fa-solid fa-pen"></i> Finalizar Atención
-                                    </button>
-                                </div>
-                            @endforeach
-                            @endif
-                        </div>
+                        @endfor
                     </div>
                 </div>
-                @endfor
+
+                <!-- Columna para Reservas -->
+<div class="col-lg-4 col-md-12">
+    <div class="card shadow-sm">
+        <div class="card-header" style="background-color: #003554; color: white;">
+            <h3 class="card-title">Reservas de Canchas</h3>
+        </div>
+        <div class="card-body">
+            @if ($reservas->isEmpty())
+                <div class="text-center">
+                    <i class="fas fa-calendar-check text-warning fa-2x"></i>
+                    <p class="mt-2">No hay Reservas</p>
+                </div>
+            @else
+                @foreach ($reservas as $reserva)
+                <div class="mb-3 p-2 border rounded bg-light">
+                    <strong>{{ $reserva->nombre_reserva }}</strong>
+                    <span class="badge badge-info float-right">{{ $reserva->tipo }}</span>
+                    <br>
+                    <small>Hora Entrada: {{ $reserva->hora }}</small><br>
+                    <small>Cancha: {{ $reserva->numero_cancha }}</small><br>
+                    <small>Observaciones: {{ $reserva->observaciones ?? 'Ninguna' }}</small>
+
+                    <!-- Botón para pasar a atención -->
+                    <div class="mt-2">
+                        <form action="{{ route('reservas.transferirAtencion', $reserva->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-arrow-right"></i> Pasar a Atención
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
+</div>
+
             </div>
         </div>
     </div>
 </div>
+
 <!-- Modal para añadir atención -->
 <div class="modal fade" id="addAtencionModal" tabindex="-1" role="dialog" aria-labelledby="addAtencionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -161,9 +205,6 @@
     </div>
 </div>
 
-
-
-
 <!-- Modal para finalizar atención -->
 <div class="modal fade" id="finalizarAtencionModal" tabindex="-1" role="dialog" aria-labelledby="finalizarAtencionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -193,10 +234,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                 <button type="submit" class="btn btn-danger">Finalizar Atención</button>
+                    <button type="submit" class="btn btn-danger">Finalizar Atención</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -248,6 +288,5 @@
         document.getElementById('total').value = total; // Asegúrate de que este valor se pase
     }
 </script>
-
 
 @endsection

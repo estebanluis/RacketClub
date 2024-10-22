@@ -36,57 +36,101 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- Ciclo para las 4 canchas -->
-                <?php for($i = 1; $i <= 4; $i++): ?>
-                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                    <div class="card shadow-sm">
-                        <!-- Personalización de colores de las canchas -->
-                        <div class="card-header" style="background-color: #003554; color: white;">
-                            <h3 class="card-title">Cancha <?php echo e($i); ?></h3>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                                // Filtrar los datos para la cancha y estado "ocupado"
-                                $canchaData = $barang->where('cancha', $i)->where('estado', 'ocupado');
-                            ?>
-                            
-                            <?php if($canchaData->isEmpty()): ?>
-                                <div class="text-center">
-                                    <i class="fas fa-check-circle text-success fa-2x"></i>
-                                    <p class="mt-2">Cancha Disponible</p>
+                <!-- Columna de las 4 canchas -->
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        <!-- Ciclo para las 4 canchas -->
+                        <?php for($i = 1; $i <= 4; $i++): ?>
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header" style="background-color: #003554; color: white;">
+                                    <h3 class="card-title">Cancha <?php echo e($i); ?></h3>
                                 </div>
-                            <?php else: ?>
-                            <?php $__currentLoopData = $canchaData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="mb-3 p-2 border rounded bg-light">
-                                    <strong><?php echo e($data->nombre); ?></strong>
-                                    <span class="badge badge-<?php echo e($data->tipo == 'Racket' ? 'success' : 'info'); ?> float-right">
-                                        <?php echo e($data->tipo); ?>
+                                <div class="card-body">
+                                    <?php
+                                        // Filtrar los datos para la cancha y estado "ocupado"
+                                        $canchaData = $barang->where('cancha', $i)->where('estado', 'ocupado');
+                                    ?>
+                                    
+                                    <?php if($canchaData->isEmpty()): ?>
+                                        <div class="text-center">
+                                            <i class="fas fa-check-circle text-success fa-2x"></i>
+                                            <p class="mt-2">Cancha Disponible</p>
+                                        </div>
+                                    <?php else: ?>
+                                    <?php $__currentLoopData = $canchaData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="mb-3 p-2 border rounded bg-light">
+                                            <strong><?php echo e($data->nombre); ?></strong>
+                                            <span class="badge badge-<?php echo e($data->tipo == 'Racket' ? 'success' : 'info'); ?> float-right">
+                                                <?php echo e($data->tipo); ?>
 
-                                    </span>
-                                    <br>
-                                    <small>Hora Entrada: <?php echo e($data->hora_inicio); ?></small><br>
-                                    <small>Hora Salida: <?php echo e($data->hora_fin); ?></small><br>
-                                    <small>Total Horas: <?php echo e($data->total_horas); ?></small><br>
-                                    <small>Total: <?php echo e($data->total); ?> Bs.</small><br>
-                                    <small>Observaciones: <?php echo e($data->observaciones ?? 'Ninguna'); ?></small>
+                                            </span>
+                                            <br>
+                                            <small>Hora Entrada: <?php echo e($data->hora_inicio); ?></small><br>
+                                            <small>Hora Salida: <?php echo e($data->hora_fin); ?></small><br>
+                                            <small>Total Horas: <?php echo e($data->total_horas); ?></small><br>
+                                            <small>Total: <?php echo e($data->total); ?> Bs.</small><br>
+                                            <small>Observaciones: <?php echo e($data->observaciones ?? 'Ninguna'); ?></small>
+                                        </div>
+                                        
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
+                                                onclick="setFinalizarDetails('<?php echo e($data->id); ?>', '<?php echo e($data->nombre); ?>', '<?php echo e($data->hora_inicio); ?>', '<?php echo e($data->hora_fin); ?>', '<?php echo e($data->total_horas); ?>', '<?php echo e($data->total); ?>', '<?php echo e($data->observaciones); ?>')">
+                                                <i class="fa-solid fa-pen"></i> Finalizar Atención
+                                            </button>
+                                        </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?>
                                 </div>
-                                
-                                <div class="mt-2">
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
-                                        onclick="setFinalizarDetails('<?php echo e($data->id); ?>', '<?php echo e($data->nombre); ?>', '<?php echo e($data->hora_inicio); ?>', '<?php echo e($data->hora_fin); ?>', '<?php echo e($data->total_horas); ?>', '<?php echo e($data->total); ?>', '<?php echo e($data->observaciones); ?>')">
-                                        <i class="fa-solid fa-pen"></i> Finalizar Atención
-                                    </button>
-                                </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php endif; ?>
+                            </div>
                         </div>
+                        <?php endfor; ?>
                     </div>
                 </div>
-                <?php endfor; ?>
+
+                <!-- Columna para Reservas -->
+<div class="col-lg-4 col-md-12">
+    <div class="card shadow-sm">
+        <div class="card-header" style="background-color: #003554; color: white;">
+            <h3 class="card-title">Reservas de Canchas</h3>
+        </div>
+        <div class="card-body">
+            <?php if($reservas->isEmpty()): ?>
+                <div class="text-center">
+                    <i class="fas fa-calendar-check text-warning fa-2x"></i>
+                    <p class="mt-2">No hay Reservas</p>
+                </div>
+            <?php else: ?>
+                <?php $__currentLoopData = $reservas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reserva): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="mb-3 p-2 border rounded bg-light">
+                    <strong><?php echo e($reserva->nombre_reserva); ?></strong>
+                    <span class="badge badge-info float-right"><?php echo e($reserva->tipo); ?></span>
+                    <br>
+                    <small>Hora Entrada: <?php echo e($reserva->hora); ?></small><br>
+                    <small>Cancha: <?php echo e($reserva->numero_cancha); ?></small><br>
+                    <small>Observaciones: <?php echo e($reserva->observaciones ?? 'Ninguna'); ?></small>
+
+                    <!-- Botón para pasar a atención -->
+                    <div class="mt-2">
+                        <form action="<?php echo e(route('reservas.transferirAtencion', $reserva->id)); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-arrow-right"></i> Pasar a Atención
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
             </div>
         </div>
     </div>
 </div>
+
 <!-- Modal para añadir atención -->
 <div class="modal fade" id="addAtencionModal" tabindex="-1" role="dialog" aria-labelledby="addAtencionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -232,9 +276,6 @@ unset($__errorArgs, $__bag); ?>
     </div>
 </div>
 
-
-
-
 <!-- Modal para finalizar atención -->
 <div class="modal fade" id="finalizarAtencionModal" tabindex="-1" role="dialog" aria-labelledby="finalizarAtencionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -264,10 +305,9 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                 <button type="submit" class="btn btn-danger">Finalizar Atención</button>
+                    <button type="submit" class="btn btn-danger">Finalizar Atención</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -319,7 +359,6 @@ unset($__errorArgs, $__bag); ?>
         document.getElementById('total').value = total; // Asegúrate de que este valor se pase
     }
 </script>
-
 
 <?php $__env->stopSection(); ?>
 

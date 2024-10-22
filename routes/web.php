@@ -65,6 +65,9 @@ Route::put('/turnos/salario/{idHorario}', [verTurnosController::class, 'updateSa
 Route::resource('/hprof', HorasTProfController::class);
 //reservar Cancha
 Route::resource('/rcancha', ReservaCanchaController::class);
+// Rutas de reservas
+Route::post('/reservas/transferir-atencion/{id}', [AtencionRacketController::class, 'transferToAtencion'])->name('reservas.transferirAtencion');
+
 //atencion racket
 Route::resource('/atenracket', AtencionRacketController::class);
 // Pasar a atención
