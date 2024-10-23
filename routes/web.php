@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasTProfController;
+use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
@@ -54,7 +55,6 @@ Route::post('/subir-anuncio', [DashboardController::class, 'subirAnuncio']);
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 Route::post('/generate-pdf/{id}', [BarangController::class, 'generatePDF'])->name('generate.pdf');
-//route registrar horario
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
 //route registrar horario
@@ -73,6 +73,9 @@ Route::put('/turnos/salario/{idHorario}', [verTurnosController::class, 'updateSa
 Route::resource('/hprof', HorasTProfController::class);
 //reservar Cancha
 Route::resource('/rcancha', ReservaCanchaController::class);
+// Rutas de reservas
+Route::post('/reservas/transferir-atencion/{id}', [AtencionRacketController::class, 'transferToAtencion'])->name('reservas.transferirAtencion');
+
 //atencion racket
 Route::resource('/atenracket', AtencionRacketController::class);
 // Pasar a atención
@@ -108,3 +111,9 @@ Route::get('/piscinaFinde', [PiscinaFindeController::class, 'index'])->name('pis
 Route::post('/piscinaFinde/store', [PiscinaFindeController::class, 'store'])->name('piscina.register');
 // Ruta para finalizar la atención
 Route::put('/piscinaFinde/finalizar/{id}', [PiscinaFindeController::class, 'finalizar'])->name('piscina.finalizar');
+//ruta lista usuarios 
+Route::resource('/luser', ListUserController::class);
+//ruta para verificar la sesion 
+Route::get('/check-session', function () {
+    return response()->json(['expired' => !auth()->check()]);
+});
