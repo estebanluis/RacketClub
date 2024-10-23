@@ -69,8 +69,8 @@
 <body>
     <div class="container">
         <div class="rectangle">
-            <img class="image" src="logos.jpeg" alt="Imagen">
-            
+            <img class="image" src="logot.jpeg" alt="Imagen">
+
             <div class="name"><?php echo e($nom); ?> <?php echo e($apell); ?> <?php echo e($apellM); ?></div>
             <div class="schedule"><?php echo e($hora); ?></div>
             <div class="schedule"><?php echo e($mod); ?></div>

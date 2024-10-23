@@ -89,82 +89,99 @@ class ReportesController extends Controller
     }
 
     public function generarInforme($dia, $mes, $anio)
-    {
-        
-        // Obtener los detalles de ventas
-        $detalleVentas = DB::table('ventas')
-            ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id') // Asumiendo que ventas tiene cliente_id
-            ->join('productos', 'ventas.producto_id', '=', 'productos.id') // Asumiendo que ventas tiene producto_id
-            ->join('horarios', 'ventas.profesor_id', '=', 'horarios.id') // Asumiendo que ventas tiene profesor_id
-            ->whereDay('ventas.created_at', $dia)
-            ->whereMonth('ventas.created_at', $mes)
-            ->whereYear('ventas.created_at', $anio)
-            ->select('productos.nombre as nombreProducto', 'horarios.nombre as nombreProfesor', 'clientes.nombre as nombreCliente', 'clientes.apellido as apellidoCliente')
-            ->get();
+{
+    // Obtener los detalles de los clientes registrados en la fecha seleccionada
+    $detalleClientes = DB::table('clientes')
+        ->whereDay('created_at', $dia)
+        ->whereMonth('created_at', $mes)
+        ->whereYear('created_at', $anio)
+        ->select('nombre', 'apellido', 'costo', 'descuento')
+        ->get();
 
-        // Obtener los detalles de stock añadido
-        $detalleStock = DB::table('aniadirStock')
-            ->join('productos', 'aniadirStock.id_producto_aniadido', '=', 'productos.id') // Asumiendo que aniadirStock tiene id_producto_aniadido
-            ->whereDay('aniadirStock.created_at', $dia)
-            ->whereMonth('aniadirStock.created_at', $mes)
-            ->whereYear('aniadirStock.created_at', $anio)
-            ->select('productos.nombre as nombreProductoAñadido')
-            ->get();
+    // Obtener los detalles de stock añadido en la fecha seleccionada, incluyendo 'pago_distribuidor'
+    $detalleStock = DB::table('aniadirStock')
+        ->join('productos', 'aniadirStock.id_producto_aniadido', '=', 'productos.id_producto')
+        ->whereDay('aniadirStock.created_at', $dia)
+        ->whereMonth('aniadirStock.created_at', $mes)
+        ->whereYear('aniadirStock.created_at', $anio)
+        ->select('productos.nombre as nombreProductoAñadido', 'aniadirStock.pago_distribuidor')
+        ->get();
 
-        // Calcular los totales financieros
-        $totalGanancias = DB::table('clientes')
-            ->whereDay('created_at', $dia)
-            ->whereMonth('created_at', $mes)
-            ->whereYear('created_at', $anio)
-            ->sum('costo');
+    // Obtener los detalles de las ventas realizadas en la fecha seleccionada
+    $detalleVentas = DB::table('ventas')
+        ->whereDay('created_at', $dia)
+        ->whereMonth('created_at', $mes)
+        ->whereYear('created_at', $anio)
+        ->select('nombre', 'total')
+        ->get();
 
-        $totalVentas = DB::table('ventas')
-            ->whereDay('created_at', $dia)
-            ->whereMonth('created_at', $mes)
-            ->whereYear('created_at', $anio)
-            ->sum('total');
+    // Obtener los detalles de los salarios de los profesores
+    $detalleSalarios = DB::table('horarios') // Nombre correcto de la tabla 'horarios'
+    ->join('users', 'horarios.id_user', '=', 'users.id_user') // Cambiar 'id_users' por 'id_user'
+    ->whereDay('horarios.created_at', $dia)
+    ->whereMonth('horarios.created_at', $mes)
+    ->whereYear('horarios.created_at', $anio)
+    ->where('users.TipoUsuario', 'profesor')
+    ->select('users.name as nombreProfesor', 'horarios.salario')
+    ->get();
 
-        $totalDescuentos = DB::table('clientes')
-            ->whereDay('created_at', $dia)
-            ->whereMonth('created_at', $mes)
-            ->whereYear('created_at', $anio)
-            ->sum('descuento');
+    // Calcular totales de ingresos y egresos
+    $totalGanancias = DB::table('clientes')
+        ->whereDay('created_at', $dia)
+        ->whereMonth('created_at', $mes)
+        ->whereYear('created_at', $anio)
+        ->sum('costo');
 
-        $totalSalarios = DB::table('horarios')
-            ->whereDay('created_at', $dia)
-            ->whereMonth('created_at', $mes)
-            ->whereYear('created_at', $anio)
-            ->sum('salario');
+    $totalDescuentos = DB::table('clientes')
+        ->whereDay('created_at', $dia)
+        ->whereMonth('created_at', $mes)
+        ->whereYear('created_at', $anio)
+        ->sum('descuento');
 
-        $totalPagoDistribuidor = DB::table('aniadirStock')
-            ->whereDay('created_at', $dia)
-            ->whereMonth('created_at', $mes)
-            ->whereYear('created_at', $anio)
-            ->sum('pago_distribuidor');
+    $totalPagoDistribuidor = DB::table('aniadirStock')
+        ->whereDay('created_at', $dia)
+        ->whereMonth('created_at', $mes)
+        ->whereYear('created_at', $anio)
+        ->sum('pago_distribuidor');
 
-        $total = $totalGanancias + $totalVentas - $totalDescuentos - $totalPagoDistribuidor - $totalSalarios;
+    $totalVentas = DB::table('ventas')
+        ->whereDay('created_at', $dia)
+        ->whereMonth('created_at', $mes)
+        ->whereYear('created_at', $anio)
+        ->sum('total');
+    
+    $totalSueldos = DB::table('horarios')
+        ->join('users', 'horarios.id_user', '=', 'users.id_user') // Unimos las tablas 'horarios' y 'users'
+        ->whereDay('horarios.created_at', $dia)
+        ->whereMonth('horarios.created_at', $mes)
+        ->whereYear('horarios.created_at', $anio)
+        ->where('users.TipoUsuario', 'profesor') // Solo profesores
+        ->sum('horarios.salario'); // Sumamos los salarios
 
-        // Obtener la fecha completa
-        $fechaCompleta = date('d/m/Y', strtotime("$anio-$mes-$dia"));
+    // Obtener la fecha completa
+    $fechaCompleta = date('d/m/Y', strtotime("$anio-$mes-$dia"));
 
-        // Preparar los datos para el PDF
-        $pdfData = [
-            'dia' => $dia,
-            'fechaCompleta' => $fechaCompleta,
-            'detalleVentas' => $detalleVentas,
-            'detalleStock' => $detalleStock,
-            'totalDescuentos' => $totalDescuentos,
-            'totalPagoDistribuidor' => $totalPagoDistribuidor,
-            'totalSalarios' => $totalSalarios,
-            'totalGanancias' => $totalGanancias,
-            'totalVentas' => $totalVentas,
-            'total' => $total,
-        ];
-        
-        // Generar el PDF
-        $pdf = PDF::loadView('pdf.informeF', $pdfData);
-       
-        // Descargar el PDF
-        return $pdf->download('informeF_dia_' . $dia . '.pdf');
-    }
+    // Preparar los datos para el PDF
+    $pdfData = [
+        'dia' => $dia,
+        'fechaCompleta' => $fechaCompleta,
+        'detalleClientes' => $detalleClientes,
+        'detalleStock' => $detalleStock,
+        'detalleVentas' => $detalleVentas,
+        'detalleSalarios' => $detalleSalarios,
+        'totalDescuentos' => $totalDescuentos,
+        'totalPagoDistribuidor' => $totalPagoDistribuidor,
+        'totalGanancias' => $totalGanancias,
+        'totalVentas' => $totalVentas,
+        'detalleSalarios' => $detalleSalarios, // Lista de salarios de los profesores
+        'totalSueldos' => $totalSueldos, //
+    ];
+
+    // Generar el PDF (ahora se abre en otra pestaña en lugar de descargarse)
+    $pdf = PDF::loadView('pdf.informeF', $pdfData);
+    
+    // Mostrar el PDF en una nueva pestaña
+    return $pdf->stream('informeF_dia_' . $dia . '.pdf');
+}
+
 }

@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
-                        <a href="/" class="h1"><b>Graficas</b> Alumnos</a>
+                        <a href="/" class="h1"><b>Graficas</b> Financieras</a>
                     </div>
                     <div class="container">
                         <div class="card-container">

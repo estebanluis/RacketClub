@@ -69,8 +69,8 @@
 <body>
     <div class="container">
         <div class="rectangle">
-            <img class="image" src="logos.jpeg" alt="Imagen">
-            
+            <img class="image" src="logot.jpeg" alt="Imagen">
+
             <div class="name">{{ $nom }} {{ $apell }} {{ $apellM }}</div>
             <div class="schedule">{{ $hora }}</div>
             <div class="schedule">{{ $mod }}</div>

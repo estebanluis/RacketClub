@@ -1,106 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Informe F - Detalle del Día</title>
+    <title>Informe Diario</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 20px;
-        }
-        .header .fecha {
-            margin-top: 5px;
-            font-size: 14px;
-            color: #555;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid black;
             padding: 8px;
-            vertical-align: top;
+            text-align: left;
         }
         th {
             background-color: #f2f2f2;
-            text-align: left;
-        }
-        .column-name, .column-egresos, .column-ingresos {
-            width: 33%;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-top: 10px;
-            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Detalle Especifico</h1>
-        <div class="fecha">Fecha: {{ $fechaCompleta }}</div>
-    </div>
+    <h1>Detalle Específico</h1>
+    <p>Fecha: {{ $fechaCompleta }}</p>
+
     <table>
         <thead>
             <tr>
-                <th class="column-name">Nombre</th>
-                <th class="column-egresos">Egresos</th>
-                <th class="column-ingresos">Ingresos</th>
+                <th>Nombre</th>
+                <th>Egresos</th>
+                <th>Ingresos</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($detalleVentas as $venta)
-                <tr>
-                    <td>
-                        <div class="section-title">Producto Vendido:</div>
-                        {{ $venta->nombreProducto }}<br>
-                        <div class="section-title">Profesor:</div>
-                        {{ $venta->nombreProfesor }}<br>
-                        <div class="section-title">Cliente:</div>
-                        {{ $venta->nombreCliente }} {{ $venta->apellidoCliente }}<br>
-                    </td>
-                    <td>
-                        <div class="section-title">Descuentos:</div>
-                        Bs. {{ number_format($totalDescuentos, 2) }}<br>
-                        <div class="section-title">Pago a Distribuidor:</div>
-                        Bs. {{ number_format($totalPagoDistribuidor, 2) }}<br>
-                        <div class="section-title">Salario Profesor:</div>
-                        Bs. {{ number_format($totalSalarios, 2) }}<br>
-                    </td>
-                    <td>
-                        <div class="section-title">Ganancias Inscritos:</div>
-                        Bs. {{ number_format($totalGanancias, 2) }}<br>
-                        <div class="section-title">Ingresos Ventas:</div>
-                        Bs. {{ number_format($totalVentas, 2) }}<br>
-                    </td>
-                </tr>
-            @endforeach
-
-            @foreach ($detalleStock as $stock)
-                <tr>
-                    <td>
-                        <div class="section-title">Producto Añadido:</div>
-                        {{ $stock->nombreProductoAñadido }}<br>
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            @endforeach
-
+            <!-- Clientes registrados -->
+            @foreach ($detalleClientes as $cliente)
             <tr>
-                <td colspan="2"><strong>Total</strong></td>
-                <td><strong>Bs. {{ number_format($total, 2) }}</strong></td>
+                <td>{{ $cliente->nombre }} {{ $cliente->apellido }}</td>
+                <td>{{ $cliente->descuento }}</td>
+                <td>{{ $cliente->costo }}</td>
             </tr>
+            @endforeach
+
+            <!-- Stock añadido -->
+            @foreach ($detalleStock as $stock)
+            <tr>
+                <td>Stock Añadido: {{ $stock->nombreProductoAñadido }}</td>
+                <td>{{ $stock->pago_distribuidor }}</td>
+                <td></td>
+            </tr>
+            @endforeach
+
+            <!-- Ventas realizadas -->
+            @foreach ($detalleVentas as $venta)
+            <tr>
+                <td>Venta Realizada: {{ $venta->nombre }}</td>
+                <td></td>
+                <td>{{ $venta->total }}</td>
+            </tr>
+            @endforeach
+
+            <!-- Salarios de profesores -->
+            @foreach ($detalleSalarios as $salario)
+            <tr>
+                <td>Profesor: {{ $salario->nombreProfesor }}</td>
+                <td>{{ $salario->salario }}</td>
+                <td></td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
+
+    <p><strong>Total Descuentos:</strong> {{ $totalDescuentos }}</p>
+    <p><strong>Total Pago a Distribuidor:</strong> {{ $totalPagoDistribuidor }}</p>
+    <p><strong>Total Ganancias:</strong> {{ $totalGanancias }}</p>
+    <p><strong>Total Ventas:</strong> {{ $totalVentas }}</p>
+    <p><strong>Total Sueldos Profesor:</strong> {{ $totalSueldos }}</p>
 </body>
 </html>

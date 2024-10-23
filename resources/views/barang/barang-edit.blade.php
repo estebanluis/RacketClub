@@ -1,5 +1,5 @@
 @extends('template.main')
-@section('title', 'Edit Barang')
+@section('title', 'Editar alumno')
 @section('content')
 
 <div class="content-wrapper">
@@ -13,7 +13,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/barang">Barang</a></li>
+                        <li class="breadcrumb-item"><a href="/barang">Editar alumno</a></li>
                         <li class="breadcrumb-item active">@yield('title')</li>
                     </ol>
                 </div><!-- /.col -->

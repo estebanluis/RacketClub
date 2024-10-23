@@ -2,135 +2,212 @@
 @section('title', 'Dashboard')
 @section('content')
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">@yield('title')</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/">@yield('title')</a></li>
-
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
+<div class="content-wrapper" style="background-color: #e0f7fa;">
+    <div class="content-header">
         <div class="content">
             <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
                 <div class="row">
-                    @if(Auth::user()->TipoUsuario === 'Administrador')
-                    <div class="col-lg-3 col-md-6">
-                        <!-- small box -->
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Registrar Usuarios</p>
+                    <!-- Primera columna: Tabla de Asistencias -->
+                    <div class="col-lg-8 col-md-12">
+                        <div class="card shadow-lg" style="border-radius: 20px;">
+                            <div class="card-body p-4">
+                                <h2 class="text-center mb-4" style="color: #00796b; font-family: 'Poppins', sans-serif;">Registro de Asistencias</h2>
+                                
+                                <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%; background-color: #ffffff; border-radius: 15px;">
+                                    <thead style="background-color: #004d40; color: #ffffff; font-family: 'Poppins', sans-serif;">
+                                        <tr>
+                                            <th>Nombre Completo</th>
+                                            <th>Hora Asistencia</th>
+                                            <th>Sesiones Restantes</th>
+                                            <th>Modalidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaAsistencias" style="font-family: 'Poppins', sans-serif; color: #004d40;">
+                                        @foreach ($asistencias as $asistencia)
+                                        <tr class="asistencia-row">
+                                            <td>{{ $asistencia->nombre }} {{ $asistencia->apellido }} {{ $asistencia->apellidoMat }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($asistencia->fecha)->format('H:i:s') }}</td>
+                                            <td>{{ $asistencia->nrsesiones }}</td>
+                                            <td>{{ $asistencia->modalidad }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-car"></i>
-                            </div>
-                            <a href="/registerUser" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        
-                    </div>
-                    <!-- ./col -->
-                    @endif
-
-                    <div class="col-lg-3 col-md-6">
-                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Registrar Alumno</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-address-book" aria-hidden="true"></i>
-                            </div>
-                            <a href="/registrarAlumno" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                        @endif
-                    </div>
-                    <!-- ./col -->
-
-                    <div class="col-lg-3 col-md-6">
-                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Asistencia de alumno</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="/dashboard/tomarAsistencia" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                        @endif
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Reportes financieros</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="/reporte" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                        @endif
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Lista Alumnos</p>
+                    <!-- Segunda columna: Subir imagen de anuncios -->
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card shadow-lg" style="border-radius: 20px;">
+                            <div class="card-body p-4">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#modalSubirImagen">
+                                    Subir Anuncio
+                                </button>
+                    
+                                <!-- Mostrar imagen subida aquí -->
+                                <div id="mostrarImagen">
+                                    @php
+                                        $directorioAnuncios = public_path('anuncios');
+                                        $archivos = \Illuminate\Support\Facades\File::files($directorioAnuncios);
+                                        if (count($archivos) > 0) {
+                                            $imagenGuardada = basename($archivos[0]);
+                                        } else {
+                                            $imagenGuardada = null;
+                                        }
+                                    @endphp
+                    
+                                    @if ($imagenGuardada)
+                                        <img src="{{ asset('anuncios/' . $imagenGuardada) }}" class="img-fluid mt-3" alt="Anuncio">
+                                    @endif
+                                </div>
+                    
+                                <!-- Modal para subir imagen -->
+                                <div class="modal fade" id="modalSubirImagen" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalLabel">Subir Anuncio</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Formulario para subir la imagen -->
+                                                <form id="formSubirImagen" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="imagenAnuncio">Seleccionar imagen</label>
+                                                        <input type="file" class="form-control" id="imagenAnuncio" name="imagenAnuncio" required>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-success">Subir</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Fin del modal -->
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="/barang" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        @endif
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Registrar Horarios</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-address-book" aria-hidden="true"></i>
-                            </div>
-                            <a href="/horarios" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                        @endif
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        @if(Auth::user()->TipoUsuario === 'Administrador' || Auth::user()->TipoUsuario === 'Secretaria Natacion')
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Turnos Trabajados</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-address-book" aria-hidden="true"></i>
-                            </div>
-                            <a href="/turnos" class="small-box-footer">Mas informacion <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                        @endif
-                    </div>
-                    <!-- ./col -->
-                </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
+                </div> <!-- Fin de la fila -->
+            </div>
         </div>
-
-        <!-- /.content -->
     </div>
+</div>
+
+<!-- Agregar el enlace a Google Fonts para la fuente Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Estilos personalizados -->
+<style>
+    .card {
+        background-color: #ffffff;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hover en la tabla */
+    .asistencia-row:hover {
+        background-color: #b2dfdb !important;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    th, td {
+        padding: 12px;
+        border: none;
+    }
+
+    .card-body {
+        background-color: #e0f7fa;
+        border-radius: 15px;
+    }
+
+    thead tr th {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Animación al hacer hover en el botón de subir anuncio */
+    .btn-primary:hover {
+        background-color: #00796b;
+        transition: background-color 0.3s ease;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Función para actualizar la tabla de asistencias
+    function actualizarTablaAsistencias() {
+        $.ajax({
+            url: "/obtener-asistencias", // Ruta Laravel para obtener las asistencias más recientes
+            method: "GET",
+            success: function(response) {
+                $('#tablaAsistencias').empty();
+                response.forEach(function(asistencia) {
+                    $('#tablaAsistencias').append(
+                        '<tr class="asistencia-row">' +
+
+                            '<td>' + asistencia.nombre + ' ' + asistencia.apellido + ' ' + asistencia.apellidoMat + '</td>' +
+                            '<td>' + new Date(asistencia.fecha).toLocaleTimeString() + '</td>' +
+                            '<td>' + asistencia.nrsesiones + '</td>' +
+                            '<td>' + asistencia.modalidad + '</td>' +
+                        '</tr>'
+                    );
+                });
+            }
+        });
+    }
+
+    setInterval(function() {
+        if (document.visibilityState === 'visible') {
+            actualizarTablaAsistencias();
+        }
+    }, 5000);
+
+    $(document).ready(function() {
+    actualizarTablaAsistencias();
+
+    // Manejar la subida de imagen con AJAX
+    $('#formSubirImagen').on('submit', function(event) {
+        event.preventDefault();
+        
+        var formData = new FormData(this);
+        
+        $.ajax({
+            url: '/subir-anuncio',  // Ruta Laravel para manejar la subida
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                // Mostrar la imagen subida debajo del botón
+                $('#mostrarImagen').html('<img src="/anuncios/' + response.nombreImagen + '" class="img-fluid mt-3" alt="Anuncio">');
+                
+                // Usamos la función personalizada para cerrar el modal
+                setTimeout(function() {
+                    cerrarModal();  // Llamar a la función que fuerza el cierre del modal
+                }, 500);  // Cerrar el modal después de 500ms para dar tiempo a mostrar el cambio
+            },
+            error: function(xhr, status, error) {
+                console.log('Error al subir la imagen:', error);
+            }
+        });
+    });
+
+    
+    // Función para cerrar el modal manualmente
+    function cerrarModal() {
+        $('#modalSubirImagen').modal('hide'); // Cerrar el modal
+        $('.modal-backdrop').remove(); // Eliminar el fondo del modal
+        $('body').removeClass('modal-open'); // Eliminar la clase que evita el scroll
+        $('body').css('padding-right', ''); // Restablecer el padding
+    }
+});
+</script>
 
 @endsection
