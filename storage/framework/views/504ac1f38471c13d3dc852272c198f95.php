@@ -13,7 +13,7 @@
                             <div class="card-body p-4">
                                 <h2 class="text-center mb-4" style="color: #00796b; font-family: 'Poppins', sans-serif;">Registro de Asistencias</h2>
                                 
-                                <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%; background-color: #ffffff; border-radius: 15px;">
+                                <table id="example" class="table table-striped table-bordered table-hover text-center" style="width: 100%; background-color: #ffffff; border-radius: 15px;">
                                     <thead style="background-color: #004d40; color: #ffffff; font-family: 'Poppins', sans-serif;">
                                         <tr>
                                             <th>Nombre Completo</th>
@@ -41,6 +41,7 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card shadow-lg" style="border-radius: 20px;">
                             <div class="card-body p-4">
+                                <h2 class="text-center mb-4" style="color: #00796b; font-family: 'Poppins', sans-serif;">Tablon de Anuncios</h2>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#modalSubirImagen">
                                     Subir Anuncio
                                 </button>
