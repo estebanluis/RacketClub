@@ -44,7 +44,7 @@ class PiscinaFindeController extends Controller
         // Guarda el registro en la base de datos
         $piscinaExtra->save();
 
-        Alert::success('Success', 'Atención registrada exitosamente!');
+        Alert::success('Éxito', 'Atención registrada exitosamente!');
          return redirect('/piscinaFinde');
     }
 
@@ -58,7 +58,7 @@ class PiscinaFindeController extends Controller
             $atencion->estado = 0; 
             $atencion->save(); // Guardar los cambios
         }
-        Alert::success('Success', 'Atención Finalizada exitosamente!');
+        Alert::success('Éxito', 'Atención Finalizada exitosamente!');
          return redirect('/piscinaFinde');
      }
 

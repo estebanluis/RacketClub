@@ -34,7 +34,7 @@ class ListUserController extends Controller
             $user->password = Hash::make($validatedData['password']);
             $user->save();
 
-            Alert::success('Success', 'Usuario registrado exitosamente.');
+            Alert::success('Éxito', 'Usuario registrado exitosamente.');
         } catch (\Exception $e) {
             Alert::error('Error', 'Error al registrar el usuario: ' . $e->getMessage());
         }
@@ -64,7 +64,7 @@ class ListUserController extends Controller
             }
 
             $user->save();
-            Alert::success('Success', 'Usuario actualizado exitosamente.');
+            Alert::success('Éxito', 'Usuario actualizado exitosamente.');
         } catch (\Exception $e) {
             Alert::error('Error', 'Error al actualizar el usuario: ' . $e->getMessage());
         }
@@ -78,7 +78,7 @@ class ListUserController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
-            Alert::success('Success', 'Usuario eliminado exitosamente.');
+            Alert::success('Éxito', 'Usuario eliminado exitosamente.');
         } catch (\Exception $e) {
             Alert::error('Error', 'El usuario no puede ser eliminado, ya que tiene registros de salarios o turnos pendientes.');
         }

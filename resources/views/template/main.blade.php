@@ -31,7 +31,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini ">
 
     @include('sweetalert::alert')
 
@@ -72,7 +72,7 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
             <!-- Brand Logo -->
             <a href="/dashboard" class="brand-link">
                 <img src="/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
@@ -109,7 +109,7 @@
                                         @if(Auth::user()->TipoUsuario === 'Administrador')
                                             <a href="{{ route('luser.index') }}" class="nav-link {{ Request::is('luser') ? 'active' : '' }}">
                                                 <i class="nav-icon fa fa-user-plus"></i>
-                                                <p>Lista Usuarios</p>
+                                                <p>Gestión de Usuarios</p>
                                             </a>
                                         @endif
                                     </li>
@@ -445,14 +445,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-         $(function() {
+        $(function() {
             var url = window.location;
-            // para el menú de la barra lateral
+            // Para el menú de la barra lateral
             $('ul.nav-sidebar a').filter(function() {
                 return this.href == url;
             }).addClass('active');
-
-            // para el menú y treeview de la barra lateral
+    
+            // Para el menú y treeview de la barra lateral
             $('ul.nav-treeview a').filter(function() {
                 return this.href == url;
             }).parentsUntil(".nav-sidebar > .nav-treeview")
@@ -460,12 +460,9 @@
                 .addClass('menu-open').prev('a')
                 .addClass('active');
         });
-
-        // Script para asegurar que la barra lateral esté cerrada al cargar la página
-        $(document).ready(function() {
-            $('.sidebar').addClass('sidebar-collapse');
-        });
+    
     </script>
+    
 
     <script>
         $(document).ready(function() {
