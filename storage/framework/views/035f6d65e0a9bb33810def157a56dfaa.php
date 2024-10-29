@@ -105,7 +105,7 @@
                         <?php echo csrf_field(); ?>
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la piscina">
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cliente">
                             <div class="invalid-feedback">Este campo es obligatorio.</div>
                         </div>
 
