@@ -167,7 +167,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <input type="text" name="observciones" class="form-control @error('observciones') is-invalid @enderror"
-                            placeholder="Observaciones" value="{{ old('observciones') }}" required>
+                            placeholder="Observaciones" value="{{ old('observciones') }}" >
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -179,7 +179,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <input type="text" name="descuento" class="form-control @error('descuento') is-invalid @enderror"
-                            placeholder="Descuennto" value="{{ old('descuento') }}" required>
+                            placeholder="Descuennto" value="{{ old('descuento') }}" value="0">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>

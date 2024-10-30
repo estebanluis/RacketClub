@@ -28,7 +28,7 @@
                 <div class="col-12">
                     <div class="card">
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-header">
                             <div class="d-flex justify-content-between mb-3">
                                 
                                 <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalAddProduct">

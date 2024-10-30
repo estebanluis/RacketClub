@@ -90,7 +90,7 @@
                 <h5 class="modal-title" id="registerModalLabel">Registrar Usuario</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </button> 
             </div>
             <div class="modal-body">
                 <form class="needs-validation" novalidate action="/luser" method="POST">

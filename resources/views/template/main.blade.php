@@ -148,6 +148,16 @@
                                 </li>
                                 <li class="nav-item">
                                     @if(Auth::user()->TipoUsuario === 'Administrador')
+                                    <a href="/listaSeciones" class="nav-link">
+                                        <i class="nav-icon fa fa-users"></i>
+                                        <p>
+                                            Lista Seciones
+                                        </p>
+                                    </a>
+                                    @endif
+                                </li>
+                                <li class="nav-item">
+                                    @if(Auth::user()->TipoUsuario === 'Administrador')
                                         <a href="/dashboard/tomarAsistencia" class="nav-link">
                                             <i class="nav-icon fa fa-address-card"></i>
                                             <p>

@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $fechas = fechasAsistencia::join('clientes', 'fechasasistencia.codigoAlumno', '=', 'clientes.codigo')
             ->select('fechasAsistencia.fecha', 'clientes.nombre', 'clientes.apellido', 'clientes.apellidoMat', 'clientes.nrsesiones', 'clientes.modalidad')
             ->orderBy('fechasAsistencia.created_at', 'desc')
-            ->take(10)
+            ->take(6)
             ->get();
 
         return response()->json($fechas);
