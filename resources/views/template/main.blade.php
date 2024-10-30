@@ -113,14 +113,14 @@
                                             </a>
                                         @endif
                                     </li>
-                                    <li class="nav-item">
+                                    <!--<li class="nav-item">
                                         @if(Auth::user()->TipoUsuario === 'Administrador')
                                             <a href="/registrarAlumno" class="nav-link {{ Request::is('registrarAlumno') ? 'active' : '' }}">
                                                 <i class="nav-icon fa fa-user-plus"></i>
                                                 <p>Registrar Alumnos</p>
                                             </a>
                                         @endif
-                                    </li>
+                                    </li>-->
                                 </ul>
                             @endif
                         </li>
@@ -141,7 +141,7 @@
                                     <a href="/barang" class="nav-link">
                                         <i class="nav-icon fa fa-users"></i>
                                         <p>
-                                            Lista Alumnos
+                                             Actualizar Alumnos
                                         </p>
                                     </a>
                                     @endif
@@ -269,7 +269,7 @@
                                 <a href="/dashboard/listaproductos" class="nav-link">
                                             <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
                                             <p>
-                                                Lista Productos
+                                                Actualizar Productos
                                             </p>
                                         </a>
                                     @endif
@@ -284,7 +284,7 @@
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
-                                    Lista Alumnos
+                                    Actualizar Alumnos
                                 </p>
                             </a>
                             @endif
@@ -395,7 +395,7 @@
                         <a href="/dashboard/listaproductos" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
-                                        Lista Productos
+                                        Actualizar Productos
                                     </p>
                                 </a>
                             @endif

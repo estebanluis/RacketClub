@@ -1,6 +1,6 @@
 
 @extends('template.main')
-@section('title', 'Sesiones')
+@section('title', 'Seciones')
 @section('content')
 @php
     use Carbon\Carbon;
@@ -34,7 +34,7 @@
                             <div class="card-header">
                                 <div class="text-right">
                                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#registerUserModal">
-                                        <i class="fa-solid fa-plus"></i> Añadir session
+                                        <i class="fa-solid fa-plus"></i> Añadir Secion
                                     </a>
                                 </div>
                             </div>
