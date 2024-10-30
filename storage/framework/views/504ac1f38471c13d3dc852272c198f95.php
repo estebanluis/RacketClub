@@ -5,136 +5,116 @@
 <div class="content-wrapper" style="background-color: #e0f7fa;">
     <div class="content-header">
         <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Primera columna: Tabla de Asistencias -->
-                    <div class="col-lg-8 col-md-12">
-                        <div class="card shadow-lg" style="border-radius: 20px;">
-                            <div class="card-body p-4">
-                                <h2 class="text-center mb-4" style="color: #00796b; font-family: 'Poppins', sans-serif;">Registro de Asistencias</h2>
-                                
-                                <table id="example" class="table table-striped table-bordered table-hover text-center" style="width: 100%; background-color: #ffffff; border-radius: 15px;">
-                                    <thead style="background-color: #004d40; color: #ffffff; font-family: 'Poppins', sans-serif;">
-                                        <tr>
-                                            <th>Nombre Completo</th>
-                                            <th>Hora Asistencia</th>
-                                            <th>Sesiones Restantes</th>
-                                            <th>Modalidad</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tablaAsistencias" style="font-family: 'Poppins', sans-serif; color: #004d40;">
-                                        <?php $__currentLoopData = $asistencias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $asistencia): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr class="asistencia-row">
-                                            <td><?php echo e($asistencia->nombre); ?> <?php echo e($asistencia->apellido); ?> <?php echo e($asistencia->apellidoMat); ?></td>
-                                            <td><?php echo e(\Carbon\Carbon::parse($asistencia->fecha)->format('H:i:s')); ?></td>
-                                            <td><?php echo e($asistencia->nrsesiones); ?></td>
-                                            <td><?php echo e($asistencia->modalidad); ?></td>
-                                        </tr>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+            <div class="container-fluid p-0"> <!-- Elimina márgenes -->
 
-                    <!-- Segunda columna: Subir imagen de anuncios -->
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card shadow-lg" style="border-radius: 20px;">
-                            <div class="card-body p-4">
-                                <h2 class="text-center mb-4" style="color: #00796b; font-family: 'Poppins', sans-serif;">Tablon de Anuncios</h2>
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#modalSubirImagen">
+                <!-- Contenedor principal en grid -->
+                <div class="grid-container">
+                    
+                    <!-- Item 1: Tablón de Anuncios -->
+                    <div class="item1">
+                        <div class="card shadow-lg mb-4" style="border-radius: 20px; height: 700px;">
+                            <div class="card-body p-4 text-center">
+                                <h2 style="color: #00796b; font-family: 'Poppins', sans-serif;">Tablón de Anuncios</h2>
+                                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalSubirImagen">
                                     Subir Anuncio
                                 </button>
-                    
-                                <!-- Mostrar imagen subida aquí -->
+
                                 <div id="mostrarImagen">
                                     <?php
                                         $directorioAnuncios = public_path('anuncios');
                                         $archivos = \Illuminate\Support\Facades\File::files($directorioAnuncios);
-                                        if (count($archivos) > 0) {
-                                            $imagenGuardada = basename($archivos[0]);
-                                        } else {
-                                            $imagenGuardada = null;
-                                        }
+                                        $imagenGuardada = count($archivos) > 0 ? basename($archivos[0]) : null;
                                     ?>
-                    
+
                                     <?php if($imagenGuardada): ?>
-                                        <img src="<?php echo e(asset('anuncios/' . $imagenGuardada)); ?>" class="img-fluid mt-3" alt="Anuncio">
+                                        <img src="<?php echo e(asset('anuncios/' . $imagenGuardada)); ?>" class="img-fluid" alt="Anuncio" style="max-height: 500px;">
                                     <?php endif; ?>
                                 </div>
-                    
-                                <!-- Modal para subir imagen -->
-                                <div class="modal fade" id="modalSubirImagen" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel">Subir Anuncio</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Formulario para subir la imagen -->
-                                                <form id="formSubirImagen" enctype="multipart/form-data">
-                                                    <?php echo csrf_field(); ?>
-                                                    <div class="form-group">
-                                                        <label for="imagenAnuncio">Seleccionar imagen</label>
-                                                        <input type="file" class="form-control" id="imagenAnuncio" name="imagenAnuncio" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-success">Subir</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Fin del modal -->
                             </div>
                         </div>
                     </div>
-                </div> <!-- Fin de la fila -->
+
+                    <!-- Items 2 al 9: Cards de Asistencia en #cardsAsistencias -->
+                    <div id="cardsAsistencias" class="item2-to-item9">
+                        <?php $__currentLoopData = $asistencias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $asistencia): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="small-box bg-info" style="border-radius: 5px; text-align: center; color: #ffffff;">
+                                <div class="inner">
+                                    <p><?php echo e($asistencia->nombre); ?> <?php echo e($asistencia->apellido); ?> <?php echo e($asistencia->apellidoMat); ?></p>
+                                    <p>Sesiones restantes: <?php echo e($asistencia->nrsesiones); ?></p>
+                                    <p><?php echo e($asistencia->modalidad); ?></p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-user-circle"></i>
+                                </div>
+                                <a href="/registerUser" class="small-box-footer">
+                                    <?php echo e(\Carbon\Carbon::parse($asistencia->fecha)->format('H:i:s')); ?>
+
+                                    <i class="fa fa-check-circle"></i>
+                                </a>
+                            </div>
+                            <?php if($index + 2 >= 9): ?>
+                                <?php break; ?>
+                            <?php endif; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
 </div>
 
-<!-- Agregar el enlace a Google Fonts para la fuente Poppins -->
+<!-- Modal para subir imagen -->
+<div class="modal fade" id="modalSubirImagen" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Subir Anuncio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formSubirImagen" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <div class="form-group">
+                        <label for="imagenAnuncio">Seleccionar imagen</label>
+                        <input type="file" class="form-control" id="imagenAnuncio" name="imagenAnuncio" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-<!-- Estilos personalizados -->
 <style>
-    .card {
-        background-color: #ffffff;
-        border: none;
-        border-radius: 20px;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(6, auto);
+        gap: 10px;
+        padding: 10px;
     }
 
-    /* Hover en la tabla */
-    .asistencia-row:hover {
-        background-color: #b2dfdb !important;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    .grid-container > div {
+        text-align: center;
+        padding: 20px;
     }
 
-    th, td {
-        padding: 12px;
-        border: none;
+    .item1 {
+        grid-area: 1 / 2 / 5 / 6;
     }
 
-    .card-body {
-        background-color: #e0f7fa;
-        border-radius: 15px;
+    .item2-to-item9 > .small-box {
+        margin-bottom: 10px;
     }
 
-    thead tr th {
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    /* Animación al hacer hover en el botón de subir anuncio */
-    .btn-primary:hover {
-        background-color: #00796b;
-        transition: background-color 0.3s ease;
+    .small-box .inner p {
+        margin: 0;
+        line-height: 1.2;
     }
 </style>
 
@@ -142,73 +122,40 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    // Función para actualizar la tabla de asistencias
-    function actualizarTablaAsistencias() {
+    function actualizarCardsAsistencias() {
         $.ajax({
-            url: "/obtener-asistencias", // Ruta Laravel para obtener las asistencias más recientes
+            url: "/obtener-asistencias",
             method: "GET",
             success: function(response) {
-                $('#tablaAsistencias').empty();
-                response.forEach(function(asistencia) {
-                    $('#tablaAsistencias').append(
-                        '<tr class="asistencia-row">' +
-
-                            '<td>' + asistencia.nombre + ' ' + asistencia.apellido + ' ' + asistencia.apellidoMat + '</td>' +
-                            '<td>' + new Date(asistencia.fecha).toLocaleTimeString() + '</td>' +
-                            '<td>' + asistencia.nrsesiones + '</td>' +
-                            '<td>' + asistencia.modalidad + '</td>' +
-                        '</tr>'
-                    );
+                $('#cardsAsistencias').empty();  // Vaciar contenedor antes de actualizar
+                response.slice(0, 8).forEach(function(asistencia) {  // Limitar a 8 cards
+                    $('#cardsAsistencias').append(`
+                        <div class="small-box bg-info" style="border-radius: 5px; text-align: center; color: #ffffff;">
+                            <div class="inner">
+                                <p>${asistencia.nombre} ${asistencia.apellido} ${asistencia.apellidoMat}</p>
+                                <p>Sesiones restantes: ${asistencia.nrsesiones}</p>
+                                <p>${asistencia.modalidad}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-user-circle"></i>
+                            </div>
+                            <a href="" class="small-box-footer">
+                                ${new Date(asistencia.fecha).toLocaleTimeString()}
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </div>
+                    `);
                 });
             }
         });
     }
 
+    // Actualizar cada 5 segundos cuando la pestaña está visible
     setInterval(function() {
         if (document.visibilityState === 'visible') {
-            actualizarTablaAsistencias();
+            actualizarCardsAsistencias();
         }
     }, 5000);
-
-    $(document).ready(function() {
-    actualizarTablaAsistencias();
-
-    // Manejar la subida de imagen con AJAX
-    $('#formSubirImagen').on('submit', function(event) {
-        event.preventDefault();
-        
-        var formData = new FormData(this);
-        
-        $.ajax({
-            url: '/subir-anuncio',  // Ruta Laravel para manejar la subida
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                // Mostrar la imagen subida debajo del botón
-                $('#mostrarImagen').html('<img src="/anuncios/' + response.nombreImagen + '" class="img-fluid mt-3" alt="Anuncio">');
-                
-                // Usamos la función personalizada para cerrar el modal
-                setTimeout(function() {
-                    cerrarModal();  // Llamar a la función que fuerza el cierre del modal
-                }, 500);  // Cerrar el modal después de 500ms para dar tiempo a mostrar el cambio
-            },
-            error: function(xhr, status, error) {
-                console.log('Error al subir la imagen:', error);
-            }
-        });
-    });
-
-    
-    // Función para cerrar el modal manualmente
-    function cerrarModal() {
-        $('#modalSubirImagen').modal('hide'); // Cerrar el modal
-        $('.modal-backdrop').remove(); // Eliminar el fondo del modal
-        $('body').removeClass('modal-open'); // Eliminar la clase que evita el scroll
-        $('body').css('padding-right', ''); // Restablecer el padding
-    }
-});
 </script>
 
 <?php $__env->stopSection(); ?>

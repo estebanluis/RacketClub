@@ -113,14 +113,14 @@
                                             </a>
                                         <?php endif; ?>
                                     </li>
-                                    <li class="nav-item">
+                                    <!--<li class="nav-item">
                                         <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
                                             <a href="/registrarAlumno" class="nav-link <?php echo e(Request::is('registrarAlumno') ? 'active' : ''); ?>">
                                                 <i class="nav-icon fa fa-user-plus"></i>
                                                 <p>Registrar Alumnos</p>
                                             </a>
                                         <?php endif; ?>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             <?php endif; ?>
                         </li>
@@ -141,7 +141,17 @@
                                     <a href="/barang" class="nav-link">
                                         <i class="nav-icon fa fa-users"></i>
                                         <p>
-                                            Lista Alumnos
+                                             Actualizar Alumnos
+                                        </p>
+                                    </a>
+                                    <?php endif; ?>
+                                </li>
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                    <a href="/listaSeciones" class="nav-link">
+                                        <i class="nav-icon fa fa-users"></i>
+                                        <p>
+                                            Lista Seciones
                                         </p>
                                     </a>
                                     <?php endif; ?>
@@ -259,7 +269,7 @@
                                 <a href="/dashboard/listaproductos" class="nav-link">
                                             <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
                                             <p>
-                                                Lista Productos
+                                                Actualizar Productos
                                             </p>
                                         </a>
                                     <?php endif; ?>
@@ -274,7 +284,7 @@
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
-                                    Lista Alumnos
+                                    Actualizar Alumnos
                                 </p>
                             </a>
                             <?php endif; ?>
@@ -332,7 +342,7 @@
                         </li>
                         <li class="nav-item">
                             <?php if(Auth::user()->TipoUsuario === 'Profesor'): ?>
-                                <a href="/turnos" class="nav-link">
+                                <a href="/tula" class="nav-link">
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
                                         Horario
@@ -385,7 +395,7 @@
                         <a href="/dashboard/listaproductos" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
-                                        Lista Productos
+                                        Actualizar Productos
                                     </p>
                                 </a>
                             <?php endif; ?>

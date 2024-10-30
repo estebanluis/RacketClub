@@ -8,12 +8,14 @@ use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
+use App\Http\Controllers\HorasProfesorController;
 use App\Http\Controllers\HorasTProfController;
 use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ReservaCanchaController;
+use App\Http\Controllers\SesionesContrller;
 use App\Http\Controllers\verTurnosController;
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +33,9 @@ Route::get('/login', [AuthController::class, 'index'])->name('login')->middlewar
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'process']);
+Route::get('/listaSeciones', [SesionesContrller::class, 'index']);
 Route::get('/registrarAlumno', [RegistroAlumnosController::class, 'index']);
+Route::post('/listaSeciones', [SesionesContrller::class, 'storeSesion'])->name('registrarAlumn.storeSesion');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::post('/registrar', [RegistroAlumnosController::class, 'store'])->name('registrarAlumn.store');
 Route::get('/registerUser', [AuthController::class, 'registerUser']);
@@ -114,6 +118,9 @@ Route::put('/piscinaFinde/finalizar/{id}', [PiscinaFindeController::class, 'fina
 //ruta lista usuarios 
 Route::resource('/luser', ListUserController::class);
 //ruta para verificar la sesion 
+Route::resource('/tula', HorasProfesorController::class);
+
 Route::get('/check-session', function () {
     return response()->json(['expired' => !auth()->check()]);
+
 });

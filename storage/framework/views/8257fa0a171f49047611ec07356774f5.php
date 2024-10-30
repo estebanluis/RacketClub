@@ -18,10 +18,10 @@
         }
         .rectangle {
             position: absolute;
-            top: 0.25cm; /* Ajusta la posición desde la parte superior en 0.25 cm */
-            left: 0.25cm; /* Ajusta la posición desde la izquierda en 0.25 cm */
-            width: 7cm;
-            height: 5cm;
+            top: 0.1cm; /* Ajusta la posición desde la parte superior en 0.25 cm */
+            left: 0.1cm; /* Ajusta la posición desde la izquierda en 0.25 cm */
+            width: 6.5cm;
+            height: 4.3cm;
             border: 1px solid #000;
             background-color: #fff;
             padding: 9px; /* Ajusta el padding para mantener el tamaño total del rectángulo */
@@ -48,20 +48,28 @@
         .barcode {
             font-size: 9px;
             display: inline-block;
+            margin: 3;
         }
         .barcode img {
             display: block;
             margin: 0 auto;
         }
         .expiration {
-            font-size: 17px;
+            font-size: 13px;
             text-align: right;
             margin-top: 5px;
             display: inline-block;
+            
         }
         .message {
-            font-size: 9px;
+            font-size: 8px;
             margin-top: 5px;
+            text-align: center;
+            margin: 0;
+        }
+        .name, .schedule {
+            font-size: 17px;
+            margin: 0; /* Elimina el margen entre los elementos */
             text-align: center;
         }
     </style>
@@ -82,5 +90,4 @@
         </div>
     </div>
 </body>
-</html>
-<?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/pdf/tarjeta.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/pdf/tarjeta.blade.php ENDPATH**/ ?>

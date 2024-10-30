@@ -1,5 +1,5 @@
 @extends('template.main')
-@section('title', 'Lista Alumnos')
+@section('title', 'Actualizar Alumnos')
 @section('content')
 
 <div class="content-wrapper">
@@ -27,6 +27,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-header">
+                                
+                            <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalAddProduct">
+                                <i class="fa-solid fa-plus"></i> Agregar Producto
+                            </button>
+                        </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                         <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
@@ -173,5 +179,231 @@
             }
         });
     }
+</script>
+<div class="modal fade" id="modalAddProduct" tabindex="-1" role="dialog" aria-labelledby="modalAddProductLabel" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+    <div class="card card-outline card-primary">
+        <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="registerModalLabel">Registrar Usuario</h5>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="card-body">
+
+<form class="needs-validation" novalidate action="{{ route('registrarAlumn.store') }}" method="POST">
+    @csrf
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <input type="text"2 name="nombre" class="form-control @error('nombre') is-invalid @enderror"
+                    placeholder="Nombre completo" value="{{ old('nombre') }}" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+                @error('nombre')
+                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <!-- Repite esta estructura para los siguientes 4 campos -->
+        </div>
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <input type="text" name="apellido" class="form-control @error('apellido') is-invalid @enderror"
+                    placeholder="Apellido Paterno" value="{{ old('apellido') }}" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+                @error('apellido')
+                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <!-- Repite esta estructura para los siguientes 4 campos -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <input type="text" name="apellidoMat" class="form-control @error('apellidoMat') is-invalid @enderror"
+                    placeholder="Apellido Materno" value="{{ old('apellidoMat') }}" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fa fa-eye" ></span>
+                    </div>
+                </div>
+                @error('apellidoMat')
+                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                    
+                    <select name="horario" id="horario" class="form-control @error('horario') is-invalid @enderror">
+                <option value="7:00-8:00">7:00-8:00</option>
+                <option value="8:00-9:00">8:00-9:00</option>
+                <option value="9:00-10:00">9:00-10:00</option>
+                <option value="10:00-11:00">10:00-11:00</option>
+                <option value="11:00-12:00">11:00-12:00</option>
+                <option value="12:00-13:00">12:00-13:00</option>
+                <option value="13:00-14:00">13:00-14:00</option>
+                <option value="14:00-15:00">14:00-15:00</option>
+                <option value="15:00-16:00">15:00-16:00</option>
+                <option value="16:00-17:00">16:00-17:00</option>
+                <option value="17:00-18:00">17:00-18:00</option>
+                <option value="18:00-19:00">18:00-19:00</option>
+                <option value="19:00-20:00">19:00-20:00</option>
+                <option value="20:00-21:00">20:00-21:00</option>
+                </select> 
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+                @error('horario')
+                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                    <input type="text" name="direccion" class="form-control @error('direccion') is-invalid @enderror"
+                        placeholder="Direccion" value="{{ old('direccion') }}" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    @error('direccion')
+                        <span class="invalid-feedback text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" name="telefono" class="form-control @error('telefono') is-invalid @enderror"
+                        placeholder="Telefono" value="{{ old('telefono') }}" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    @error('telefono')
+                        <span class="invalid-feedback text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            <!-- Repite esta estructura para los siguientes 4 campos -->
+        </div>
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <input type="text" name="edad" class="form-control @error('edad') is-invalid @enderror"
+                    placeholder="Edad" value="{{ old('edad') }}" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+                @error('edad')
+                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <!-- Repite esta estructura para los siguientes 4 campos -->
+            <div class="input-group mb-3">
+                    
+                        <select name="modalidad" id="modalidad" class="form-control @error('modalidad') is-invalid @enderror">
+                        <option value="Natación curso completo">Natación curso completo</option>
+                        <option value="Natación*3 semana 12">Natación*3 semana 12</option>
+                        <option value="Natación*3 semana 20">Natación*3 semana 20</option>
+                        <option value="Natación medio curso">Natación medio curso</option>
+                        </select>
+                <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                </div>
+                    @error('modalidad')
+                        <span class="invalid-feedback text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" name="observciones" class="form-control @error('observciones') is-invalid @enderror"
+                        placeholder="Observaciones" value="{{ old('observciones') }}" >
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    @error('observciones')
+                        <span class="invalid-feedback text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" name="descuento" class="form-control @error('descuento') is-invalid @enderror"
+                        placeholder="Descuennto" value="{{ old('descuento') }}" value="0">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    @error('descuento')
+                        <span class="invalid-feedback text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+        </div>
+        
+        
+    </div>
+    <div class="row">
+            <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+            </div>
+    </div>
+    <!-- Repite las filas anteriores para los siguientes campos -->
+    <!-- Asegúrate de cerrar el formulario al final -->
+</form>
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Reinscripción completada',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Imprimir',
+            cancelButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.open("{{ route('generarPdf', session('codigoGenerado')) }}", "_blank");
+            }
+        });
+    });
+</script>
+@endif
+</div>
+</div>
+</div>
+<script src="/assets/plugins/jquery/jquery.min.js"></script>
+
+<script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+{{-- <script src="/assets/dist/js/adminlte.min.js"></script> --}}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
 </script>
 @endsection

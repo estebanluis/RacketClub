@@ -286,7 +286,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                            placeholder="Observaciones" value="<?php echo e(old('observciones')); ?>" required>
+                            placeholder="Observaciones" value="<?php echo e(old('observciones')); ?>" >
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -312,7 +312,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                            placeholder="Descuennto" value="<?php echo e(old('descuento')); ?>" required>
+                            placeholder="Descuennto" value="<?php echo e(old('descuento')); ?>" value="0">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -400,4 +400,5 @@ unset($__errorArgs, $__bag); ?>
     })();
 </script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/registrarAlumn/registrar.blade.php ENDPATH**/ ?>
