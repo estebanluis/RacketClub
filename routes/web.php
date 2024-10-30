@@ -8,6 +8,7 @@ use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControlAlumnController;
+use App\Http\Controllers\HorasProfesorController;
 use App\Http\Controllers\HorasTProfController;
 use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\PiscinaFindeController;
@@ -117,6 +118,9 @@ Route::put('/piscinaFinde/finalizar/{id}', [PiscinaFindeController::class, 'fina
 //ruta lista usuarios 
 Route::resource('/luser', ListUserController::class);
 //ruta para verificar la sesion 
+Route::resource('/tula', HorasProfesorController::class);
+
 Route::get('/check-session', function () {
     return response()->json(['expired' => !auth()->check()]);
+
 });

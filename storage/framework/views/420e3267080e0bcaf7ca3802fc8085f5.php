@@ -342,7 +342,7 @@
                         </li>
                         <li class="nav-item">
                             <?php if(Auth::user()->TipoUsuario === 'Profesor'): ?>
-                                <a href="/turnos" class="nav-link">
+                                <a href="/tula" class="nav-link">
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
                                         Horario
