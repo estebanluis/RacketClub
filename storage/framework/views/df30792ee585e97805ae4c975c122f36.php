@@ -28,10 +28,16 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                                
-                            <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalAddProduct">
-                                <i class="fa-solid fa-plus"></i> Agregar Producto
-                            </button>
+                            <div class="d-flex  align-items-center mb-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct">
+                                    <i class="fa-solid fa-plus"></i> Agregar Producto
+                                </button>
+                            
+                                <form action="<?php echo e(route('notify')); ?>" method="POST" class="ml-2">
+                                    <?php echo csrf_field(); ?> <!-- Token CSRF para proteger el formulario -->
+                                    <button type="submit" class="btn btn-primary">Notificar</button>
+                                </form>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
