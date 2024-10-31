@@ -11,6 +11,7 @@ use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasProfesorController;
 use App\Http\Controllers\HorasTProfController;
 use App\Http\Controllers\ListUserController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
@@ -124,3 +125,6 @@ Route::get('/check-session', function () {
     return response()->json(['expired' => !auth()->check()]);
 
 });
+
+
+Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
