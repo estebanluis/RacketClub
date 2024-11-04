@@ -141,7 +141,7 @@
                                     <a href="/barang" class="nav-link">
                                         <i class="nav-icon fa fa-users"></i>
                                         <p>
-                                             Actualizar Alumnos
+                                             Gestion de Alumnos
                                         </p>
                                     </a>
                                     <?php endif; ?>
@@ -249,17 +249,7 @@
                                 <a href="/ventas" class="nav-link">
                                             <i class="nav-icon fa fa-shopping-basket"></i>
                                             <p>
-                                                Vender
-                                            </p>
-                                        </a>
-                                    <?php endif; ?>
-                                </li>
-                                <li class="nav-item">
-                                <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
-                                <a href="/dashboard/agreagar-productos" class="nav-link">
-                                            <i class="nav-icon fa fa-cart-plus" aria-hidden="true"></i>
-                                            <p>
-                                                Agregar Productos
+                                                Vender Productos
                                             </p>
                                         </a>
                                     <?php endif; ?>
@@ -269,7 +259,7 @@
                                 <a href="/dashboard/listaproductos" class="nav-link">
                                             <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
                                             <p>
-                                                Actualizar Productos
+                                                Gestion de Productos
                                             </p>
                                         </a>
                                     <?php endif; ?>
@@ -284,7 +274,7 @@
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
-                                    Actualizar Alumnos
+                                    Gestion De Alumnos
                                 </p>
                             </a>
                             <?php endif; ?>
@@ -295,17 +285,6 @@
                                 <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 <p>
                                     Reporte Financiero
-                                </p>
-                            </a>
-                            <?php endif; ?>
-                        </li>
-                        <li class="nav-item">
-                            <?php if( Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
-
-                            <a href="/registrarAlumno" class="nav-link">
-                                <i class="nav-icon fa fa-user-plus"></i>
-                                <p>
-                                    Registrar Alumnos
                                 </p>
                             </a>
                             <?php endif; ?>
@@ -331,6 +310,16 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <a href="/listaSeciones" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    Lista Seciones
+                                </p>
+                            </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
                             <?php if(Auth::user()->TipoUsuario === 'Profesor'): ?>
                                 <a href="/hprof" class="nav-link">
                                     <i class="nav-icon fa-solid fa-box"></i>
@@ -345,7 +334,7 @@
                                 <a href="/tula" class="nav-link">
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
-                                        Horario
+                                        Horarios
                                     </p>
                                 </a>
                             <?php endif; ?>
@@ -380,22 +369,13 @@
                                 </a>
                             <?php endif; ?>
                         </li>
-                        <li class="nav-item">
-                        <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
-                        <a href="/dashboard/agreagar-productos" class="nav-link">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                    <p>
-                                        Agregar Productos
-                                    </p>
-                                </a>
-                            <?php endif; ?>
-                        </li>
+                        
                         <li class="nav-item">
                         <?php if(Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/dashboard/listaproductos" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
-                                        Actualizar Productos
+                                        Gestion de Productos
                                     </p>
                                 </a>
                             <?php endif; ?>
