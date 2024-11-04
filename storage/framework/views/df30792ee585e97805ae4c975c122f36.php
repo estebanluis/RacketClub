@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('title', 'Actualizar Alumnos'); ?>
+<?php $__env->startSection('title', ' Gestion De Alumnos'); ?>
 <?php $__env->startSection('content'); ?>
 
 <div class="content-wrapper">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
                         <li class="breadcrumb-item active"><?php echo $__env->yieldContent('title'); ?></li>
                     </ol>
                 </div>
@@ -30,7 +30,7 @@
                         <div class="card-header">
                             <div class="d-flex  align-items-center mb-3">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct">
-                                    <i class="fa-solid fa-plus"></i> Agregar Producto
+                                    <i class="fa-solid fa-plus"></i> Agregar Alumno 
                                 </button>
                             
                                 <form action="<?php echo e(route('notify')); ?>" method="POST" class="ml-2">
