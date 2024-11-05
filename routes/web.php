@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ReservaCanchaController;
 use App\Http\Controllers\SesionesContrller;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\verTurnosController;
 /*
 |--------------------------------------------------------------------------
@@ -128,3 +129,4 @@ Route::get('/check-session', function () {
 
 
 Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
+Route::put('/user/update', [UserController::class, 'update'])->name('user.update');

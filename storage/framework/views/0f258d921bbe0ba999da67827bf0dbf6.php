@@ -30,7 +30,6 @@
                             <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>#</th>
                                         <th>Nombre</th>
                                         <th>Email</th>
                                         <th>Acciones</th>
@@ -39,7 +38,6 @@
                                 <tbody>
                                     <?php $__currentLoopData = $barang; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
-                                            <td><?php echo e($loop->iteration); ?></td>
                                             <td><?php echo e($data->name); ?></td>
                                             <td><?php echo e($data->email); ?></td>
                                             <td>
@@ -62,7 +60,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para agregar turno -->
 <div class="modal fade" id="addTurnoModal" tabindex="-1" role="dialog" aria-labelledby="addTurnoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -81,39 +78,18 @@
                     <input type="hidden" name="id_user" id="id_user">
                     <input type="hidden" name="name" id="name">
 
-                    <div class="input-group mb-3">
-                        <input type="text" name="name_display" id="name_display" class="form-control" placeholder="Nombre" readonly>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <select name="carril" class="form-control <?php $__errorArgs = ['carril'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" required>
-                            <option value="" disabled selected>Selecciona un carril</option>
-                            <option value="1" <?php echo e(old('carril') == '1' ? 'selected' : ''); ?>>Carril 1</option>
-                            <option value="2" <?php echo e(old('carril') == '2' ? 'selected' : ''); ?>>Carril 2</option>
-                            <option value="3" <?php echo e(old('carril') == '3' ? 'selected' : ''); ?>>Carril 3</option>
-                            <option value="4" <?php echo e(old('carril') == '4' ? 'selected' : ''); ?>>Carril 4</option>
-                        </select>
-                        <?php $__errorArgs = ['carril'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <input type="number" name="nalumnos" class="form-control <?php $__errorArgs = ['nalumnos'];
+                    <!-- Fila para Nombre y Número de Alumnos -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="name_display">Nombre</label>
+                            <div class="input-group">
+                                <input type="text" name="name_display" id="name_display" class="form-control" placeholder="Nombre" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nalumnos">Número de Alumnos</label>
+                            <div class="input-group">
+                                <input type="number" name="nalumnos" class="form-control <?php $__errorArgs = ['nalumnos'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -121,21 +97,27 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" placeholder="Número de Alumnos" value="<?php echo e(old('nalumnos')); ?>" required>
-                        <?php $__errorArgs = ['nalumnos'];
+                                <?php $__errorArgs = ['nalumnos'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
+                                    <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
+                                <div class="invalid-feedback">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <select name="horario" class="form-control <?php $__errorArgs = ['horario'];
+                    <!-- Fila para Carril y Horario -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="carril">Carril</label>
+                            <div class="input-group">
+                                <select name="carril" class="form-control <?php $__errorArgs = ['carril'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -143,26 +125,62 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" required>
-                            <option value="" disabled selected>Selecciona un horario</option>
-                            <?php $__currentLoopData = ['7:00-8:00', '8:00-9:00', '9:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00', '20:00-21:00']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($option); ?>" <?php echo e(old('horario') == $option ? 'selected' : ''); ?>><?php echo e($option); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </select>
-                        <?php $__errorArgs = ['horario'];
+                                    <option value="" disabled selected>Selecciona un carril</option>
+                                    <option value="1" <?php echo e(old('carril') == '1' ? 'selected' : ''); ?>>Carril 1</option>
+                                    <option value="2" <?php echo e(old('carril') == '2' ? 'selected' : ''); ?>>Carril 2</option>
+                                    <option value="3" <?php echo e(old('carril') == '3' ? 'selected' : ''); ?>>Carril 3</option>
+                                    <option value="4" <?php echo e(old('carril') == '4' ? 'selected' : ''); ?>>Carril 4</option>
+                                </select>
+                                <?php $__errorArgs = ['carril'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                            <div class="invalid-feedback"><?php echo e($message); ?></div>
-                        <?php unset($message);
+                                    <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
+                                <div class="invalid-feedback">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="horario">Horario</label>
+                            <div class="input-group">
+                                <select name="horario" class="form-control <?php $__errorArgs = ['horario'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" required>
+                                    <option value="" disabled selected>Selecciona un horario</option>
+                                    <?php $__currentLoopData = ['7:00-8:00', '8:00-9:00', '9:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00', '20:00-21:00']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($option); ?>" <?php echo e(old('horario') == $option ? 'selected' : ''); ?>><?php echo e($option); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                                <?php $__errorArgs = ['horario'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                <div class="invalid-feedback">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <textarea name="observaciones" class="form-control" placeholder="Observaciones" rows="3"><?php echo e(old('observaciones')); ?></textarea>
+                    <!-- Fila para Observaciones -->
+                    <div class="mb-3">
+                        <label for="observaciones">Observaciones</label>
+                        <div class="input-group">
+                            <textarea name="observaciones" class="form-control" placeholder="Observaciones" rows="3"><?php echo e(old('observaciones')); ?></textarea>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -175,6 +193,7 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 </div>
+
 
 <?php $__env->stopSection(); ?>
 

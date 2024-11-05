@@ -38,7 +38,7 @@ class AtencionRacketController extends Controller
     {
         // Validamos los campos obligatorios
         $validated = $request->validate([
-            'name' => 'required|max:100',
+            'name' => 'required|max:100|regex:/^[\p{L}\s]+$/u',
             'horaEntrada' => 'required|date_format:H:i',
             'cancha' => 'required|integer|min:1|max:4',
             'tipo' => 'required|string',

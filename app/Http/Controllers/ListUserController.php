@@ -21,7 +21,7 @@ class ListUserController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name' => 'required|string|max:255|unique:users,name',
+                'name' => 'required|string|max:255|unique:users,name|regex:/^[\p{L}\s]+$/u',
                 'email' => 'required|email|unique:users,email',
                 'TipoUsuario' => 'required|string',
                 'password' => 'required|string|min:6|confirmed',

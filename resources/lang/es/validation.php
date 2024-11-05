@@ -78,6 +78,7 @@ return [
     'custom' => [
     'name' => [
         'unique' => 'El nombre ya ha sido registrado. Por favor elige otro.',
+        'regex' => 'El formato de nombre es incorrecto. Por Favor ponga el nombre de manera adecuada.',
     ],
 ],
     'uploaded' => 'El :attribute no se pudo subir.',

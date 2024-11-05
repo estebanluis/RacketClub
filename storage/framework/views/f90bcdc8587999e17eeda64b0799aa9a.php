@@ -80,48 +80,58 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para agregar/editar salario -->
 <div class="modal fade" id="agregarSalarioModal" tabindex="-1" role="dialog" aria-labelledby="agregarSalarioModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="observacionesModalLabel">Agregar o Editar Salario</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="observacionesModalLabel">Agregar o Editar Salario</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <form id="salarioForm" method="POST">
                 <?php echo csrf_field(); ?>
                 <?php echo method_field('PUT'); ?>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="text" name="name" id="nombre" class="form-control" required>
+                    <!-- Fila para Nombre y Fecha -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" name="name" id="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha">Fecha</label>
+                            <input type="text" name="fecha" id="fecha" class="form-control" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="fecha">Fecha</label>
-                        <input type="text" name="fecha" id="fecha" class="form-control" required>
+                    
+                    <!-- Fila para Hora, Nro Carril y Nro Alumnos -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="hora">Hora</label>
+                            <input type="text" name="hora" id="hora" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="carril">Nro Carril</label>
+                            <input type="number" name="carril" id="carril" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="nalumnos">Nro Alumnos</label>
+                            <input type="number" name="nalumnos" id="nalumnos" class="form-control" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="hora">Hora</label>
-                        <input type="text" name="hora" id="hora" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="carril">Nro Carril</label>
-                        <input type="number" name="carril" id="carril" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nalumnos">Nro Alumnos</label>
-                        <input type="number" name="nalumnos" id="nalumnos" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="salario">Salario</label>
-                        <input type="number" name="salario" id="salario" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="observaciones">Observaciones</label>
-                        <textarea name="observaciones" id="observaciones" class="form-control" cols="10" rows="3"></textarea>
+
+                    <!-- Fila para Observaciones y Salario -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea name="observaciones" id="observaciones" class="form-control" cols="10" rows="3"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="salario">Salario</label>
+                            <input type="number" name="salario" id="salario" class="form-control" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -132,6 +142,7 @@
         </div>
     </div>
 </div>
+
 
 <?php $__env->stopSection(); ?>
 
