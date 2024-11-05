@@ -46,7 +46,7 @@
                                 <div class="icon">
                                     <i class="fa fa-user-circle"></i>
                                 </div>
-                                <a href="/registerUser" class="small-box-footer">
+                                <a href="" class="small-box-footer">
                                     <?php echo e(\Carbon\Carbon::parse($asistencia->fecha)->format('H:i:s')); ?>
 
                                     <i class="fa fa-check-circle"></i>

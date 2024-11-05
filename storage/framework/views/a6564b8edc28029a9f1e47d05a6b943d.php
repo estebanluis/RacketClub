@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('title', 'Registrar Usuarios'); ?>
+<?php $__env->startSection('title', 'Gestión de Usuarios'); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
@@ -14,7 +14,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
                 <li class="breadcrumb-item active"><?php echo $__env->yieldContent('title'); ?></li>
             </ol>
             </div><!-- /.col -->

@@ -82,7 +82,6 @@
     </div>
 </div>
 
-<!-- Modal para registrar usuarios -->
 <div class="modal fade" id="registerUserModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -95,18 +94,53 @@
             <div class="modal-body">
                 <form class="needs-validation" novalidate action="/luser" method="POST">
                     @csrf
-                    <div class="input-group mb-3">
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nombre completo" value="{{ old('name') }}" required>
-                        @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    
+                    <!-- Primera fila: Nombre y Correo -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="name">Nombre completo</label>
+                            <div class="input-group mb-3">
+                                <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nombre completo" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email">Correo electrónico</label>
+                            <div class="input-group mb-3">
+                                <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Correo electrónico" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Correo electrónico" value="{{ old('email') }}" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+
+                    <!-- Segunda fila: Contraseña y Confirmación de Contraseña -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="password">Contraseña</label>
+                            <div class="input-group mb-3">
+                                <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" required>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="password_confirmation">Repite la contraseña</label>
+                            <div class="input-group mb-3">
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Repite la contraseña" required>
+                                @error('password_confirmation')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Tercera fila: Tipo de Usuario -->
+                    <label for="TipoUsuario">Tipo de Usuario</label>
                     <div class="input-group mb-3">
                         <select name="TipoUsuario" id="TipoUsuario" class="form-control @error('TipoUsuario') is-invalid @enderror" required>
                             <option value="" disabled selected>Selecciona un tipo de usuario</option>
@@ -119,18 +153,8 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" required>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Repite la contraseña" required>
-                        @error('password_confirmation')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+
+                    <!-- Botones de acción -->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Registrar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -141,51 +165,79 @@
     </div>
 </div>
 
+
 <!-- Modal para editar usuarios -->
 <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="registerModalLabel">Editar Usuario</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-            <form class="needs-validation" novalidate action="{{ route('luser.update', 'id_user') }}" method="POST">
-    @csrf
-    @method('PUT') <!-- Asegúrate de usar PUT aquí -->
-    <input type="hidden" name="id_user" id="id_user">
-    <div class="input-group mb-3">
-        <input type="text" name="name" id="edit_name" class="form-control" placeholder="Nombre completo" required>
-    </div>
-    <div class="input-group mb-3">
-        <input type="email" name="email" id="edit_email" class="form-control" placeholder="Correo electrónico" required>
-    </div>
-    <div class="input-group mb-3">
-        <select name="TipoUsuario" id="edit_TipoUsuario" class="form-control" required>
-            <option value="" disabled selected>Selecciona un tipo de usuario</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Secretaria Natacion">Secretaria Piscina</option>
-            <option value="Secretaria Racket">Secretaria Racket</option>
-            <option value="Profesor">Profesor</option>
-        </select>
-    </div>
-    <div class="input-group mb-3">
-        <input type="password" name="password" id="edit_password" class="form-control" placeholder="Contraseña (deja en blanco si no deseas cambiarla)">
-    </div>
-    <div class="input-group mb-3">
-        <input type="password" name="password_confirmation" id="edit_password_confirmation" class="form-control" placeholder="Repite la contraseña (si cambiaste la contraseña)">
-    </div>
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Actualizar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-    </div>
-</form>
+                <form class="needs-validation" novalidate action="{{ route('luser.update', 'id_user') }}" method="POST">
+                    @csrf
+                    @method('PUT') <!-- Asegúrate de usar PUT aquí -->
+                    <input type="hidden" name="id_user" id="id_user">
+
+                    <!-- Fila para Nombre y Correo -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="edit_name">Nombre completo</label>
+                            <div class="input-group">
+                                <input type="text" name="name" id="edit_name" class="form-control" placeholder="Nombre completo" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="edit_email">Correo electrónico</label>
+                            <div class="input-group">
+                                <input type="email" name="email" id="edit_email" class="form-control" placeholder="Correo electrónico" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila para Tipo de Usuario -->
+                    <div class="mb-3">
+                        <label for="edit_TipoUsuario">Tipo de Usuario</label>
+                        <div class="input-group">
+                            <select name="TipoUsuario" id="edit_TipoUsuario" class="form-control" required>
+                                <option value="" disabled selected>Selecciona un tipo de usuario</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Secretaria Natacion">Secretaria Piscina</option>
+                                <option value="Secretaria Racket">Secretaria Racket</option>
+                                <option value="Profesor">Profesor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Fila para Contraseña y Confirmación de Contraseña -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="edit_password">Contraseña (deja en blanco si no deseas cambiarla)</label>
+                            <div class="input-group">
+                                <input type="password" name="password" id="edit_password" class="form-control" placeholder="Contraseña">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="edit_password_confirmation">Repite la contraseña (si cambiaste la contraseña)</label>
+                            <div class="input-group">
+                                <input type="password" name="password_confirmation" id="edit_password_confirmation" class="form-control" placeholder="Repite la contraseña">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
 
 @endsection
 
