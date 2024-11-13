@@ -136,12 +136,13 @@ Route::put('/piscinaFinde/finalizar/{id}', [PiscinaFindeController::class, 'fina
 Route::resource('/luser', ListUserController::class);
 //ruta para verificar la sesion 
 Route::resource('/tula', HorasProfesorController::class);
-
+Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
 Route::get('/check-session', function () {
     return response()->json(['expired' => !auth()->check()]);
-    Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
-    Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
+    
 });
+Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
+Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 
 
 

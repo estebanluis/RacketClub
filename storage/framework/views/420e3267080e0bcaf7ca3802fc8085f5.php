@@ -254,21 +254,41 @@
                                 <a href="/ventas" class="nav-link">
                                             <i class="nav-icon fa fa-shopping-basket"></i>
                                             <p>
-                                                Vender Productos
+                                                Venta Piscina
                                             </p>
                                         </a>
                                     <?php endif; ?>
                                 </li>
                                 <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                    <a href="/ventasR" class="nav-link">
+                                                <i class="nav-icon fa fa-shopping-basket"></i>
+                                                <p>
+                                                    Venta Racket
+                                                </p>
+                                            </a>
+                                        <?php endif; ?>
+                                    </li>
+                                <li class="nav-item">
                                 <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
                                 <a href="/dashboard/listaproductos" class="nav-link">
                                             <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
                                             <p>
-                                                Gestion de Productos
+                                                Inventario Piscina
                                             </p>
                                         </a>
                                     <?php endif; ?>
                                 </li>
+                                <li class="nav-item">
+                                    <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
+                                    <a href="/dashboard/listaproductosR" class="nav-link">
+                                                <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
+                                                <p>
+                                                    Inventario Racket
+                                                </p>
+                                            </a>
+                                        <?php endif; ?>
+                                    </li>
                                 </ul>
                             <?php endif; ?>
                         </li>
@@ -365,6 +385,16 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
+                            <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
+                                <a href="/dashboard/listaproductosR" class="nav-link">
+                                    <i class="nav-icon fa fa-clipboard"></i>
+                                    <p>
+                                        Gestion de Productos
+                                    </p>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
                         <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/atenracket" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-cart"></i>
@@ -376,7 +406,7 @@
                         </li>
                         <li class="nav-item">
                         <?php if(Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
-                        <a href="/ventas" class="nav-link">
+                        <a href="/ventasR" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
                                         Vender
@@ -385,16 +415,6 @@
                             <?php endif; ?>
                         </li>
                         
-                        <li class="nav-item">
-                        <?php if(Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
-                        <a href="/dashboard/listaproductos" class="nav-link">
-                                    <i class="nav-icon fa fa-shopping-basket"></i>
-                                    <p>
-                                        Gestion de Productos
-                                    </p>
-                                </a>
-                            <?php endif; ?>
-                        </li>
                         <li class="nav-item">
                             <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
                                 <a href="/piscinaFinde" class="nav-link">
@@ -405,6 +425,26 @@
                                 </a>
                             <?php endif; ?>
                         </li>
+                        <li class="nav-item">
+                            <?php if( Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <a href="/dashboard/listaproductos" class="nav-link">
+                                        <i class="nav-icon fa fa-shopping-cart"></i>
+                                        <p>
+                                            Gestion de Productos
+                                        </p>
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php if( Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                                <a href="/ventas" class="nav-link">
+                                            <i class="nav-icon fa fa-shopping-cart"></i>
+                                            <p>
+                                                Vender
+                                            </p>
+                                        </a>
+                                    <?php endif; ?>
+                                </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
