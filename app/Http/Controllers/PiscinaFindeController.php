@@ -23,7 +23,7 @@ class PiscinaFindeController extends Controller
     {
         // Validar los datos del formulario
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255|regex:/^[\p{L}\s]+$/u',
             'adultos' => 'required|integer|min:0',
             'ninos' => 'required|integer|min:0',
             'observaciones' => 'nullable|string|max:500',

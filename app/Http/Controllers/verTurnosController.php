@@ -99,8 +99,8 @@ class verTurnosController extends Controller
                 'salario' => $request->salario,
                 // Actualiza otros campos si es necesario
             ]);
+            return redirect()->back()->with('success', 'Salario actualizado con éxito');
 
-            return redirect()->route('turnos.index')->with('success', 'Salario actualizado con éxito');
         }
 
 

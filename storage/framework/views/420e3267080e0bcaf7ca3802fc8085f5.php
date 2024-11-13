@@ -55,8 +55,13 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a  class="nav-link"><?php echo e(auth()->user()->name); ?></a>
+                    <!-- Agregamos un enlace con evento para abrir el modal -->
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#userModal">
+                        <?php echo e(auth()->user()->name); ?>
+
+                    </a>
                 </li>
+                
                 <li class="nav-item">
                             <a class="nav-link log-out ml-3" href="#" class="nav-link">
                                 <i class="nav-icon fa-solid fa-power-off" style="color: red;"></i>
@@ -141,7 +146,7 @@
                                     <a href="/barang" class="nav-link">
                                         <i class="nav-icon fa fa-users"></i>
                                         <p>
-                                             Actualizar Alumnos
+                                             Gestion de Alumnos
                                         </p>
                                     </a>
                                     <?php endif; ?>
@@ -249,17 +254,7 @@
                                 <a href="/ventas" class="nav-link">
                                             <i class="nav-icon fa fa-shopping-basket"></i>
                                             <p>
-                                                Vender
-                                            </p>
-                                        </a>
-                                    <?php endif; ?>
-                                </li>
-                                <li class="nav-item">
-                                <?php if(Auth::user()->TipoUsuario === 'Administrador'): ?>
-                                <a href="/dashboard/agreagar-productos" class="nav-link">
-                                            <i class="nav-icon fa fa-cart-plus" aria-hidden="true"></i>
-                                            <p>
-                                                Agregar Productos
+                                                Vender Productos
                                             </p>
                                         </a>
                                     <?php endif; ?>
@@ -269,7 +264,7 @@
                                 <a href="/dashboard/listaproductos" class="nav-link">
                                             <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
                                             <p>
-                                                Actualizar Productos
+                                                Gestion de Productos
                                             </p>
                                         </a>
                                     <?php endif; ?>
@@ -284,7 +279,7 @@
                             <a href="/barang" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
-                                    Actualizar Alumnos
+                                    Gestion De Alumnos
                                 </p>
                             </a>
                             <?php endif; ?>
@@ -295,17 +290,6 @@
                                 <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 <p>
                                     Reporte Financiero
-                                </p>
-                            </a>
-                            <?php endif; ?>
-                        </li>
-                        <li class="nav-item">
-                            <?php if( Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
-
-                            <a href="/registrarAlumno" class="nav-link">
-                                <i class="nav-icon fa fa-user-plus"></i>
-                                <p>
-                                    Registrar Alumnos
                                 </p>
                             </a>
                             <?php endif; ?>
@@ -331,6 +315,26 @@
                             <?php endif; ?>
                         </li>
                         <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion' ): ?>
+                            <a href="/turnos" class="nav-link">
+                                <i class="nav-icon fa fa-briefcase"></i>
+                                <p>
+                                    Turnos Trabajados
+                                </p>
+                            </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php if(Auth::user()->TipoUsuario === 'Secretaria Natacion'): ?>
+                            <a href="/listaSeciones" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    Lista Seciones
+                                </p>
+                            </a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
                             <?php if(Auth::user()->TipoUsuario === 'Profesor'): ?>
                                 <a href="/hprof" class="nav-link">
                                     <i class="nav-icon fa-solid fa-box"></i>
@@ -345,7 +349,7 @@
                                 <a href="/tula" class="nav-link">
                                     <i class="nav-icon fa fa-briefcase"></i>
                                     <p>
-                                        Horario
+                                        Horarios
                                     </p>
                                 </a>
                             <?php endif; ?>
@@ -380,22 +384,13 @@
                                 </a>
                             <?php endif; ?>
                         </li>
-                        <li class="nav-item">
-                        <?php if( Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
-                        <a href="/dashboard/agreagar-productos" class="nav-link">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                    <p>
-                                        Agregar Productos
-                                    </p>
-                                </a>
-                            <?php endif; ?>
-                        </li>
+                        
                         <li class="nav-item">
                         <?php if(Auth::user()->TipoUsuario === 'Secretaria Racket'): ?>
                         <a href="/dashboard/listaproductos" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
-                                        Actualizar Productos
+                                        Gestion de Productos
                                     </p>
                                 </a>
                             <?php endif; ?>
@@ -416,6 +411,64 @@
             </div>
             <!-- /.sidebar -->
         </aside>
+
+        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #003554; color: white;">
+                        <h5 class="modal-title" id="finalizarAtencionModalLabel">Información del Usuario</h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulario para editar los datos -->
+                        <form action="<?php echo e(route('user.update')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PUT'); ?>
+        
+                            <div class="row">
+                                <!-- Nombre -->
+                                <div class="form-group col-md-6">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control" value="<?php echo e(auth()->user()->name); ?>" disabled>
+                                </div>
+                                
+                                <!-- Email -->
+                                <div class="form-group col-md-6">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" value="<?php echo e(auth()->user()->email); ?>" disabled>
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <!-- Tipo de Usuario -->
+                                <div class="form-group col-md-6">
+                                    <label>Tipo de Usuario</label>
+                                    <input type="text" class="form-control" value="<?php echo e(auth()->user()->TipoUsuario); ?>" disabled>
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <!-- Nueva Contraseña -->
+                                <div class="form-group col-md-6">
+                                    <label>Nueva Contraseña</label>
+                                    <input type="password" class="form-control" name="password">
+                                </div>
+        
+                                <!-- Confirmar Nueva Contraseña -->
+                                <div class="form-group col-md-6">
+                                    <label>Confirmar Nueva Contraseña</label>
+                                    <input type="password" class="form-control" name="password_confirmation">
+                                </div>
+                            </div>
+        
+                            <div class="text-right mt-3">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
         <?php echo $__env->yieldContent('content'); ?>
 

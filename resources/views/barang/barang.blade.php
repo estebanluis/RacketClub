@@ -1,5 +1,5 @@
 @extends('template.main')
-@section('title', 'Actualizar Alumnos')
+@section('title', ' Gestion De Alumnos')
 @section('content')
 
 <div class="content-wrapper">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
                         <li class="breadcrumb-item active">@yield('title')</li>
                     </ol>
                 </div>
@@ -28,10 +28,16 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                                
-                            <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalAddProduct">
-                                <i class="fa-solid fa-plus"></i> Agregar Producto
-                            </button>
+                            <div class="d-flex  align-items-center mb-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct">
+                                    <i class="fa-solid fa-plus"></i> Agregar Alumno 
+                                </button>
+                            
+                                <form action="{{ route('notify') }}" method="POST" class="ml-2">
+                                    @csrf <!-- Token CSRF para proteger el formulario -->
+                                    <button type="submit" class="btn btn-primary">Notificar</button>
+                                </form>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">

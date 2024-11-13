@@ -30,7 +30,6 @@
                             <table id="example1" class="table table-striped table-bordered table-hover text-center" style="width: 100%">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>#</th>
                                         <th>Nombre</th>
                                         <th>Email</th>
                                         <th>Acciones</th>
@@ -39,7 +38,6 @@
                                 <tbody>
                                     @foreach ($barang as $data)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->email }}</td>
                                             <td>
@@ -62,7 +60,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para agregar turno -->
 <div class="modal fade" id="addTurnoModal" tabindex="-1" role="dialog" aria-labelledby="addTurnoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -81,46 +78,67 @@
                     <input type="hidden" name="id_user" id="id_user">
                     <input type="hidden" name="name" id="name">
 
-                    <div class="input-group mb-3">
-                        <input type="text" name="name_display" id="name_display" class="form-control" placeholder="Nombre" readonly>
+                    <!-- Fila para Nombre y Número de Alumnos -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="name_display">Nombre</label>
+                            <div class="input-group">
+                                <input type="text" name="name_display" id="name_display" class="form-control" placeholder="Nombre" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nalumnos">Número de Alumnos</label>
+                            <div class="input-group">
+                                <input type="number" name="nalumnos" class="form-control @error('nalumnos') is-invalid @enderror" placeholder="Número de Alumnos" value="{{ old('nalumnos') }}" required>
+                                @error('nalumnos')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="invalid-feedback">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <select name="carril" class="form-control @error('carril') is-invalid @enderror" required>
-                            <option value="" disabled selected>Selecciona un carril</option>
-                            <option value="1" {{ old('carril') == '1' ? 'selected' : '' }}>Carril 1</option>
-                            <option value="2" {{ old('carril') == '2' ? 'selected' : '' }}>Carril 2</option>
-                            <option value="3" {{ old('carril') == '3' ? 'selected' : '' }}>Carril 3</option>
-                            <option value="4" {{ old('carril') == '4' ? 'selected' : '' }}>Carril 4</option>
-                        </select>
-                        @error('carril')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <!-- Fila para Carril y Horario -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="carril">Carril</label>
+                            <div class="input-group">
+                                <select name="carril" class="form-control @error('carril') is-invalid @enderror" required>
+                                    <option value="" disabled selected>Selecciona un carril</option>
+                                    <option value="1" {{ old('carril') == '1' ? 'selected' : '' }}>Carril 1</option>
+                                    <option value="2" {{ old('carril') == '2' ? 'selected' : '' }}>Carril 2</option>
+                                    <option value="3" {{ old('carril') == '3' ? 'selected' : '' }}>Carril 3</option>
+                                    <option value="4" {{ old('carril') == '4' ? 'selected' : '' }}>Carril 4</option>
+                                </select>
+                                @error('carril')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="invalid-feedback">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="horario">Horario</label>
+                            <div class="input-group">
+                                <select name="horario" class="form-control @error('horario') is-invalid @enderror" required>
+                                    <option value="" disabled selected>Selecciona un horario</option>
+                                    @foreach (['7:00-8:00', '8:00-9:00', '9:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00', '20:00-21:00'] as $option)
+                                        <option value="{{ $option }}" {{ old('horario') == $option ? 'selected' : '' }}>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                                @error('horario')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="invalid-feedback">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <input type="number" name="nalumnos" class="form-control @error('nalumnos') is-invalid @enderror" placeholder="Número de Alumnos" value="{{ old('nalumnos') }}" required>
-                        @error('nalumnos')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <select name="horario" class="form-control @error('horario') is-invalid @enderror" required>
-                            <option value="" disabled selected>Selecciona un horario</option>
-                            @foreach (['7:00-8:00', '8:00-9:00', '9:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00', '20:00-21:00'] as $option)
-                                <option value="{{ $option }}" {{ old('horario') == $option ? 'selected' : '' }}>{{ $option }}</option>
-                            @endforeach
-                        </select>
-                        @error('horario')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <textarea name="observaciones" class="form-control" placeholder="Observaciones" rows="3">{{ old('observaciones') }}</textarea>
+                    <!-- Fila para Observaciones -->
+                    <div class="mb-3">
+                        <label for="observaciones">Observaciones</label>
+                        <div class="input-group">
+                            <textarea name="observaciones" class="form-control" placeholder="Observaciones" rows="3">{{ old('observaciones') }}</textarea>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -133,6 +151,7 @@
         </div>
     </div>
 </div>
+
 
 @endsection
 

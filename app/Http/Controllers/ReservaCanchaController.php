@@ -37,7 +37,7 @@ class ReservaCanchaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
+            'name' => 'required|string|max:100|regex:/^[\p{L}\s]+$/u',
             'hora' => 'required',
             'cancha' => 'required|integer|min:1|max:4',
             'fecha' => 'required|date',

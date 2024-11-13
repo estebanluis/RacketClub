@@ -34,51 +34,60 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para Registrar Nueva Reserva -->
 <div class="modal fade" id="addReservaModal" tabindex="-1" role="dialog" aria-labelledby="addReservaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #003554; color: white;">
                 <h5 class="modal-title" id="addReservaModalLabel">Registrar Nueva Reserva</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <form action="{{ route('rcancha.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" name="name" id="nombre" class="form-control" required>
+                    <!-- Fila para Nombre y Fecha -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" name="name" id="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" name="fecha" id="fecha" class="form-control" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="fecha">Fecha:</label>
-                        <input type="date" name="fecha" id="fecha" class="form-control" required>
+                    <!-- Fila para Hora y Nro. Cancha -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="hora">Hora:</label>
+                            <input type="time" name="hora" id="hora" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cancha">Nro. Cancha:</label>
+                            <input type="number" name="cancha" id="cancha" class="form-control" min="1" max="4" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="hora">Hora:</label>
-                        <input type="time" name="hora" id="hora" class="form-control" required>
+                    <!-- Fila para Deporte y Cantidad de Horas -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="deporte">Deporte:</label>
+                            <select name="deporte" id="deporte" class="form-control" required>
+                                <option value="racket">Racket</option>
+                                <option value="wally">Wally</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tiempoReserva">Cantidad de Horas:</label>
+                            <input type="number" name="tiempoReserva" id="tiempoReserva" class="form-control" min="1" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="cancha">Nro. Cancha:</label>
-                        <input type="number" name="cancha" id="cancha" class="form-control" min="1" max="4" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deporte">Deporte:</label>
-                        <select name="deporte" id="deporte" class="form-control" required>
-                            <option value="racket">Racket</option>
-                            <option value="wally">Wally</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="tiempoReserva">Cantidad de Horas:</label>
-                        <input type="number" name="tiempoReserva" id="tiempoReserva" class="form-control" min="1" required>
-                    </div>
-
-                    <div class="form-group">
+                    <!-- Observaciones -->
+                    <div class="form-group mb-3">
                         <label for="observaciones">Observaciones:</label>
                         <textarea name="observaciones" id="observaciones" class="form-control" cols="10" rows="3"></textarea>
                     </div>
@@ -91,51 +100,59 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para Ver y Editar Detalles de Reserva -->
 <div class="modal fade" id="verDetallesModal" tabindex="-1" role="dialog" aria-labelledby="verDetallesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #003554; color: white;">
                 <h5 class="modal-title" id="verDetallesModalLabel">Detalles de la Reserva</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <form action="" method="POST" id="editarReservaForm">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
                     <p><strong>Nombre:</strong> <span id="detalleNombre"></span></p>
-                    
-                    <div class="form-group">
-                        <label for="detalleFecha">Fecha:</label>
-                        <input type="date" name="fecha" id="detalleFecha" class="form-control" readonly>
+
+                    <!-- Fila para Fecha y Deporte -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="detalleFecha">Fecha:</label>
+                            <input type="date" name="fecha" id="detalleFecha" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="detalleDeporte">Deporte:</label>
+                            <select name="deporte" id="detalleDeporte" class="form-control" readonly>
+                                <option value="racket">Racket</option>
+                                <option value="wally">Wally</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="detalleHora">Hora:</label>
-                        <input type="time" name="hora" id="detalleHora" class="form-control">
+                    <!-- Fila para Hora y Nro. Cancha -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="detalleHora">Hora:</label>
+                            <input type="time" name="hora" id="detalleHora" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="detalleCancha">Nro. Cancha:</label>
+                            <input type="number" name="numero_cancha" id="detalleCancha" class="form-control" min="1" max="4">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="detalleCancha">Nro. Cancha:</label>
-                        <input type="number" name="numero_cancha" id="detalleCancha" class="form-control" min="1" max="4">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="detalleDeporte">Deporte:</label>
-                        <select name="deporte" id="detalleDeporte" class="form-control" readonly>
-                            <option value="racket">Racket</option>
-                            <option value="wally">Wally</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="detalleTiempoReserva">Cantidad de Horas:</label>
-                        <input type="number" name="tiempoReserva" id="detalleTiempoReserva" class="form-control" min="1" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="detalleObservaciones">Observaciones:</label>
-                        <textarea name="observaciones" id="detalleObservaciones" class="form-control" cols="10" rows="3" readonly></textarea>
+                    <!-- Cantidad de Horas y Observaciones -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="detalleTiempoReserva">Cantidad de Horas:</label>
+                            <input type="number" name="tiempoReserva" id="detalleTiempoReserva" class="form-control" min="1" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="detalleObservaciones">Observaciones:</label>
+                            <textarea name="observaciones" id="detalleObservaciones" class="form-control" cols="10" rows="3" readonly></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -147,6 +164,7 @@
         </div>
     </div>
 </div>
+
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>

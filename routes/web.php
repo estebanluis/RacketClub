@@ -11,11 +11,13 @@ use App\Http\Controllers\ControlAlumnController;
 use App\Http\Controllers\HorasProfesorController;
 use App\Http\Controllers\HorasTProfController;
 use App\Http\Controllers\ListUserController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ReservaCanchaController;
 use App\Http\Controllers\SesionesContrller;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\verTurnosController;
 /*
 |--------------------------------------------------------------------------
@@ -137,5 +139,9 @@ Route::resource('/tula', HorasProfesorController::class);
 
 Route::get('/check-session', function () {
     return response()->json(['expired' => !auth()->check()]);
-
+    Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
+    Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 });
+
+
+
