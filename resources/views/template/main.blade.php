@@ -253,21 +253,41 @@
                                 <a href="/ventas" class="nav-link">
                                             <i class="nav-icon fa fa-shopping-basket"></i>
                                             <p>
-                                                Vender Productos
+                                                Venta Piscina
                                             </p>
                                         </a>
                                     @endif
                                 </li>
                                 <li class="nav-item">
+                                    @if(Auth::user()->TipoUsuario === 'Administrador')
+                                    <a href="/ventasR" class="nav-link">
+                                                <i class="nav-icon fa fa-shopping-basket"></i>
+                                                <p>
+                                                    Venta Racket
+                                                </p>
+                                            </a>
+                                        @endif
+                                    </li>
+                                <li class="nav-item">
                                 @if(Auth::user()->TipoUsuario === 'Administrador')
                                 <a href="/dashboard/listaproductos" class="nav-link">
                                             <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
                                             <p>
-                                                Gestion de Productos
+                                                Inventario Piscina
                                             </p>
                                         </a>
                                     @endif
                                 </li>
+                                <li class="nav-item">
+                                    @if(Auth::user()->TipoUsuario === 'Administrador')
+                                    <a href="/dashboard/listaproductosR" class="nav-link">
+                                                <i class="nav-icon fa fa-list-ol" aria-hidden="true"></i>
+                                                <p>
+                                                    Inventario Racket
+                                                </p>
+                                            </a>
+                                        @endif
+                                    </li>
                                 </ul>
                             @endif
                         </li>
@@ -364,6 +384,16 @@
                             @endif
                         </li>
                         <li class="nav-item">
+                            @if( Auth::user()->TipoUsuario === 'Secretaria Racket')
+                                <a href="/dashboard/listaproductosR" class="nav-link">
+                                    <i class="nav-icon fa fa-clipboard"></i>
+                                    <p>
+                                        Gestion de Productos
+                                    </p>
+                                </a>
+                            @endif
+                        </li>
+                        <li class="nav-item">
                         @if( Auth::user()->TipoUsuario === 'Secretaria Racket')
                         <a href="/atenracket" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-cart"></i>
@@ -375,7 +405,7 @@
                         </li>
                         <li class="nav-item">
                         @if(Auth::user()->TipoUsuario === 'Secretaria Racket')
-                        <a href="/ventas" class="nav-link">
+                        <a href="/ventasR" class="nav-link">
                                     <i class="nav-icon fa fa-shopping-basket"></i>
                                     <p>
                                         Vender
@@ -384,16 +414,6 @@
                             @endif
                         </li>
                         
-                        <li class="nav-item">
-                        @if(Auth::user()->TipoUsuario === 'Secretaria Racket')
-                        <a href="/dashboard/listaproductos" class="nav-link">
-                                    <i class="nav-icon fa fa-shopping-basket"></i>
-                                    <p>
-                                        Gestion de Productos
-                                    </p>
-                                </a>
-                            @endif
-                        </li>
                         <li class="nav-item">
                             @if(Auth::user()->TipoUsuario === 'Secretaria Natacion')
                                 <a href="/piscinaFinde" class="nav-link">
@@ -404,6 +424,26 @@
                                 </a>
                             @endif
                         </li>
+                        <li class="nav-item">
+                            @if( Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                            <a href="/dashboard/listaproductos" class="nav-link">
+                                        <i class="nav-icon fa fa-shopping-cart"></i>
+                                        <p>
+                                            Gestion de Productos
+                                        </p>
+                                    </a>
+                                @endif
+                            </li>
+                            <li class="nav-item">
+                                @if( Auth::user()->TipoUsuario === 'Secretaria Natacion')
+                                <a href="/ventas" class="nav-link">
+                                            <i class="nav-icon fa fa-shopping-cart"></i>
+                                            <p>
+                                                Vender
+                                            </p>
+                                        </a>
+                                    @endif
+                                </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
