@@ -12,23 +12,50 @@
                     
                     <!-- Item 1: Tablón de Anuncios -->
                     <div class="item1">
-                        <div class="card shadow-lg mb-4" style="border-radius: 20px; height: 700px;">
-                            <div class="card-body p-4 text-center">
-                                <h2 style="color: #00796b; font-family: 'Poppins', sans-serif;">Tablón de Anuncios</h2>
-                                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalSubirImagen">
-                                    Subir Anuncio
-                                </button>
-
-                                <div id="mostrarImagen">
-                                    @php
-                                        $directorioAnuncios = public_path('anuncios');
-                                        $archivos = \Illuminate\Support\Facades\File::files($directorioAnuncios);
-                                        $imagenGuardada = count($archivos) > 0 ? basename($archivos[0]) : null;
-                                    @endphp
-
-                                    @if ($imagenGuardada)
-                                        <img src="{{ asset('anuncios/' . $imagenGuardada) }}" class="img-fluid" alt="Anuncio" style="max-height: 500px;">
-                                    @endif
+                        <div class="">
+                            <div class="card shadow-lg" style="border-radius: 20px; height: 700px;">
+                                <div class="card-body p-4 text-center">
+                                    <h2 style="color: #00796b; font-family: 'Poppins', sans-serif;">Tablón de Anuncios</h2>
+                                    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalSubirArchivo">
+                                        Subir Anuncios
+                                    </button>
+    
+                                    <!-- Carrusel de imágenes y videos -->
+                                    <div id="carouselAnuncios" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @php
+                                                $directorioAnuncios = public_path('anuncios');
+                                                $archivos = \Illuminate\Support\Facades\File::files($directorioAnuncios);
+                                            @endphp
+    
+                                            @if (count($archivos) > 0)
+                                                @foreach ($archivos as $index => $archivo)
+                                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                        @if (Str::endsWith($archivo, ['.mp4', '.webm', '.ogg']))
+                                                            <video class="d-block w-100" controls style="max-height: 500px;">
+                                                                <source src="{{ asset('anuncios/' . basename($archivo)) }}" type="video/{{ pathinfo($archivo, PATHINFO_EXTENSION) }}">
+                                                                Tu navegador no soporta la reproducción de videos.
+                                                            </video>
+                                                        @else
+                                                            <img src="{{ asset('anuncios/' . basename($archivo)) }}" class="d-block w-100" alt="Anuncio" style="max-height: 500px;">
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="carousel-item active">
+                                                    <p>No hay anuncios disponibles</p>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselAnuncios" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselAnuncios" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,24 +91,29 @@
     </div>
 </div>
 
-<!-- Modal para subir imagen -->
-<div class="modal fade" id="modalSubirImagen" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<!-- Modal para subir archivo -->
+<div class="modal fade" id="modalSubirArchivo" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Subir Anuncio</h5>
+                <h5 class="modal-title" id="modalLabel">Subir Archivos para el Anuncio</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formSubirImagen" enctype="multipart/form-data">
+                <form id="formSubirArchivo" enctype="multipart/form-data" method="POST" action="{{ route('subir.anuncios') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="imagenAnuncio">Seleccionar imagen</label>
-                        <input type="file" class="form-control" id="imagenAnuncio" name="imagenAnuncio" required>
+                        <label for="archivosAnuncio">Seleccionar hasta 3 archivos (imágenes o videos)</label>
+                        <input type="file" class="form-control" id="archivosAnuncio" name="archivosAnuncio[]" multiple accept="image/*,video/*" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Subir</button>
+                    <button type="submit" class="btn btn-success">Subir Archivos</button>
+                    @if (session('success'))
+                         <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -104,7 +136,7 @@
     }
 
     .item1 {
-        grid-area: 1 / 2 / 5 / 6;
+        grid-area: 1 / 2 / 5 / 7;
     }
 
     .item2-to-item9 > .small-box {
@@ -114,6 +146,26 @@
     .small-box .inner p {
         margin: 0;
         line-height: 1.2;
+    }
+    
+    .carrusel-responsive {
+        height: auto;
+        max-height: 500px;
+    }
+
+    .img-carrusel, .video-carrusel {
+        object-fit: cover;
+        width: 100%;
+        max-height: 400px;
+    }
+
+    @media (max-width: 768px) {
+        .carrusel-responsive {
+            max-height: 300px;
+        }
+        .img-carrusel, .video-carrusel {
+            max-height: 200px;
+        }
     }
 </style>
 

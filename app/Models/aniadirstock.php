@@ -16,7 +16,7 @@ class aniadirstock extends Model
         'catidad_aniadida',
         'responsable',
         'pago_distribuidor',
-        'saldo_cancha',
+        
         
     ];
 }

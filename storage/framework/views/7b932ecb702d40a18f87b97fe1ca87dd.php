@@ -79,6 +79,12 @@
                                                 <i class="fa-solid fa-pen"></i> Finalizar Atención
                                             </button>
                                         </div>
+                                        <div class="mt-1">
+                                            <button type="button" style="color: " class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
+                                                onclick="setFinalizarDetails('<?php echo e($data->id); ?>', '<?php echo e($data->nombre); ?>', '<?php echo e($data->hora_inicio); ?>', '<?php echo e($data->hora_fin); ?>', '<?php echo e($data->total_horas); ?>', '<?php echo e($data->total); ?>', '<?php echo e($data->observaciones); ?>')">
+                                                <i class="fa-solid fa-pen"></i> Venta
+                                            </button>
+                                        </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
                                 </div>

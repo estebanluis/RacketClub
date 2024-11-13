@@ -20,7 +20,7 @@
         </div>
     </div>
     <!-- /.content-header -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -70,14 +70,16 @@
                                     <?php endif; ?>
                                         </button>
                                         <?php if(session('success')): ?>
-                                        Swal.fire({
-                                            title: '¡Eliminado!',
-                                            text: "<?php echo e(session('success')); ?>",
-                                            icon: 'success',
-                                            confirmButtonText: 'Aceptar'
-                                        });
+                                        <script>
+                                            Swal.fire({
+                                                title: '¡Exitoso!',
+                                                text: "<?php echo e(session('success')); ?>",
+                                                icon: 'success',
+                                                confirmButtonText: 'Aceptar'
+                                            });
+                                        </script>
                                     <?php endif; ?>
-                                    
+                    
                                         </td>
                                     </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -265,11 +267,21 @@
                         <input type="number" name="precio" class="form-control" id="precio" required>
                     </div>
                     <button type="submit" class="btn btn-success">Guardar Producto</button>
+                    <?php if(session('success')): ?>
+                        <script>
+                            Swal.fire({
+                                title: '¡Exitoso!',
+                                text: "<?php echo e(session('success')); ?>",
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        </script>
+                    <?php endif; ?>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/productos/listaProductos.blade.php ENDPATH**/ ?>

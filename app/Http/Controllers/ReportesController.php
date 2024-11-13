@@ -13,7 +13,10 @@ class ReportesController extends Controller
     {
         return view('reportes.graficas');
     }
-
+    public function indexReporteR()
+    {
+        return view('reportes.graficasR');
+    }
     public function obtenerEstudiantesPorDia(Request $request)
     {
         $mes = $request->input('mes', date('m'));
@@ -84,7 +87,64 @@ class ReportesController extends Controller
                 'pago_distribuidor' => $pagoDistribuidorDia->pago_distribuidor ?? 0,
             ];
         }
+        
+        return response()->json($resultados);
+    }
+    public function obtenerEstudiantesPorDiaR(Request $request)
+    {
+        $mes = $request->input('mes', date('m'));
+        $anio = $request->input('anio', date('Y'));
 
+        // Obtener la cantidad de estudiantes, ganancias, descuentos, ventas, salarios y pago_distribuidor por día
+        $atenciones = DB::table('atencionRacket')
+            ->select(
+        DB::raw('DAY(created_at) as dia'), // Obtiene el día de la fecha
+        DB::raw('COUNT(id) as cantidad_atenciones'), // Cuenta la cantidad de atenciones
+        DB::raw('SUM(total) as ganancias') // Suma el total como ganancias
+            )
+            ->whereYear('created_at', $anio)
+            ->whereMonth('created_at', $mes)
+            ->groupBy(DB::raw('DAY(created_at)'))
+            ->orderBy(DB::raw('DAY(created_at)'), 'asc')
+            ->get();
+
+        $ventas = DB::table('ventasR')
+            ->select(
+                DB::raw('DAY(created_at) as dia'), 
+                DB::raw('SUM(totalR) as ventas')
+            )
+            ->whereYear('created_at', $anio)
+            ->whereMonth('created_at', $mes)
+            ->groupBy(DB::raw('DAY(created_at)'))
+            ->orderBy(DB::raw('DAY(created_at)'), 'asc')
+            ->get();
+        $pagosDistribuidor = DB::table('aniadirStockR')
+            ->select(
+                DB::raw('DAY(created_at) as dia'),
+                DB::raw('SUM(pago_distribuidorR) as pago_distribuidor')
+            )
+            ->whereYear('created_at', $anio)
+            ->whereMonth('created_at', $mes)
+            ->groupBy(DB::raw('DAY(created_at)'))
+            ->orderBy(DB::raw('DAY(created_at)'), 'asc')
+            ->get();
+
+        // Unir los datos por día
+        $resultados = [];
+        foreach ($atenciones as $est) {
+            $dia = $est->dia;
+            $ventaDia = $ventas->firstWhere('dia', $dia);
+            $pagoDistribuidorDia = $pagosDistribuidor->firstWhere('dia', $dia);
+
+            $resultados[] = [
+                'dia' => $dia,
+                'cantidad_atenciones' => $est->cantidad_atenciones,
+                'ganancias' => $est->ganancias,
+                'ventas' => $ventaDia->ventas ?? 0,
+                'pago_distribuidor' => $pagoDistribuidorDia->pago_distribuidor ?? 0,
+            ];
+        }
+        
         return response()->json($resultados);
     }
 
