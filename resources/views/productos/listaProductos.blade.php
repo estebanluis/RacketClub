@@ -20,7 +20,7 @@
         </div>
     </div>
     <!-- /.content-header -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -70,14 +70,16 @@
                                     @endif
                                         </button>
                                         @if (session('success'))
-                                        Swal.fire({
-                                            title: '¡Eliminado!',
-                                            text: "{{ session('success') }}",
-                                            icon: 'success',
-                                            confirmButtonText: 'Aceptar'
-                                        });
+                                        <script>
+                                            Swal.fire({
+                                                title: '¡Exitoso!',
+                                                text: "{{ session('success') }}",
+                                                icon: 'success',
+                                                confirmButtonText: 'Aceptar'
+                                            });
+                                        </script>
                                     @endif
-                                    
+                    
                                         </td>
                                     </tr>
                                     @endforeach
@@ -265,10 +267,20 @@
                         <input type="number" name="precio" class="form-control" id="precio" required>
                     </div>
                     <button type="submit" class="btn btn-success">Guardar Producto</button>
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                title: '¡Exitoso!',
+                                text: "{{ session('success') }}",
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        </script>
+                    @endif
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @endsection

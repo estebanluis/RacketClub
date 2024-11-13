@@ -55,6 +55,7 @@ Route::get('/obtener-asistencias', [DashboardController::class, 'obtenerFechas']
 Route::post('/subir-anuncio', [DashboardController::class, 'subir'])->name('anuncios.subir');
 Route::get('/obtener-fechas', [DashboardController::class, 'obtenerFechas']);
 Route::post('/subir-anuncio', [DashboardController::class, 'subirAnuncio']);
+Route::post('/subir-anuncios', [DashboardController::class, 'subirAnuncios'])->name('subir.anuncios');
 
 //route barang
 Route::resource('/barang', BarangController::class)->middleware('auth');
@@ -96,21 +97,35 @@ Route::post('/aniadirStock', [ProductoController::class, 'aniadirStock'])->name(
 Route::resource('productos', ProductoController::class);
 Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
 Route::delete('/productos/{id_producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
-
+//route ver productos Racket
+Route::get('/dashboard/listaproductosR', [ProductoController::class, 'indexlistProdR']);
+Route::get('/dashboard/listaproductosR', [ProductoController::class, 'indexlistProdR'])->name('productos.list');
+Route::post('/dashboard/agreagar-productosR', [ProductoController::class, 'storeR'])->name('productos.storeR');
+Route::put('/productosR/{id_productoR}', [ProductoController::class, 'updateR'])->name('productos.updateR');
+Route::delete('/productosR/{id_productoR}', [ProductoController::class, 'destroyR'])->name('productos.destroyR');
+Route::post('/aniadirStockR', [ProductoController::class, 'aniadirStockR'])->name('aniadirStockR');
 // Ruta específica para la actualización de productos
 Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->name('productos.update');
 //rutas de ventas
 Route::get('/ventas', [ProductoController::class, 'indexVentas']);
 Route::post('/productos/fetch-product', [ProductoController::class, 'fetchProductById'])->name('productos.fetch');
 Route::post('/ventas/store', [ProductoController::class, 'storeVenta'])->name('storeVenta');
+//rutas de ventas racket
+Route::get('/ventasR', [ProductoController::class, 'indexVentasR']);
+Route::post('/productos/fetch-productR', [ProductoController::class, 'fetchProductByIdR'])->name('productos.fetchR');
+Route::post('/ventas/storeR', [ProductoController::class, 'storeVentaR'])->name('storeVentaR');
 //rutas reportes
 Route::get('/reporte', [ReportesController::class, 'indexReporte']);
 Route::get('/reporte-estudiantes', [ReportesController::class, 'obtenerEstudiantesPorDia']);
 Route::get('/reporte-estudiantes', [ReportesController::class, 'obtenerEstudiantesPorDia']);
 Route::get('/generar-informe/{dia}/{mes}/{anio}', [ReportesController::class, 'generarInforme']);
-
+//rutas reportes racket
+Route::get('/reporteR', [ReportesController::class, 'indexReporteR']);
+Route::get('/reporte-atencionesR', [ReportesController::class, 'obtenerEstudiantesPorDiaR']);
 // Ruta para mostrar la lista de atenciones
 Route::get('/piscinaFinde', [PiscinaFindeController::class, 'index'])->name('piscina.index');
+Route::get('/productos/{id}', [ProductoController::class, 'getProductosPorAtencion']);
+
 // Ruta para registrar una nueva atención (desde el formulario en el modal)
 Route::post('/piscinaFinde/store', [PiscinaFindeController::class, 'store'])->name('piscina.register');
 // Ruta para finalizar la atención

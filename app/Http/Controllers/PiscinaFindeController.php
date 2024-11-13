@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PiscinaExtra;
 use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\producto;
 
 class PiscinaFindeController extends Controller
 {
@@ -61,5 +62,10 @@ class PiscinaFindeController extends Controller
         Alert::success('Éxito', 'Atención Finalizada exitosamente!');
          return redirect('/piscinaFinde');
      }
+     public function getProductosPorAtencion($id)
+{
+    $productos = Producto::where('atencion_id', $id)->get();
+    return response()->json($productos);
+}
 
 }

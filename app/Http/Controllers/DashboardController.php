@@ -11,12 +11,15 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Realiza un join entre fechasasistencia y clientes
         $asistencias = fechasAsistencia::join('clientes', 'fechasasistencia.codigoAlumno', '=', 'clientes.codigo')
             ->select('fechasasistencia.fecha', 'clientes.nombre', 'clientes.apellido', 'clientes.apellidoMat', 'clientes.nrsesiones', 'clientes.modalidad', 'fechasasistencia.codigoAlumno')
             ->get();
 
-        return view('dashboard.dashboard', ['asistencias' => $asistencias]);
+        // Obtener archivos en el directorio 'public/anuncios'
+        $directorioAnuncios = public_path('anuncios');
+        $archivos = File::files($directorioAnuncios);
+
+        return view('dashboard.dashboard', ['asistencias' => $asistencias, 'archivos' => $archivos]);
     }
 
     public function obtenerFechas()
@@ -32,32 +35,27 @@ class DashboardController extends Controller
     }
     
 
-public function subirAnuncio(Request $request)
-{
-    // Validar que haya una imagen en la solicitud
-    $request->validate([
-        'imagenAnuncio' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-    ]);
 
-    // Directorio donde se guardarán las imágenes
-    $carpetaAnuncios = public_path('anuncios');
-    
-    // Verificar si ya hay una imagen guardada
-    $archivos = File::files($carpetaAnuncios);
-    if (count($archivos) > 0) {
-        // Eliminar la imagen anterior
-        foreach ($archivos as $archivo) {
-            File::delete($archivo);
+public function subirAnuncios(Request $request)
+    {
+        // Validar archivos
+        $request->validate([
+            'archivosAnuncio' => 'required|array|max:3',
+            'archivosAnuncio.*' => 'mimes:jpeg,jpg,png,gif,mp4,webm,ogg|max:10240' // Límite de 10MB por archivo
+        ]);
+
+        // Carpeta de destino para almacenar los archivos
+        $carpetaDestino = 'anuncios';
+
+        // Procesar cada archivo subido
+        foreach ($request->file('archivosAnuncio') as $archivo) {
+            // Generar un nombre único para cada archivo
+            $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
+
+            // Guardar el archivo en la carpeta 'public/anuncios'
+            $archivo->move(public_path($carpetaDestino), $nombreArchivo);
         }
+
+        return back()->with('success', 'Archivos subidos exitosamente.');
     }
-
-    // Subir la nueva imagen
-    $archivo = $request->file('imagenAnuncio');
-    $nombreImagen = time() . '.' . $archivo->getClientOriginalExtension();
-    $archivo->move($carpetaAnuncios, $nombreImagen);
-
-    // Retornar el nombre de la imagen subida
-    return response()->json(['nombreImagen' => $nombreImagen]);
-}
-
 } 
