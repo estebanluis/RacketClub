@@ -29,8 +29,11 @@
                     <i class="fa-solid fa-plus"></i> Añadir Atención
                 </a>
             </div>
+
         </div>
+
     </div>
+    
 
     <!-- Contenido principal -->
     <div class="content">
@@ -40,51 +43,60 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="row">
                         <!-- Ciclo para las 4 canchas -->
-                        <?php for($i = 1; $i <= 4; $i++): ?>
+                        <?php $__currentLoopData = $canchas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cancha): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
                             <div class="card shadow-sm">
                                 <div class="card-header" style="background-color: #003554; color: white;">
-                                    <h3 class="card-title">Cancha <?php echo e($i); ?></h3>
+                                    <h3 class="card-title"> <?php echo e($cancha->nombre); ?></h3>
                                 </div>
                                 <div class="card-body">
                                     <?php
-                                        // Filtrar los datos para la cancha y estado "ocupado"
-                                        $canchaData = $barang->where('cancha', $i)->where('estado', 'ocupado');
+                                        // Filtrar las atenciones que sean de la cancha actual y estén ocupadas
+                                        $canchaData = $barang->where('cancha', $cancha->id)->where('estado', 'ocupado');
                                     ?>
-                                    
+                    
                                     <?php if($canchaData->isEmpty()): ?>
                                         <div class="text-center">
                                             <i class="fas fa-check-circle text-success fa-2x"></i>
                                             <p class="mt-2">Cancha Disponible</p>
                                         </div>
                                     <?php else: ?>
-                                    <?php $__currentLoopData = $canchaData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="mb-3 p-2 border rounded bg-light">
-                                            <strong><?php echo e($data->nombre); ?></strong>
-                                            <span class="badge badge-<?php echo e($data->tipo == 'Racket' ? 'success' : 'info'); ?> float-right">
-                                                <?php echo e($data->tipo); ?>
-
-                                            </span>
-                                            <br>
-                                            <small>Hora Entrada: <?php echo e($data->hora_inicio); ?></small><br>
-                                            <small>Hora Salida: <?php echo e($data->hora_fin); ?></small><br>
-                                            <small>Total Horas: <?php echo e($data->total_horas); ?></small><br>
-                                            <small>Total: <?php echo e($data->total); ?> Bs.</small><br>
-                                            <small>Observaciones: <?php echo e($data->observaciones ?? 'Ninguna'); ?></small>
-                                        </div>
-                                        
-                                        <div class="mt-2">
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
-                                                onclick="setFinalizarDetails('<?php echo e($data->id); ?>', '<?php echo e($data->nombre); ?>', '<?php echo e($data->hora_inicio); ?>', '<?php echo e($data->hora_fin); ?>', '<?php echo e($data->total_horas); ?>', '<?php echo e($data->total); ?>', '<?php echo e($data->observaciones); ?>')">
-                                                <i class="fa-solid fa-pen"></i> Finalizar Atención
-                                            </button>
-                                        </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $canchaData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <!-- Mostrar datos de atención -->
+                                            <div class="mb-3 p-2 border rounded bg-light">
+                                                <strong><?php echo e($data->nombre); ?></strong>
+                                                <span class="badge badge-success float-right"><?php echo e($data->tipo); ?></span>
+                                                <br>
+                                                <small>Hora Entrada: <?php echo e($data->hora_inicio); ?></small><br>
+                                                <small>Hora Salida: <?php echo e($data->hora_fin); ?></small><br>
+                                                <small>Total Horas: <?php echo e($data->total_horas); ?></small><br>
+                                                <small>Total: <?php echo e($data->total); ?> Bs.</small><br>
+                                                <small>Observaciones: <?php echo e($data->observaciones ?? 'Ninguna'); ?></small>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#finalizarAtencionModal" 
+                                                    onclick="setFinalizarDetails(
+                                                        '<?php echo e($data->id); ?>',
+                                                        '<?php echo e($data->nombre); ?>',
+                                                        '<?php echo e($data->hora_inicio); ?>',
+                                                        '<?php echo e($data->hora_fin); ?>',
+                                                        '<?php echo e($data->total_horas); ?>',
+                                                        '<?php echo e($data->total); ?>',
+                                                        '<?php echo e($data->observaciones); ?>',
+                                                        '<?php echo e($canchas->where('id', $data->cancha)->first()?->precio->precio ?? 0); ?>'
+                                                    )"
+                                                >
+                                                    <i class="fa-solid fa-pen"></i> Finalizar Atención
+                                                </button>
+                                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                        <?php endfor; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    
+                            
                     </div>
                 </div>
 
@@ -192,54 +204,22 @@ unset($__errorArgs, $__bag); ?>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="cancha">Nro. Cancha</label>
-                                <input type="number" min="1" max="4" name="cancha" class="form-control <?php $__errorArgs = ['cancha'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" id="cancha" placeholder="Nro. de cancha" value="<?php echo e(old('cancha')); ?>" required>
-                                <?php $__errorArgs = ['cancha'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="tipo">Tipo de Uso</label>
-                                <select name="tipo" class="form-control <?php $__errorArgs = ['tipo'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" id="tipo" required>
-                                    <option value="" disabled selected>Seleccione un tipo</option>
-                                    <option value="Racket">Racket</option>
-                                    <option value="Wally">Wally</option>
+                                <label for="cancha">Seleccionar Cancha</label>
+                                <select name="cancha" id="cancha" class="form-control" required>
+                                    <option value="">-- Seleccione una cancha --</option>
+                                    <?php $__currentLoopData = $canchas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cancha): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php
+                                            // Verificar si la cancha está ocupada
+                                            $canchaOcupada = $barang->where('cancha', $cancha->id)->where('estado', 'ocupado')->isNotEmpty();
+                                        ?>
+                                        <?php if(!$canchaOcupada): ?>
+                                            <option value="<?php echo e($cancha->id); ?>"><?php echo e($cancha->nombre); ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
-                                <?php $__errorArgs = ['tipo'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
@@ -285,11 +265,10 @@ unset($__errorArgs, $__bag); ?>
             </div>
             <form id="finalizarAtencionForm" method="POST" action="">
                 <?php echo csrf_field(); ?>
-                <?php echo method_field('PUT'); ?> <!-- Cambiado a PUT -->
+                <?php echo method_field('PUT'); ?> 
                 <div class="modal-body">
                     <p>¿Estás seguro de que deseas finalizar la atención para el siguiente cliente?</p>
                     <div id="atencionDetails"></div>
-                    
                     <div class="form-group">
                         <label for="horaSalida">Hora Salida</label>
                         <input type="time" name="horaSalida" id="horaSalida" class="form-control" required>
@@ -300,7 +279,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="form-group">
                         <label for="total">Total (Bs.)</label>
-                        <input type="number" name="total" id="total" class="form-control" min="1" required>
+                        <input type="number" name="total" id="total" class="form-control" min="1" step="0.01" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -313,32 +292,27 @@ unset($__errorArgs, $__bag); ?>
 </div>
 
 <script>
-    function setFinalizarDetails(id, nombre, horaInicio, horaFin, totalHoras, total, observaciones) {
-        // Establecer el método de acción del formulario
+    function setFinalizarDetails(id, nombre, horaInicio, horaFin, totalHoras, total, observaciones, precioPorHora) {
         document.getElementById('finalizarAtencionForm').action = '/atenracket/' + id;
 
-        // Mostrar los detalles en el modal
         const details = `
             <strong>Nombre:</strong> ${nombre}<br>
             <strong>Hora Entrada:</strong> ${horaInicio}<br>
-            <strong>Hora Salida:</strong> ${horaFin}<br>
             <strong>Observaciones:</strong> ${observaciones || 'Ninguna'}
         `;
         document.getElementById('atencionDetails').innerHTML = details;
 
-        // Obtener la hora actual y establecerla como hora de salida
         const now = new Date();
-        const horaSalida = now.toTimeString().split(' ')[0].slice(0, 5); // Solo HH:MM
+        const horaSalida = now.toTimeString().split(' ')[0].slice(0, 5);
         document.getElementById('horaSalida').value = horaSalida;
 
-        // Agregar hora de entrada al formulario como campo oculto
         const horaInicioField = document.createElement('input');
         horaInicioField.type = 'hidden';
         horaInicioField.name = 'horaInicio';
         horaInicioField.value = horaInicio;
         document.getElementById('finalizarAtencionForm').appendChild(horaInicioField);
 
-        // Calcular total de horas y minutos
+        // Calcular tiempo
         const [horaE, minE] = horaInicio.split(':');
         const horaEntrada = new Date();
         horaEntrada.setHours(horaE);
@@ -348,17 +322,29 @@ unset($__errorArgs, $__bag); ?>
         horaSalidaDate.setHours(now.getHours());
         horaSalidaDate.setMinutes(now.getMinutes());
 
-        const diferenciaMilisegundos = horaSalidaDate - horaEntrada; // Diferencia en milisegundos
-        const totalHorasCalculo = diferenciaMilisegundos / (1000 * 60 * 60); // Convertir de ms a horas
-        const totalMinutos = (diferenciaMilisegundos / (1000 * 60)) % 60; // Obtener los minutos restantes
+        const diferenciaMilisegundos = horaSalidaDate - horaEntrada;
+        const totalHorasCalculo = diferenciaMilisegundos / (1000 * 60 * 60);
+        const totalMinutos = (diferenciaMilisegundos / (1000 * 60)) % 60;
 
         const horas = Math.floor(totalHorasCalculo);
         const minutos = Math.round(totalMinutos);
 
-        document.getElementById('totalHoras').value = `${horas} hora(s) ${minutos} minuto(s)`; // Formato de texto
-        document.getElementById('total').value = total; // Asegúrate de que este valor se pase
+        document.getElementById('totalHoras').value = `${horas} hora(s) ${minutos} minuto(s)`;
+
+        // Calcular total automáticamente
+        // Calcular total automáticamente
+        const totalCalculado = (totalHorasCalculo * parseFloat(precioPorHora));
+
+        // Redondear el total a 2 decimales
+        const totalRedondeado = Math.round(totalCalculado * 100) / 100;
+
+        document.getElementById('total').value = totalRedondeado.toFixed(2);
+
     }
 </script>
+
+
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/AtencionRacket/racket.blade.php ENDPATH**/ ?>

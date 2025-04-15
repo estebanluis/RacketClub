@@ -10,21 +10,23 @@ class AtencionRacket extends Model
     use HasFactory;
 
     // Especifica el nombre de la tabla si no sigue la convención pluralizada
-    protected $table = 'atencionRacket';
+    public $timestamps = false;
+        protected $table = 'atencionRacket';
 
     // Define los campos que pueden ser asignados en masa
     protected $fillable = [
         'nombre',
-        'tipo',
         'fecha',
         'hora_inicio',
         'hora_fin',
         'total_horas',
-        'saldo_cancha',
-        'saldo_venta',
         'total',
         'cancha',
         'estado',
         'observaciones',
     ];
+    public function cancha()
+{
+    return $this->belongsTo(Cancha::class, 'cancha');
+}
 }

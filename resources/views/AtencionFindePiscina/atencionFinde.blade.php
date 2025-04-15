@@ -76,11 +76,11 @@
                                                             </button>
                                                         </form>
                                                     @endif
-                                                    <div class="text-right">
+                                                    
                                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#vender">
                                                             <i class="fa-solid fa-plus"></i> Vender
                                                         </button>
-                                                    </div>
+                                                    
                                                 </td>
                                             </tr>
                                         @endforeach

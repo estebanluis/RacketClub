@@ -4,6 +4,7 @@ use App\Http\Controllers\AtencionRacketController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CanchaController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\Route;
@@ -143,6 +144,10 @@ Route::get('/check-session', function () {
 });
 Route::post('/notify', [NotificationController::class, 'notify'])->name('notify');
 Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
+
+//ruta crear canchas
+Route::resource('/creacanch', CanchaController::class);
+Route::post('/creacanch/deporte', [CanchaController::class, 'storeDeporte'])->name('creacanch.deporte');
 
 
 
