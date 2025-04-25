@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\AtencionRacket;
 use App\Models\Cancha;
 use App\Models\Precio;
-use App\Models\ReservaCancha;
+use App\Models\Reserva;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class AtencionRacketController extends Controller
     public function index()
     {
         $barang = AtencionRacket::orderBy('fecha', 'desc')->get();
-        $reservas = ReservaCancha::whereDate('fecha', now()->toDateString())->orderBy('fecha', 'asc')->get(); // Obtener reservas del día actual
+        $reservas = Reserva::whereDate('dia', now()->toDateString())->orderBy('dia', 'asc')->get(); // Obtener reservas del día actual
         $canchas = Cancha::orderBy('id', 'asc')->get();
         $precios = Precio::orderBy('id')->get()->keyBy('cancha_id');
 

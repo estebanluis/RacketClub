@@ -4,6 +4,7 @@ use App\Http\Controllers\AtencionRacketController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CalendarioRacket;
 use App\Http\Controllers\CanchaController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\RegistroAlumnosController;
@@ -17,8 +18,10 @@ use App\Http\Controllers\PiscinaFindeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\ReservaCanchaController;
+use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\SesionesContrller;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\usuariosRacketController;
 use App\Http\Controllers\verTurnosController;
 /*
 |--------------------------------------------------------------------------
@@ -79,15 +82,12 @@ Route::put('/turnos/salario/{idHorario}', [verTurnosController::class, 'updateSa
 
 //route ver pago 
 Route::resource('/hprof', HorasTProfController::class);
-//reservar Cancha
-Route::resource('/rcancha', ReservaCanchaController::class);
+
 // Rutas de reservas
 Route::post('/reservas/transferir-atencion/{id}', [AtencionRacketController::class, 'transferToAtencion'])->name('reservas.transferirAtencion');
 
 //atencion racket
 Route::resource('/atenracket', AtencionRacketController::class);
-// Pasar a atención
-Route::post('/rcancha/{id}/atencion', [ReservaCanchaController::class, 'transferToAtencion'])->name('rcancha.transferToAtencion');
 
 
 //route ver productos
@@ -150,4 +150,13 @@ Route::resource('/creacanch', CanchaController::class);
 Route::post('/creacanch/deporte', [CanchaController::class, 'storeDeporte'])->name('creacanch.deporte');
 
 
+
+
+//ruta crear usuariosRacket
+Route::resource('usuariosRacket', usuariosRacketController::class);
+//ruta crear reservas
+Route::resource('reservas', ReservaController::class);
+//calendario reservas
+Route::get('/calendario-reservas', [CalendarioRacket::class, 'index'])->name('calendario.index');
+Route::get('/api/reservas', [CalendarioRacket::class, 'getReservas'])->name('calendario.reservas');
 
