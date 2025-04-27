@@ -115,12 +115,11 @@
             <?php else: ?>
                 <?php $__currentLoopData = $reservas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reserva): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="mb-3 p-2 border rounded bg-light">
-                    <strong><?php echo e($reserva->nombre_reserva); ?></strong>
-                    <span class="badge badge-info float-right"><?php echo e($reserva->tipo); ?></span>
+                    <strong><?php echo e($reserva->usuario->nombre); ?></strong>
+                    <span class="badge badge-info float-right"><?php echo e($reserva->cancha->nombre); ?></span>
                     <br>
                     <small>Hora Entrada: <?php echo e($reserva->hora); ?></small><br>
-                    <small>Cancha: <?php echo e($reserva->numero_cancha); ?></small><br>
-                    <small>Observaciones: <?php echo e($reserva->observaciones ?? 'Ninguna'); ?></small>
+                    <small>Deporte: <?php echo e($reserva->deporteRelacion->nombre ?? 'No especificado'); ?></small><br>
 
                     <!-- Botón para pasar a atención -->
                     <div class="mt-2">
@@ -336,15 +335,38 @@ unset($__errorArgs, $__bag); ?>
         const totalCalculado = (totalHorasCalculo * parseFloat(precioPorHora));
 
         // Redondear el total a 2 decimales
-        const totalRedondeado = Math.round(totalCalculado * 100) / 100;
+        const totalRedondeado = Math.round(totalCalculado * 10) / 10;
 
         document.getElementById('total').value = totalRedondeado.toFixed(2);
 
     }
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Convertir las reservas de PHP a un formato que JavaScript pueda manejar
+        const reservas = <?php echo json_encode($reservas, 15, 512) ?>;
+        const ahora = new Date();  // Hora actual
+        let notificacionesMostradas = [];  // Array para almacenar las reservas para las que ya se mostró la notificación
 
+        function checkReservas() {
+            reservas.forEach(reserva => {
+                const horaReserva = new Date(reserva.dia + ' ' + reserva.hora);
+                const horaDesocupacion = new Date(horaReserva.getTime() - 7 * 60000);
 
+                // Comprobar si ya se mostró la notificación para esta reserva
+                if (ahora >= horaDesocupacion && ahora < horaReserva && !notificacionesMostradas.includes(reserva.id)) {
+                    alert(`La cancha ${reserva.cancha.nombre} debe ser desocupada para la reserva de las ${horaReserva.toLocaleTimeString()}.`);
+
+                    // Marcar esta reserva como notificada
+                    notificacionesMostradas.push(reserva.id);
+                }
+            });
+        }
+
+        setInterval(checkReservas, 60000); // Revisa cada minuto
+    });
+</script>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/AtencionRacket/racket.blade.php ENDPATH**/ ?>

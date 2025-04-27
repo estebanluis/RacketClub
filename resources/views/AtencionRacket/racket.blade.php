@@ -115,12 +115,11 @@
             @else
                 @foreach ($reservas as $reserva)
                 <div class="mb-3 p-2 border rounded bg-light">
-                    <strong>{{ $reserva->nombre_reserva }}</strong>
-                    <span class="badge badge-info float-right">{{ $reserva->tipo }}</span>
+                    <strong>{{ $reserva->usuario->nombre }}</strong>
+                    <span class="badge badge-info float-right">{{  $reserva->cancha->nombre }}</span>
                     <br>
                     <small>Hora Entrada: {{ $reserva->hora }}</small><br>
-                    <small>Cancha: {{ $reserva->numero_cancha }}</small><br>
-                    <small>Observaciones: {{ $reserva->observaciones ?? 'Ninguna' }}</small>
+                    <small>Deporte: {{ $reserva->deporteRelacion->nombre ?? 'No especificado' }}</small><br>
 
                     <!-- Botón para pasar a atención -->
                     <div class="mt-2">
@@ -294,14 +293,37 @@
         const totalCalculado = (totalHorasCalculo * parseFloat(precioPorHora));
 
         // Redondear el total a 2 decimales
-        const totalRedondeado = Math.round(totalCalculado * 100) / 100;
+        const totalRedondeado = Math.round(totalCalculado * 10) / 10;
 
         document.getElementById('total').value = totalRedondeado.toFixed(2);
 
     }
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Convertir las reservas de PHP a un formato que JavaScript pueda manejar
+        const reservas = @json($reservas);
+        const ahora = new Date();  // Hora actual
+        let notificacionesMostradas = [];  // Array para almacenar las reservas para las que ya se mostró la notificación
 
+        function checkReservas() {
+            reservas.forEach(reserva => {
+                const horaReserva = new Date(reserva.dia + ' ' + reserva.hora);
+                const horaDesocupacion = new Date(horaReserva.getTime() - 7 * 60000);
 
+                // Comprobar si ya se mostró la notificación para esta reserva
+                if (ahora >= horaDesocupacion && ahora < horaReserva && !notificacionesMostradas.includes(reserva.id)) {
+                    alert(`La cancha ${reserva.cancha.nombre} debe ser desocupada para la reserva de las ${horaReserva.toLocaleTimeString()}.`);
+
+                    // Marcar esta reserva como notificada
+                    notificacionesMostradas.push(reserva.id);
+                }
+            });
+        }
+
+        setInterval(checkReservas, 60000); // Revisa cada minuto
+    });
+</script>
 
 @endsection
