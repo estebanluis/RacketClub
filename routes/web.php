@@ -150,13 +150,17 @@ Route::resource('/creacanch', CanchaController::class);
 Route::post('/creacanch/deporte', [CanchaController::class, 'storeDeporte'])->name('creacanch.deporte');
 
 
-
-
 //ruta crear usuariosRacket
 Route::resource('usuariosRacket', usuariosRacketController::class);
-//ruta crear reservas
-Route::resource('reservas', ReservaController::class);
+
 //calendario reservas
 Route::get('/calendario-reservas', [CalendarioRacket::class, 'index'])->name('calendario.index');
 Route::get('/api/reservas', [CalendarioRacket::class, 'getReservas'])->name('calendario.reservas');
+Route::post('/verificar-disponibilidad', [CalendarioRacket::class, 'verificarDisponibilidad'])->name('verificar.disponibilidad');
+Route::get('/buscar-usuarios', [CalendarioRacket::class, 'buscarUsuarios']);
+
+Route::post('/reservar', [CalendarioRacket::class, 'store'])->name('reservar.store');
+
+
+
 

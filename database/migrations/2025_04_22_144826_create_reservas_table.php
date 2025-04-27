@@ -22,7 +22,6 @@ return new class extends Migration
             $table->time('hora');
             $table->integer('cantidadHoras');
             $table->string('deporte');
-            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }

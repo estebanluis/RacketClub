@@ -43,7 +43,8 @@
 <!-- Modal de Reservas Múltiples -->
 <div class="modal fade" id="modalReservaMultiple" tabindex="-1" role="dialog" aria-labelledby="modalReservaMultipleLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-XXL" role="document">
-      <form id="formReservaMultiple">
+      <form id="formReservaMultiple" method="POST" action="<?php echo e(route('reservar.store')); ?>">
+        <?php echo csrf_field(); ?>
         <div class="modal-content">
           <div class="modal-header bg-primary text-white">
             <h5 class="modal-title" id="modalReservaMultipleLabel">Reservar múltiples días</h5>
@@ -53,6 +54,12 @@
           </div>
           
           <div class="modal-body">
+            <div class="form-group">
+                <label for="usuario_nombre">Nombre del Usuario</label>
+                <input type="text" id="usuario_nombre" name="usuario_nombre" class="form-control" autocomplete="off">
+                <ul id="autocomplete-list" class="list-group" style="display:none; position: absolute; z-index: 9999;"></ul>
+            </div>
+            <input type="hidden" id="CI" name="CI">
             <div class="form-group">
               <label for="deporte">Deporte</label>
               <select name="deporte" id="deporte" class="form-control">
@@ -79,9 +86,49 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
+
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
 
+<script>
+
+$(document).ready(function() {
+    // Inicializar el autocompletado
+    $('#usuario_nombre').on('input', function() {
+        let query = $(this).val();
+
+        if (query.length > 2) { 
+            $.ajax({
+                url: '/buscar-usuarios',
+                method: 'GET',
+                data: { query: query },
+                success: function(data) {
+                    let suggestions = data.map(function(usuario) {
+                        return `<li data-id="${usuario.ci}" class="list-group-item">${usuario.nombre}</li>`;
+                    }).join('');
+                    $('#autocomplete-list').html(suggestions).show();
+                }
+            });
+        } else {
+            $('#autocomplete-list').hide();
+        }
+    });
+    $(document).on('click', '.list-group-item', function() {
+        let usuarioId = $(this).data('id');
+        let usuarioNombre = $(this).text();
+
+        $('#CI').val(usuarioId);
+        $('#usuario_nombre').val(usuarioNombre);
+        $('#autocomplete-list').hide();
+    });
+    $(document).click(function(e) {
+        if (!$(e.target).closest('#usuario_nombre').length) {
+            $('#autocomplete-list').hide();
+        }
+    });
+});
+
+</script>
 <script>
     window.deportes = <?php echo json_encode($deportes, 15, 512) ?>;
     let fechasSeleccionadas = [];
@@ -140,7 +187,6 @@
 
         calendar.render();
     });
-
     // Función para generar campos de reserva por fecha
     function generarCamposPorFechas(fechas) {
         const contenedor = document.getElementById('contenedorFechasSeleccionadas');
@@ -183,6 +229,7 @@
                                 <select class="form-control" name="canchas[${fecha}]" id="cancha_${indice}" required>
                                     ${opcionesCancha}
                                 </select>
+                                 <span class="text-danger" id="error-cancha_${fecha}_${indice}" style="display:none;"></span>
                             </div>
                         </div>
                     </div>
@@ -190,6 +237,48 @@
             `;
 
             contenedor.insertAdjacentHTML('beforeend', html);
+
+            // Aquí agregamos el event listener para la cancha
+            document.getElementById(`cancha_${indice}`).addEventListener('change', function () {
+                const canchaId = this.value;
+                const hora = document.getElementById(`hora_${indice}`).value;
+                const dispo = document.getElementById(`duracion_${indice}`).value;
+
+                if (canchaId && hora && dispo) {
+                    // Verificar disponibilidad
+                    verificarDisponibilidad(canchaId, fecha, hora, dispo);
+                }
+            });
+        });
+    }
+
+    function verificarDisponibilidad(canchaId, fecha, hora, dispo) {
+        $.ajax({
+            url: '<?php echo e(route("verificar.disponibilidad")); ?>', // Ruta al método en el controlador
+            method: 'POST',
+            data: {
+                _token: '<?php echo e(csrf_token()); ?>',
+                cancha_id: canchaId,
+                fecha: fecha,
+                hora: hora,
+                cantidadHoras: dispo
+            },
+            success: function(response) {
+                const indice = document.querySelectorAll('#contenedorFechasSeleccionadas .card').length - 1; // Indice de la tarjeta
+                const errorElement = $('#error-cancha_' + fecha + '_' + indice); // ID dinámico para el error
+
+                if (!response.disponible) {
+                    // Mostramos el mensaje de error debajo del campo correspondiente
+                    errorElement.text(response.mensaje); // Establecer el mensaje de error
+                    errorElement.show(); // Hacer visible el mensaje de error
+                } else {
+                    // Si la cancha está disponible, ocultamos cualquier mensaje de error
+                    errorElement.hide();
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Hubo un error al verificar la disponibilidad.');
+            }
         });
     }
 
@@ -204,6 +293,7 @@
         document.getElementById('contenedorFechasSeleccionadas').innerHTML = '';
         fechasSeleccionadas = [];
     });
+
 </script>
 
 
@@ -211,6 +301,6 @@
     window.deportes = <?php echo json_encode($deportes, 15, 512) ?>;
 </script>
 
-<?php $__env->stopSection(); ?>
 
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('template.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/ReservarCanchasCalendario/reservasCanchas.blade.php ENDPATH**/ ?>

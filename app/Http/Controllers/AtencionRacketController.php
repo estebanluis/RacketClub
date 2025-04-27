@@ -10,16 +10,20 @@ use DateTime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AtencionRacketController extends Controller
 {
     public function index()
     {
         $barang = AtencionRacket::orderBy('fecha', 'desc')->get();
-        $reservas = Reserva::whereDate('dia', now()->toDateString())->orderBy('dia', 'asc')->get(); // Obtener reservas del día actual
+        $reservas = Reserva::whereDate('dia', now()->toDateString())
+                            ->with(['cancha', 'deporteRelacion'])
+                            ->orderBy('dia', 'asc')
+                            ->get();
         $canchas = Cancha::orderBy('id', 'asc')->get();
-        $precios = Precio::orderBy('id')->get()->keyBy('cancha_id');
 
+        $precios = Precio::orderBy('id')->get()->keyBy('cancha_id');
         return view('AtencionRacket.racket', [
             'barang' => $barang,
             'reservas' => $reservas,
@@ -27,6 +31,7 @@ class AtencionRacketController extends Controller
             'precios' => $precios,
         ]);
     }
+
 
 
     public function store(Request $request)
@@ -73,5 +78,41 @@ class AtencionRacketController extends Controller
         $atencion->save();
 
         return redirect()->back()->with('success', 'Atención finalizada correctamente.');
+    }
+
+    public function transferToAtencion( $id){
+       
+        $datos  = Reserva::with('usuario', 'cancha', 'deporteRelacion')
+                            ->where('id', $id)
+                            ->first();
+        $verificar = AtencionRacket::where('cancha', $datos->cancha->id)
+                            ->where('estado', '=', 'ocupado')  // Asumiendo que "ocupada" es el estado que indica que la cancha está ocupada
+                            ->get();
+
+        if($verificar->isEmpty()){
+
+            $atencion = AtencionRacket::create([
+                'nombre' => $datos->usuario->nombre,
+                'hora_inicio' => $datos->hora,
+                'fecha' => $datos->dia,
+                'hora_fin' => "", 
+                'cancha' => $datos->cancha->id,
+                'estado' => 'ocupado',  
+                'total' => "0", 
+                'total_horas' => "",  
+            ]);
+            $atencion->save();
+            $datos->delete();
+            Alert::success('Éxito', 'Reserva pasada a atención exitosamente');
+            
+            return redirect('/atenracket');
+        }else{
+            Alert::error('Error', 'La cancha esta ocupada la reserva no puede pasarse a atención');
+            
+            return redirect('/atenracket');
+        }
+        
+
+
     }
 }
