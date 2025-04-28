@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('canchas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->timestamps();
         });
     }
 
