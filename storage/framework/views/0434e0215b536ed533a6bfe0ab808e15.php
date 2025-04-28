@@ -34,7 +34,30 @@
         </div>
     </div>
 </div>
-
+<!-- Modal para Ver Detalles de la Reserva -->
+<div class="modal fade" id="modalVerReserva" tabindex="-1" role="dialog" aria-labelledby="modalVerReservaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title" id="modalVerReservaLabel">Detalles de la Reserva</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Deporte:</strong> <span id="detalleDeporte"></span></p>
+          <p><strong>Cancha:</strong> <span id="detalleCliente"></span></p>
+          <p><strong>Cliente:</strong> <span id="detalleCancha"></span></p>
+          <p><strong>Hora Inicio:</strong> <span id="detalleInicio"></span></p>
+          <p><strong>Hora Fin:</strong> <span id="detalleFin"></span></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="btnEliminarReserva">Eliminar Reserva</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Botón oculto -->
 <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#modalReservaMultiple" id="abrirModalReservaMultiple">
     Abrir Modal Reserva Múltiple
@@ -183,6 +206,26 @@ $(document).ready(function() {
                     `
                 };
             },
+            eventClick: function(info) {
+                const evento = info.event;
+
+                const horaInicio = evento.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const horaFin = evento.end ? evento.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'No especificado';
+
+                const partes = evento.title.split(' - ');
+                const deporte = partes[0] ?? 'No especificado';
+                const cancha = partes[1] ?? 'No especificado';
+                const cliente = partes[2] ?? 'No especificado';
+
+                $('#detalleDeporte').text(deporte);
+                $('#detalleCancha').text(cancha);
+                $('#detalleCliente').text(cliente);
+                $('#detalleInicio').text(horaInicio);
+                $('#detalleFin').text(horaFin);
+
+                $('#modalVerReserva').modal('show');
+            },
+            
         });
 
         calendar.render();

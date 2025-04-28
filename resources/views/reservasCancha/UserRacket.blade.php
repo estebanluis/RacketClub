@@ -61,10 +61,6 @@
                                                     <button type="submit" class="btn btn-danger btn-sm">
                                                         <i class="fa fa-trash"></i> Eliminar
                                                     </button>
-
-                                                    <a href="{{ route('calendario.index', $data->CI) }}" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-calendar"></i> Registrar Reserva
-                                                    </a>
                                                 </form>
                                             </td>
                                         </tr>
@@ -96,6 +92,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre') }}" required>
@@ -103,8 +100,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    
                     <div class="form-group">
-                        <label for="telefono">Telefono</label>
+                        <label for="telefono">Teléfono</label>
                         <input type="text" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}" required>
                         @error('telefono')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -122,6 +120,13 @@
 @endsection
 
 @section('scripts')
-
+<script>
+    // Abrir el modal si hay errores de validación
+    @if ($errors->any())
+        $(document).ready(function() {
+            $('#registerUserModal').modal('show');
+        });
+    @endif
+</script>
 
 @endsection

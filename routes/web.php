@@ -148,6 +148,7 @@ Route::put('/user/update', [UserController::class, 'update'])->name('user.update
 //ruta crear canchas
 Route::resource('/creacanch', CanchaController::class);
 Route::post('/creacanch/deporte', [CanchaController::class, 'storeDeporte'])->name('creacanch.deporte');
+Route::put('/creacanch/{id}', [CanchaController::class, 'update'])->name('creacanch.update');
 
 
 //ruta crear usuariosRacket
@@ -158,6 +159,7 @@ Route::get('/calendario-reservas', [CalendarioRacket::class, 'index'])->name('ca
 Route::get('/api/reservas', [CalendarioRacket::class, 'getReservas'])->name('calendario.reservas');
 Route::post('/verificar-disponibilidad', [CalendarioRacket::class, 'verificarDisponibilidad'])->name('verificar.disponibilidad');
 Route::get('/buscar-usuarios', [CalendarioRacket::class, 'buscarUsuarios']);
+
 
 Route::post('/reservar', [CalendarioRacket::class, 'store'])->name('reservar.store');
 
