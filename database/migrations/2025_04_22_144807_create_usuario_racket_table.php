@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('CI')->primary(); // CI como llave primaria
             $table->string('nombre');
             $table->string('telefono');
-            $table->timestamps();
         });
     }
 

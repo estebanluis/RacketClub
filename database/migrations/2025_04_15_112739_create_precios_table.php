@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cancha_id')->constrained()->onDelete('cascade');
             $table->decimal('precio', 8, 2);
-            $table->timestamps();
         });
     }
 
