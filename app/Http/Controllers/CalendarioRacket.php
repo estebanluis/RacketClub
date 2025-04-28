@@ -87,7 +87,7 @@ class CalendarioRacket extends Controller
             'disponible' => true,
         ]);
     }
-
+   
     public function store(Request $request)
     {
         $request->validate([
@@ -101,10 +101,13 @@ class CalendarioRacket extends Controller
             'canchas' => 'required|array',
             'canchas.*' => 'required|exists:canchas,id',
         ]);
-        $id = UsuarioRacket::where('nombre', $request->usuario_nombre)->first()->CI;
-        if (!$id) {
-            Alert::error('Error', 'Usuario no encontrado.');
+        $usuario = UsuarioRacket::where('nombre', $request->usuario_nombre)->first();
+
+        if (!$usuario) {
+            Alert::warning('Error', 'Usuario no encontrado debe registrarlo.');
+            return redirect()->route('calendario.index');
         }else{
+            $id = UsuarioRacket::where('nombre', $request->usuario_nombre)->first()->CI;
             foreach ($request->horas as $fecha => $hora) {
                 $reserva = new Reserva();
                 $reserva->CI = $id;

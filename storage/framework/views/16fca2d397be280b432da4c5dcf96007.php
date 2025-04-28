@@ -61,10 +61,6 @@
                                                     <button type="submit" class="btn btn-danger btn-sm">
                                                         <i class="fa fa-trash"></i> Eliminar
                                                     </button>
-
-                                                    <a href="<?php echo e(route('calendario.index', $data->CI)); ?>" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-calendar"></i> Registrar Reserva
-                                                    </a>
                                                 </form>
                                             </td>
                                         </tr>
@@ -110,6 +106,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
+                    
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" id="nombre" class="form-control <?php $__errorArgs = ['nombre'];
@@ -131,8 +128,9 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="telefono">Telefono</label>
+                        <label for="telefono">Teléfono</label>
                         <input type="text" name="telefono" id="telefono" class="form-control <?php $__errorArgs = ['telefono'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -164,7 +162,14 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
-
+<script>
+    // Abrir el modal si hay errores de validación
+    <?php if($errors->any()): ?>
+        $(document).ready(function() {
+            $('#registerUserModal').modal('show');
+        });
+    <?php endif; ?>
+</script>
 
 <?php $__env->stopSection(); ?>
 

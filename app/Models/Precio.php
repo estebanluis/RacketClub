@@ -10,7 +10,7 @@ class Precio extends Model
     use HasFactory;
 
     protected $fillable = ['cancha_id', 'precio'];
-
+    public $timestamps = false;
     public function cancha()
     {
         return $this->belongsTo(Cancha::class);

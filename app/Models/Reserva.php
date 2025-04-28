@@ -10,7 +10,7 @@ class Reserva extends Model
     use HasFactory;
 
     protected $fillable = ['CI', 'cancha_id', 'dia', 'hora', 'cantidadHoras', 'deporte'];
-
+    public $timestamps = false;
     // Relación con el usuario (usuario que realiza la reserva)
     public function usuario()
     {

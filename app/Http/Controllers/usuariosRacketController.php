@@ -24,11 +24,13 @@ class usuariosRacketController extends Controller
     {
         // Validación de los otros campos
         $validatedData = $request->validate([
-            'CI' => 'required|string',
+            'CI' => 'required|numeric|max:9999999999',
             'nombre' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
+        ], [
+            'CI.max' => 'El C.I. no puede tener más de 10 dígitos.',
+            'CI.numeric' => 'El C.I. deben ser numeros.',
         ]);
-
         // Verificar si el usuario ya existe por CI
         $existingUser = UsuarioRacket::where('CI', $request->CI)->first();
 

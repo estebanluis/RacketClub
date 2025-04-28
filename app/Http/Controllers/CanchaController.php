@@ -24,6 +24,9 @@ class CanchaController extends Controller
             'nombre' => 'required|string|max:255|unique:canchas,nombre',
             'deportes' => 'required|array',
             'precio' => 'required|numeric|min:0',
+        ], [
+            'nombre.unique' => 'La cancha ya está registrada.',
+            'precio.min' => 'El precio debe ser un valor positivo.',
         ]);
 
         // Crear la nueva cancha
@@ -47,6 +50,8 @@ class CanchaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255|unique:deportes,nombre',
+        ], [
+            'nombre.unique' => 'El deporte ya esta registrado',
         ]);
 
         // Crear el nuevo deporte
@@ -58,6 +63,34 @@ class CanchaController extends Controller
         return redirect('/creacanch');
         
     }
+
+    
+        public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:canchas,nombre,' . $id,
+            'deportes' => 'required|array',
+            'precio' => 'required|numeric|min:0',
+        ]);
+
+        $cancha = Cancha::findOrFail($id);
+        $cancha->update([
+            'nombre' => $request->nombre,
+        ]);
+        $cancha->deportes()->sync($request->deportes);
+        if ($cancha->precio) {
+            $cancha->precio->update([
+                'precio' => $request->precio,
+            ]);
+        } else {
+            $cancha->precio()->create([
+                'precio' => $request->precio,
+            ]);
+        }
+        Alert::success('Éxito', 'Cancha actualizada correctamente.');
+        return redirect()->route('creacanch.index');
+    }
+    
 
     public function destroy($id)
     {

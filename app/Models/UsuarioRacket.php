@@ -15,7 +15,7 @@ class UsuarioRacket extends Model
     protected $primaryKey = 'CI'; // Usamos CI como clave primaria
     public $incrementing = false; // No será autoincrementable
     protected $fillable = ['CI', 'nombre', 'telefono'];
-
+    public $timestamps = false;
     // Relación con las reservas
     public function reservas()
     {

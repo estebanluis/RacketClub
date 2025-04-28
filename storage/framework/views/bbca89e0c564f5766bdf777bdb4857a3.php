@@ -57,10 +57,16 @@
                                             </td>
                                             <td><?php echo e($data->precio->precio ?? 'N/A'); ?></td>
                                             <td>
-                                                <!-- Botón Editar -->
-                                                <a href="<?php echo e(route('creacanch.edit', $data->id)); ?>" class="btn btn-warning btn-sm">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                              <button type="button" 
+                                              class="btn btn-warning btn-sm editCanchaBtn" 
+                                              data-toggle="modal" 
+                                              data-target="#editCanchaModal"
+                                              data-id="<?php echo e($data->id); ?>"
+                                              data-nombre="<?php echo e($data->nombre); ?>"
+                                              data-precio="<?php echo e($data->precio->precio ?? ''); ?>"
+                                              data-deportes='<?php echo json_encode($data->deportes->pluck("id"), 15, 512) ?>'>
+                                              <i class="fa fa-edit"></i>
+                                          </button>
 
                                                 <!-- Formulario Eliminar -->
                                                 <form action="<?php echo e(route('creacanch.destroy', $data->id)); ?>" method="POST" style="display:inline;">
@@ -81,6 +87,49 @@
             </div>
         </div>
     </div>
+</div>
+<!-- Modal Editar Cancha -->
+<div class="modal fade" id="editCanchaModal" tabindex="-1" role="dialog" aria-labelledby="editCanchaModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <form id="editCanchaForm" method="POST">
+          <?php echo csrf_field(); ?>
+          <?php echo method_field('PUT'); ?>
+          <div class="modal-content">
+              <div class="modal-header bg-warning text-white">
+                  <h5 class="modal-title" id="editCanchaModalLabel">Editar Cancha</h5>
+                  <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="edit_nombre">Nombre de la Cancha</label>
+                      <input type="text" name="nombre" id="edit_nombre" class="form-control" required>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="edit_precio">Precio (Bs)</label>
+                      <input type="number" name="precio" id="edit_precio" step="0.01" class="form-control" required>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="edit_deportes">Deportes que se pueden practicar</label>
+                      <select name="deportes[]" id="edit_deportes" class="form-control" multiple required>
+                          <?php $__currentLoopData = $deportes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deporte): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                              <option value="<?php echo e($deporte->id); ?>"><?php echo e($deporte->nombre); ?></option>
+                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                      </select>
+                      <small class="form-text text-muted">Usa Ctrl o Shift para seleccionar varios.</small>
+                  </div>
+              </div>
+
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              </div>
+          </div>
+      </form>
+  </div>
 </div>
 
 
@@ -207,6 +256,40 @@ unset($__errorArgs, $__bag); ?>
             $('#registerDeporteModal').modal('show');
         <?php endif; ?>
     <?php endif; ?>
+</script>
+<script>
+  $(document).ready(function() {
+      <?php if($errors->any()): ?>
+          <?php if(old('tipo_registro') == 'cancha'): ?>
+              $('#registerUserModal').modal('show');
+          <?php elseif(old('tipo_registro') == 'deporte'): ?>
+              $('#registerDeporteModal').modal('show');
+          <?php endif; ?>
+      <?php endif; ?>
+
+      // Script para llenar datos al abrir Modal Editar
+      $('.editCanchaBtn').click(function() {
+          var id = $(this).data('id');
+          var nombre = $(this).data('nombre');
+          var precio = $(this).data('precio');
+          var deportes = $(this).data('deportes');
+
+          $('#edit_nombre').val(nombre);
+          $('#edit_precio').val(precio);
+
+          // Resetear selección de deportes
+          $('#edit_deportes option').prop('selected', false);
+
+          // Marcar deportes que ya tiene la cancha
+          deportes.forEach(function(deporte_id) {
+              $('#edit_deportes option[value="'+deporte_id+'"]').prop('selected', true);
+          });
+
+          // Cambiar la acción del formulario para el PUT
+          var action = "<?php echo e(url('creacanch')); ?>/" + id;
+          $('#editCanchaForm').attr('action', action);
+      });
+  });
 </script>
 <?php $__env->stopSection(); ?>
 

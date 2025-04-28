@@ -15,7 +15,7 @@ class Cancha extends Model
     {
         return $this->belongsToMany(Deporte::class);
     }
-
+    public $timestamps = false;
     public function precio()
 {
     return $this->hasOne(Precio::class, 'cancha_id');
