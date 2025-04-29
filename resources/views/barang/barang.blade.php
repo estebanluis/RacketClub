@@ -22,22 +22,79 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
+    <div class="modal fade" id="modalNombreDescuento" tabindex="-1" role="dialog" aria-labelledby="modalNombreDescuentoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card card-outline card-primary">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalNombreDescuentoLabel">Registrar Usuario</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <form class="needs-validation" novalidate action="{{ route('barang.storeDescuentos') }}" method="POST">
+                            @csrf
+                            <div class="input-group mb-3">
+                                <input type="text" name="nombreDes" class="form-control @error('nombreDes') is-invalid @enderror" placeholder="Nombre completo" value="{{ old('nombreDes') }}" required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span clmass="fas fa-user"></span>
+                                    </div>
+                                </div>
+                                @error('nombreDes')
+                                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            
+                            <div class="input-group mb-3">
+                                <input type="text" name="descuentos" class="form-control @error('descuentos') is-invalid @enderror" placeholder="Descuentos" value="{{ old('descuentos') }}" required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-percentage"></span>
+                                    </div>
+                                </div>
+                                @error('descuentos')
+                                    <span class="invalid-feedback text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="d-flex  align-items-center mb-3">
+                            <div class="d-flex align-items-center mr-4">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"  style="margin-right: 10px;"  data-target="#modalNombreDescuento">
+                                    <i class="fa-solid fa-plus"></i>Registrar Descuentos 
+                                </button>
+                                
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct">
                                     <i class="fa-solid fa-plus"></i> Agregar Alumno 
                                 </button>
-                            
+                                
+                                
                                 <form action="{{ route('notify') }}" method="POST" class="ml-2">
                                     @csrf <!-- Token CSRF para proteger el formulario -->
-                                    <button type="submit" class="btn btn-primary">Notificar</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus" ></i>Notificar</button>
                                 </form>
+
+                                
                             </div>
+                            
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -343,17 +400,23 @@
                     @enderror
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" name="descuento" class="form-control @error('descuento') is-invalid @enderror"
-                        placeholder="Descuennto" value="{{ old('descuento') }}" value="0">
+                    <select name="descuento_select" id="descuento_select" class="form-control">
+                        <option value="" data-descuento="0">Selecciona un descuento</option>
+                        @foreach($descuentos as $descuento)
+                            <option value="{{ $descuento->id }}" data-descuento="{{ $descuento->descuentos }}">
+                                {{ $descuento->nombreDes }}
+                            </option>
+                        @endforeach
+                    </select>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-tags"></span>
                         </div>
                     </div>
-                    @error('descuento')
-                        <span class="invalid-feedback text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
+                
+                <!-- Campo oculto para enviar el valor del descuento -->
+                <input type="hidden" name="descuento" id="descuento" value="0">
         </div>
         
         
@@ -368,25 +431,41 @@
 </form>
 @if(session('success'))
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // Escuchar el envío del formulario dentro del modal
+    $('form.needs-validation').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Tu lógica de envío AJAX aquí...
+        // Después de un envío exitoso:
+        
         Swal.fire({
             title: 'Reinscripción completada',
-            text: "{{ session('success') }}",
+            text: "Mensaje de éxito", // Reemplaza con tu mensaje dinámico
             icon: 'success',
             showCancelButton: true,
             confirmButtonText: 'Imprimir',
             cancelButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.open("{{ route('generarPdf', session('codigoGenerado')) }}", "_blank");
+                window.open("URL_DEL_PDF", "_blank");
             }
+            // Cerrar el modal después de la acción
+            $('#modalAddProduct').modal('hide');
         });
+    });
+</script>
+<script>
+    document.getElementById('descuento_select').addEventListener('change', function() {
+        let descuentoValor = this.options[this.selectedIndex].getAttribute('data-descuento');
+        document.getElementById('descuento').value = descuentoValor;
     });
 </script>
 @endif
 </div>
 </div>
 </div>
+
+
 <script src="/assets/plugins/jquery/jquery.min.js"></script>
 
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

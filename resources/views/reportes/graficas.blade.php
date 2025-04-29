@@ -31,10 +31,13 @@
                     </div>
                     <div class="container">
                         <div class="card-container">
-                            <div class="form-group">
-                                <label for="mes">Seleccionar Mes:</label>
-                                <input type="month" id="mes" name="mes" class="form-control" value="{{ date('Y-m') }}">
-                            </div>
+                            <form action="{{ route('reporte.mensual') }}" method="GET" target="_blank">
+                                <div class="form-group">
+                                    <label for="mes">Seleccionar Mes:</label>
+                                    <input type="month" id="mes" name="mes" class="form-control" value="{{ date('Y-m') }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Generar PDF</button>
+                            </form>
                             <canvas id="myBarChart" width="400" height="200"></canvas>
                         </div>
                     </div>

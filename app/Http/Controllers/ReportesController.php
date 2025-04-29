@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf; // Asegúrate de importar la fachada de PDF
+use Carbon\Carbon;
 
 class ReportesController extends Controller
 {
@@ -90,6 +91,7 @@ class ReportesController extends Controller
         
         return response()->json($resultados);
     }
+    
     public function obtenerEstudiantesPorDiaR(Request $request)
     {
         $mes = $request->input('mes', date('m'));
@@ -242,6 +244,45 @@ class ReportesController extends Controller
     
     // Mostrar el PDF en una nueva pestaña
     return $pdf->stream('informeF_dia_' . $dia . '.pdf');
+}
+public function generarReporteMensual(Request $request)
+{
+    $mesSeleccionado = $request->input('mes'); // Obtiene el mes seleccionado (YYYY-MM)
+
+    // Convertir a rango de fechas
+    $inicioMes = Carbon::parse($mesSeleccionado . '-01')->startOfMonth();
+    $finMes = Carbon::parse($mesSeleccionado . '-01')->endOfMonth();
+
+    // Obtener datos del mes completo
+    $detalleClientes = DB::table('clientes')
+    ->whereBetween('created_at', [$inicioMes, $finMes])
+    ->get();
+
+    $detalleVentas = DB::table('ventas')
+    ->whereBetween('created_at', [$inicioMes, $finMes])
+    ->get();
+
+    $detalleStock = DB::table('aniadirStock')
+    ->whereBetween('created_at', [$inicioMes, $finMes])
+    ->get();
+
+    $detalleSalarios = DB::table('horarios')
+    ->whereBetween('created_at', [$inicioMes, $finMes])
+    ->get();
+    // Calcular totales
+    $totalDescuentos = $detalleClientes->sum('descuento');
+    $totalPagoDistribuidor = $detalleStock->sum('pago_distribuidor');
+    $totalGanancias = $detalleClientes->sum('costo');
+    $totalVentas = $detalleVentas->sum('total');
+    $totalSueldos = $detalleSalarios->sum('salario');
+
+    // Cargar la vista del PDF con los datos
+    $pdf = Pdf::loadView('pdf.informeMensual', compact(
+        'detalleClientes', 'detalleVentas', 'detalleStock', 'detalleSalarios',
+        'totalDescuentos', 'totalPagoDistribuidor', 'totalGanancias', 'totalVentas', 'totalSueldos'
+    ));
+
+    return $pdf->stream('reporte_mensual.pdf');
 }
 
 }

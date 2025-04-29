@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\RegistroAlumno;
+use App\Models\descuentos;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Exception;
@@ -12,6 +13,8 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+
 class BarangController extends Controller
 {
     /**
@@ -44,16 +47,18 @@ class BarangController extends Controller
                     ->on('clientes.telefono', '=', 'sub.telefono');
             })
             ->whereNull('sub.apellido');
-
+        $descuentos = descuentos::all(); // Obtener los descuentos de la BD
+        
         // Unimos ambas consultas
         $listaClientes = $duplicados->union($unicos)->orderBy('codigo', 'asc')->get();
 
         return view('barang.barang', [
-            'barang' => $listaClientes
+            'barang' => $listaClientes,
+            'descuentos' => $descuentos
         ]);
     
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -81,7 +86,18 @@ class BarangController extends Controller
         Alert::success('Success', 'Barang has been saved !');
         return redirect('/barang');
     }
-
+    public function storeDescuentos(Request $request)
+    {
+        $registrardescuento = new descuentos();
+        $nombreDes = $request->nombreDes;
+        $descuentos = $request->descuentos;
+        $registrardescuento->fill([
+            'nombreDes' => $nombreDes,
+            'descuentos' => $descuentos,
+        ])->save();
+        return Redirect('/barang')->with('success', 'se ha registrado el descuento.');
+   
+    }
     /**
      * Display the specified resource.
      */
@@ -124,9 +140,7 @@ class BarangController extends Controller
     Alert::info('Exitoso', 'Informacion de alumno actualizada');
     return redirect('/barang');
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy($id_barang)
     {
         try {
