@@ -19,7 +19,7 @@
 </head>
 <body>
     <h1>Detalle Específico</h1>
-  
+    
 
     <table>
         <thead>
@@ -75,4 +75,4 @@
     <p><strong>Total Sueldos Profesor:</strong> <?php echo e($totalSueldos); ?></p>
 </body>
 </html>
-<?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/pdf/informeF.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\RacketClub\resources\views/pdf/informeMensual.blade.php ENDPATH**/ ?>
