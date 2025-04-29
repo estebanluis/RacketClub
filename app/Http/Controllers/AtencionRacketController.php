@@ -6,9 +6,10 @@ use App\Models\Cancha;
 use App\Models\Precio;
 use App\Models\Reserva;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AtencionRacketController extends Controller
 {
@@ -49,7 +50,7 @@ class AtencionRacketController extends Controller
             'nombre' => $request->name,
             'hora_inicio' => $request->horaEntrada,
             'fecha' => $date,
-            'hora_fin' => "", // Se completará cuando se finalice la atención
+            'hora_fin' => "00:00:00", // Se completará cuando se finalice la atención
             'cancha' => $request->cancha,
             'observaciones' => $request->observaciones,
             'estado' => 'ocupado',  // Estado "ocupado" al registrar

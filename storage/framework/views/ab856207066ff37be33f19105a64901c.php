@@ -19,7 +19,7 @@
 </head>
 <body>
     <h1>Detalle Específico</h1>
-  
+    <p>Fecha: <?php echo e($fechaCompleta); ?></p>
 
     <table>
         <thead>

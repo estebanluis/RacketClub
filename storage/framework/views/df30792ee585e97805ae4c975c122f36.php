@@ -46,7 +46,7 @@ endif;
 unset($__errorArgs, $__bag); ?>" placeholder="Nombre completo" value="<?php echo e(old('nombreDes')); ?>" required>
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
+                                        <span clmass="fas fa-user"></span>
                                     </div>
                                 </div>
                                 <?php $__errorArgs = ['nombreDes'];
@@ -582,18 +582,26 @@ unset($__errorArgs, $__bag); ?>
 </form>
 <?php if(session('success')): ?>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // Escuchar el envío del formulario dentro del modal
+    $('form.needs-validation').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Tu lógica de envío AJAX aquí...
+        // Después de un envío exitoso:
+        
         Swal.fire({
             title: 'Reinscripción completada',
-            text: "<?php echo e(session('success')); ?>",
+            text: "Mensaje de éxito", // Reemplaza con tu mensaje dinámico
             icon: 'success',
             showCancelButton: true,
             confirmButtonText: 'Imprimir',
             cancelButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.open("<?php echo e(route('generarPdf', session('codigoGenerado'))); ?>", "_blank");
+                window.open("URL_DEL_PDF", "_blank");
             }
+            // Cerrar el modal después de la acción
+            $('#modalAddProduct').modal('hide');
         });
     });
 </script>

@@ -13,6 +13,8 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Http\Controllers\RegistroAlumnosController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+
 class BarangController extends Controller
 {
     /**
@@ -93,7 +95,7 @@ class BarangController extends Controller
             'nombreDes' => $nombreDes,
             'descuentos' => $descuentos,
         ])->save();
-        return back()->with('success', 'El alumno ha sido inscrito exitosamente.');
+        return Redirect('/barang')->with('success', 'se ha registrado el descuento.');
    
     }
     /**
