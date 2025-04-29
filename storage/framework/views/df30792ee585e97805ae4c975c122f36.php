@@ -22,6 +22,83 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
+    <div class="modal fade" id="modalNombreDescuento" tabindex="-1" role="dialog" aria-labelledby="modalNombreDescuentoLabel" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card card-outline card-primary">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalNombreDescuentoLabel">Registrar Usuario</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <form class="needs-validation" novalidate action="<?php echo e(route('barang.storeDescuentos')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
+                            <div class="input-group mb-3">
+                                <input type="text" name="nombreDes" class="form-control <?php $__errorArgs = ['nombreDes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" placeholder="Nombre completo" value="<?php echo e(old('nombreDes')); ?>" required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span clmass="fas fa-user"></span>
+                                    </div>
+                                </div>
+                                <?php $__errorArgs = ['nombreDes'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                            
+                            <div class="input-group mb-3">
+                                <input type="text" name="descuentos" class="form-control <?php $__errorArgs = ['descuentos'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" placeholder="Descuentos" value="<?php echo e(old('descuentos')); ?>" required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-percentage"></span>
+                                    </div>
+                                </div>
+                                <?php $__errorArgs = ['descuentos'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -37,6 +114,10 @@
                                     <?php echo csrf_field(); ?> <!-- Token CSRF para proteger el formulario -->
                                     <button type="submit" class="btn btn-primary">Notificar</button>
                                 </form>
+
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNombreDescuento">
+                                    Registrar Descuentos
+                                </button>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -469,31 +550,24 @@ endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" name="descuento" class="form-control <?php $__errorArgs = ['descuento'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                        placeholder="Descuennto" value="<?php echo e(old('descuento')); ?>" value="0">
+                    <select name="descuento_select" id="descuento_select" class="form-control">
+                        <option value="" data-descuento="0">Selecciona un descuento</option>
+                        <?php $__currentLoopData = $descuentos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $descuento): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($descuento->id); ?>" data-descuento="<?php echo e($descuento->descuentos); ?>">
+                                <?php echo e($descuento->nombreDes); ?>
+
+                            </option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </select>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-tags"></span>
                         </div>
                     </div>
-                    <?php $__errorArgs = ['descuento'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <span class="invalid-feedback text-danger"><?php echo e($message); ?></span>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
                 </div>
+                
+                <!-- Campo oculto para enviar el valor del descuento -->
+                <input type="hidden" name="descuento" id="descuento" value="0">
         </div>
         
         
@@ -508,25 +582,41 @@ unset($__errorArgs, $__bag); ?>
 </form>
 <?php if(session('success')): ?>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // Escuchar el envío del formulario dentro del modal
+    $('form.needs-validation').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Tu lógica de envío AJAX aquí...
+        // Después de un envío exitoso:
+        
         Swal.fire({
             title: 'Reinscripción completada',
-            text: "<?php echo e(session('success')); ?>",
+            text: "Mensaje de éxito", // Reemplaza con tu mensaje dinámico
             icon: 'success',
             showCancelButton: true,
             confirmButtonText: 'Imprimir',
             cancelButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.open("<?php echo e(route('generarPdf', session('codigoGenerado'))); ?>", "_blank");
+                window.open("URL_DEL_PDF", "_blank");
             }
+            // Cerrar el modal después de la acción
+            $('#modalAddProduct').modal('hide');
         });
+    });
+</script>
+<script>
+    document.getElementById('descuento_select').addEventListener('change', function() {
+        let descuentoValor = this.options[this.selectedIndex].getAttribute('data-descuento');
+        document.getElementById('descuento').value = descuentoValor;
     });
 </script>
 <?php endif; ?>
 </div>
 </div>
 </div>
+
+
 <script src="/assets/plugins/jquery/jquery.min.js"></script>
 
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

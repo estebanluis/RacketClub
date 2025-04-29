@@ -44,6 +44,7 @@ Route::get('/registrarAlumno', [RegistroAlumnosController::class, 'index']);
 Route::post('/listaSeciones', [SesionesContrller::class, 'storeSesion'])->name('registrarAlumn.storeSesion');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::post('/registrar', [RegistroAlumnosController::class, 'store'])->name('registrarAlumn.store');
+Route::post('/registrarDescuentos', [BarangController::class, 'storeDescuentos'])->name('barang.storeDescuentos');
 Route::get('/registerUser', [AuthController::class, 'registerUser']);
 Route::post('/registerUser', [AuthController::class, 'processUser']);
 Route::get('/dashboard/tomarAsistencia', [ControlAlumnController::class, 'indexAsistencia']);
@@ -122,6 +123,8 @@ Route::get('/reporte', [ReportesController::class, 'indexReporte']);
 Route::get('/reporte-estudiantes', [ReportesController::class, 'obtenerEstudiantesPorDia']);
 Route::get('/reporte-estudiantes', [ReportesController::class, 'obtenerEstudiantesPorDia']);
 Route::get('/generar-informe/{dia}/{mes}/{anio}', [ReportesController::class, 'generarInforme']);
+Route::get('/reporte-mensual', [ReportesController::class, 'generarReporteMensual'])->name('reporte.mensual');
+
 //rutas reportes racket
 Route::get('/reporteR', [ReportesController::class, 'indexReporteR']);
 Route::get('/reporte-atencionesR', [ReportesController::class, 'obtenerEstudiantesPorDiaR']);

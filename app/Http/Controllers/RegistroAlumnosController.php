@@ -11,6 +11,7 @@ use Dompdf\Dompdf;
 use RealRashid\SweetAlert\Facades\Alert;
 use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\descuentos;
 class RegistroAlumnosController extends Controller
 {
     public function generarCodigoCorrelativo()
@@ -28,7 +29,8 @@ class RegistroAlumnosController extends Controller
 
     public function index()
     {
-        return view('registrarAlumn.registrar');
+        $descuentos = descuentos::all(); // Obtener los descuentos de la BD
+        return view('registrarAlumn.registrar', compact('descuentos'));
     }
 
     public function store(Request $request)
@@ -157,7 +159,7 @@ class RegistroAlumnosController extends Controller
 
     // Eliminar el producto
     $id->delete();
-
+        dd();
     // Redirigir con un mensaje de éxito
     return redirect()->back()->with('success', 'Alumno eliminado correctamente.');
     }
