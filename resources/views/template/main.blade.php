@@ -28,6 +28,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
 
+   
 
 </head>
 
@@ -224,11 +225,31 @@
                                     @endif
                                 </li>
                                 <li class="nav-item">
+                                    @if(Auth::user()->TipoUsuario === 'Administrador')
+                                    <a href="/creacanch" class="nav-link">
+                                                <i class="nav-icon fa fa-shopping-cart"></i>
+                                                <p>
+                                                    Crear Canchas 
+                                                </p>
+                                            </a>
+                                        @endif
+                                    </li>
+                                <li class="nav-item">
                                     @if( Auth::user()->TipoUsuario === 'Administrador')
-                                        <a href="/rcancha" class="nav-link">
+                                        <a href="/calendario-reservas" class="nav-link">
                                             <i class="nav-icon fa fa-clipboard"></i>
                                             <p>
                                                 Reservar Canchas
+                                            </p>
+                                        </a>
+                                    @endif
+                                </li>
+                                <li class="nav-item">
+                                    @if( Auth::user()->TipoUsuario === 'Administrador')
+                                        <a href="/usuariosRacket" class="nav-link">
+                                            <i class="nav-icon fa fa-clipboard"></i>
+                                            <p>
+                                                Registrar Usuarios
                                             </p>
                                         </a>
                                     @endif
@@ -375,10 +396,30 @@
                         </li>
                         <li class="nav-item">
                             @if( Auth::user()->TipoUsuario === 'Secretaria Racket')
-                                <a href="/rcancha" class="nav-link">
+                                <a href="/calendario-reservas" class="nav-link">
                                     <i class="nav-icon fa fa-clipboard"></i>
                                     <p>
                                         Reservar Canchas
+                                    </p>
+                                </a>
+                            @endif
+                        </li>
+                        <li class="nav-item">
+                            @if( Auth::user()->TipoUsuario === 'Secretaria Racket')
+                                <a href="/usuariosRacket" class="nav-link">
+                                    <i class="nav-icon fa fa-clipboard"></i>
+                                    <p>
+                                        Registrar Usuarios
+                                    </p>
+                                </a>
+                            @endif
+                        </li>
+                        <li class="nav-item">
+                            @if( Auth::user()->TipoUsuario === 'Secretaria Racket')
+                                <a href="/creacanch" class="nav-link">
+                                    <i class="nav-icon fa fa-clipboard"></i>
+                                    <p>
+                                        Crear Canchas
                                     </p>
                                 </a>
                             @endif

@@ -23,7 +23,7 @@ class NotificationController extends Controller
         foreach ($users as $user) {
             // Agregar el código de país +591 al número de teléfono
             $phoneNumber = '+591' . $user->telefono;
-            $message = "Hola " . $user->nombre . ", tu inscripción ha terminado. Si deseas reinscribirte, por favor pasa por Secretaría.";
+            $message = "Hola " . $user->nombre . ", tu inscripción ha terminado. Si deseas reinscribirte, por favor pasa por Secretaría de PISCINA Y RACKET CLUB.";
             // Enviar el mensaje de WhatsApp
             $this->twilioService->sendWhatsAppMessage($phoneNumber, $message);
         }

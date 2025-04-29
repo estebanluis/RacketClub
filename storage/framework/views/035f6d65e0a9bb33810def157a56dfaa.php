@@ -76,11 +76,11 @@
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
-                                                    <div class="text-right">
+                                                    
                                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#vender">
                                                             <i class="fa-solid fa-plus"></i> Vender
                                                         </button>
-                                                    </div>
+                                                    
                                                 </td>
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
